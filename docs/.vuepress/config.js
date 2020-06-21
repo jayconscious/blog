@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Hello VuePress',
+  title: '胖胖的博客',
   description: 'Just playing around',
   themeConfig: {
     logo: '/assets/img/log.png',
@@ -7,7 +7,7 @@ module.exports = {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Vue', items: [
-        { text: 'vue', link: '/vueclass/vueNative/' },
+        { text: 'vueNative', link: '/vueclass/vueNative/' },
         { text: 'vuerouter', link: '/vueclass/vuerouter/' },
         { text: 'vuestore', link: '/vueclass/vuestore/' },
       ]},
@@ -21,10 +21,13 @@ module.exports = {
         ]
       }
     ],
-    sidebar: [
-      '/',
-      '/page-a',
-      ['/page-b', 'Explicit link text']
-    ]
+    sidebar: {
+      '/vueclass/vueNative/': [
+        // 'index',
+        '',
+        'one',
+        'two'
+      ]
+    }
   }
 }

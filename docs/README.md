@@ -3,7 +3,7 @@ home: true
 heroImage: 
 heroText: Welcome To My Channel~
 tagline: 
-actionText: Look Up
+actionText: Let's Go ~
 actionLink: ./guide/index.md
 features:
 - title: 胖胖的Blob
