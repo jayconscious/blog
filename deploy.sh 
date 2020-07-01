@@ -13,7 +13,7 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# 如果发布到 https://jayconscious.github.io/
-git push -f git@github.com:jayconscious.git master:gh-pages
+# 如果发布到 https://jayconscious.github.io/blog
+git push -f git@github.com:jayconscious/blog.git master:gh-pages
 
 cd -
