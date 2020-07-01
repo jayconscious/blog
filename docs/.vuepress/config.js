@@ -1,6 +1,6 @@
 module.exports = {
   base: '/blog/',
-  title: '胖胖的博客',
+  title: 'Jayconscious',
   description: 'Just playing around',
   themeConfig: {
     logo: '/assets/img/log.png',
@@ -12,19 +12,10 @@ module.exports = {
         { text: 'vuerouter', link: '/vueclass/vuerouter/' },
         { text: 'vuestore', link: '/vueclass/vuestore/' },
       ]},
-      { text: 'Guide', link: '/guide/' },
-      {
-        text: 'Languages',
-        ariaLabel: 'Language Menu',
-        items: [
-          { text: 'Chinese', link: '/language/chinese/' },
-          { text: 'Japanese', link: '/language/japanese/' }
-        ]
-      }
+      { text: 'My Github', link: 'https://github.com/jayconscious' }
     ],
     sidebar: {
       '/vueclass/vueNative/': [
-        // 'index',
         '',
         'one',
         'two'
