@@ -8,17 +8,15 @@ module.exports = {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Vue', items: [
-        { text: 'vueNative', link: '/vueclass/vueNative/' },
-        { text: 'vuerouter', link: '/vueclass/vuerouter/' },
-        { text: 'vuestore', link: '/vueclass/vuestore/' },
+        { text: 'vue', link: '/vue/vue/vueDiff' },
+        { text: 'vueRouter', link: '/vue/vuerouter/' },
+        { text: 'vueStore', link: '/vue/vuestore/' },
       ]},
       { text: 'My Github', link: 'https://github.com/jayconscious' }
     ],
     sidebar: {
-      '/vueclass/vueNative/': [
-        '',
-        'one',
-        'two'
+      '/vue/vue/': [
+        'vueDiff',
       ]
     }
   }
