@@ -8,7 +8,7 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{
-				text: 'Vue', 
+				text: 'Vue',
 				items: [
 					{ text: 'vue', link: '/vue/vue/' },
 					// { text: 'vueRouter', link: '/vue/vuerouter/' },
@@ -38,7 +38,8 @@ module.exports = {
 					sidebarDepth: 0,    // 可选的, 默认值是 1
 					children: [
 						'/book/dontknowjs/scope',
-						'/book/dontknowjs/lexingscope'
+						'/book/dontknowjs/lexingscope',
+						'/book/dontknowjs/fnblockscope',
 					]
 				}
 			],
