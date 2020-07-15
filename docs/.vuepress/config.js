@@ -18,8 +18,8 @@ module.exports = {
 			{
 				text: '读书', 
 				items: [
-					{ text: '你不知道的JavaScript', link: '/book/dontknowjs/' },
-					{ text: '深入浅出Node.js', link: '/book/explainindepthnodejs/' },
+					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs/' },
+					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' },
 				]
 			},
 			{ text: 'My Github', link: 'https://github.com/jayconscious' }
@@ -32,12 +32,13 @@ module.exports = {
 			],
 			'/book/dontknowjs/': [
 				{
-					title: '你不知道的JavaScript',   // 必要的
+					title: '《你不知道的JavaScript》(上卷)',   // 必要的
 					path: '/book/dontknowjs/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 1,    // 可选的, 默认值是 1
+					sidebarDepth: 0,    // 可选的, 默认值是 1
 					children: [
 						'/book/dontknowjs/scope',
+						'/book/dontknowjs/lexingscope'
 					]
 				}
 			],

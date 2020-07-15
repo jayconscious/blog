@@ -1,5 +1,6 @@
-## 你不知道的JavaScript
+## 《你不知道的JavaScript》(上卷)
 
-> 记录分享学习《你不知道的JavaScript》系列的感悟
+> 记录分享学习《你不知道的JavaScript》(上卷)系列的感悟
 
-### [理解作用域](https://jayconscious.github.io/blog/book/dontknowjs/scope.html)
+1. #### [作用域是什么](https://jayconscious.github.io/blog/book/dontknowjs/scope.html)
+2. #### [词法作用域](https://jayconscious.github.io/blog/book/dontknowjs/lexingscope.html)
