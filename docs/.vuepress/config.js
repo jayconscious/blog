@@ -1,4 +1,7 @@
 module.exports = {
+	head: [
+		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
+	],
 	base: '/blog/',
 	title: 'Jayconscious',
 	description: 'Just playing around',
@@ -16,7 +19,7 @@ module.exports = {
 				]
 			},
 			{
-				text: '读书', 
+				text: 'Reading',
 				items: [
 					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs/' },
 					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' },
@@ -40,6 +43,7 @@ module.exports = {
 						'/book/dontknowjs/scope',
 						'/book/dontknowjs/lexingscope',
 						'/book/dontknowjs/fnblockscope',
+						'/book/dontknowjs/hoisting',
 					]
 				}
 			],
