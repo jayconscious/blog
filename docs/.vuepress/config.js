@@ -30,7 +30,6 @@ module.exports = {
 		sidebar: {
 			// Todo：分组
 			'/vue/vue/': [
-				'',
 				'vueDiff',
 			],
 			'/book/dontknowjs/': [
