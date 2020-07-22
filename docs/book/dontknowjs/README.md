@@ -5,4 +5,5 @@
 1. #### [作用域是什么](https://jayconscious.github.io/blog/book/dontknowjs/scope.html)
 2. #### [词法作用域](https://jayconscious.github.io/blog/book/dontknowjs/lexingscope.html)
 3. #### [函数作用域和块作用域](https://jayconscious.github.io/blog/book/dontknowjs/fnblockscope.html)
-3. #### [提升](https://jayconscious.github.io/blog/book/dontknowjs/hoisting.html)
+4. #### [提升](https://jayconscious.github.io/blog/book/dontknowjs/hoisting.html)
+4. #### [作用域闭包](https://jayconscious.github.io/blog/book/dontknowjs/scopeclosure.html)

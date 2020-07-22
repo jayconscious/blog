@@ -54,6 +54,7 @@ module.exports = {
 		displayAllHeaders: false, // 显示所有页面的标题链接
 		activeHeaderLinks: false, // 禁止页面连接hash更新
 		// sidebar: 'auto'  // 自动生成一个侧边栏
+		lastUpdated: 'Last Updated', // string | boolean
 	},
 	markdown: {
 		lineNumbers: true
