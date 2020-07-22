@@ -43,6 +43,7 @@ module.exports = {
 						'/book/dontknowjs/lexingscope',
 						'/book/dontknowjs/fnblockscope',
 						'/book/dontknowjs/hoisting',
+						'/book/dontknowjs/scopeclosure',
 					]
 				}
 			],
