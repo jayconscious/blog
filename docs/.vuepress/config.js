@@ -1,3 +1,4 @@
+const moment = require('moment');
 module.exports = {
 	head: [
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
@@ -55,9 +56,22 @@ module.exports = {
 		displayAllHeaders: false, // 显示所有页面的标题链接
 		activeHeaderLinks: false, // 禁止页面连接hash更新
 		// sidebar: 'auto'  // 自动生成一个侧边栏
-		lastUpdated: 'Last Updated', // string | boolean
+		lastUpdated: '上次更新', // string | boolean
 	},
 	markdown: {
 		lineNumbers: true
-	}
+	},
+	plugins: [
+		[
+		  '@vuepress/last-updated',
+		  {
+			transformer: (timestamp, lang) => {
+				lang = 'zh-CN'
+				const moment = require('moment')
+				moment.locale(lang)
+				return moment(timestamp).format('LLLL');
+			}
+		  }
+		]
+	  ]
 }
