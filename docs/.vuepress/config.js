@@ -69,7 +69,7 @@ module.exports = {
 				lang = 'zh-CN'
 				const moment = require('moment')
 				moment.locale(lang)
-				return moment(timestamp).format('LLLL');
+				return moment(timestamp).format('llll');
 			}
 		  }
 		]

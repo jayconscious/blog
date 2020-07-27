@@ -122,6 +122,166 @@ var a = 2;
 
 ## 循环和闭包
 
+要说明闭包，for 循环是最常见的例子。
+
+```js
+for (var i=1; i<=5; i++) { 
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
+}
+// 隔一秒输出一个6
+```
+
+::: tip
+首先解释 6 是从哪里来的。这个循环的终止条件是 i 不再 <=5。条件首次成立时 i 的值是 6。因此，输出显示的是循环结束时 i 的最终值。
+仔细想一下，这好像又是显而易见的，延迟函数的回调会在循环结束时才执行。事实上， 当定时器运行时即使每个迭代中执行的是setTimeout(.., 0)，所有的回调函数依然是在循 环结束后才会被执行，因此会每次输出一个 6 出来。
+:::
+
+IIFE 会通过声明并立即执行一个函数来创建作用域。
+```js
+for (var i=1; i<=5; i++) { 
+    (function() {
+        setTimeout( 
+            function timer() { 
+                console.log( i );
+            }, i*1000 );
+    })();
+}
+```
+::: tip
+如果作用域是空的，那么仅仅将它们进行封闭是不够的。仔细看一下，我们的 IIFE 只是一 个什么都没有的空作用域。它需要包含一点实质内容才能为我们所用。
+:::
+
+```js
+for (var i=1; i<=5; i++) { 
+    (function(j) {
+        setTimeout(
+            function timer() { 
+                console.log( j );
+            }, j*1000 );
+    })( i );
+}
+```
+:::tip
+当然，这些 IIFE 也不过就是函数，因此我们可以将 i 传递进去，如果愿意的话可以将变量名定为 j，当然也可以还叫作 i。无论如何这段代码现在可以工作了。
+在迭代内使用 IIFE 会为每个迭代都生成一个新的作用域，使得延迟函数的回调可以将新的作用域封闭在每个迭代内部，每个迭代中都会含有一个具有正确值的变量供我们访问。
+:::
+
+## 重返块作用域
+
+仔细思考我们对前面的解决方案的分析。我们使用 IIFE 在每次迭代时都创建一个新的作用域。换句话说，**每次迭代我们都需要一个块作用域。**第 3 章介绍了 let 声明，**可以用来劫持块作用域**，并且在这个块作用域中声明一个变量。
+
+```js
+
+for (var i=1; i<=5; i++) {
+    let j = i; // 是的，闭包的块作用域! 
+    setTimeout( function timer() {
+        console.log( j );
+    }, j*1000 );
+}
+```
+
+## 模块
+
+还有其他的代码模式利用闭包的强大威力，但从表面上看，它们似乎与回调无关。下面一起来研究其中最强大的一个: **模块**。
+
+例如：
+```js
+function CoolModule() {
+    var something = "cool";
+    var another = [1, 2, 3];
+    function doSomething() { 
+        console.log( something );
+    }
+    function doAnother() {
+        console.log( another.join( " ! " ) );
+    }
+    return {
+        doSomething: doSomething,
+        doAnother: doAnother
+    }; 
+}
+var foo = CoolModule(); 
+foo.doSomething();      // cool
+foo.doAnother();        // 1 ! 2 ! 3
+```
+
+我们仔细研究一下这些代码。
+
+::: tip
+首先，CoolModule() 只是一个函数，必须要通过调用它来创建一个模块实例。**如果不执行外部函数，内部作用域和闭包都无法被创建。**
+
+其次，CoolModule() 返回一个用对象字面量语法 { key: value, ... } 来表示的对象。**这个返回的对象中含有对内部函数而不是内部数据变量的引用**。我们保持内部数据变量是隐 藏且私有的状态。可以将这个对象类型的返回值看作本质上是模块的公共**API**。
+:::
+
+
+> 从模块中返回一个实际的对象并不是必须的，也可以直接返回一个内部函 数。jQuery 就是一个很好的例子。jQuery 和 $ 标识符就是 jQuery 模块的公共 API，但它们本身都是函数(由于函数也是对象，它们本身也可以拥有属性)。
+
+::: tip
+如果要更简单的描述，模块模式需要具备两个必要条件。
+
+1. 必须有外部的封闭函数，该函数必须至少被调用一次(每次调用都会创建一个新的模块 实例)。
+
+2. 封闭函数必须返回至少一个内部函数，这样内部函数才能在私有作用域中形成闭包，并 且可以访问或者修改私有的状态。
+:::
+
+上一个示例代码中有一个叫作 CoolModule() 的独立的模块创建器，可以被调用任意多次， 每次调用都会创建一个新的模块实例。当只需要一个实例时，可以对这个模式进行简单的改进来实现**单例模式**:
+
+```js
+var foo = (function CoolModule() { 
+    var something = "cool";
+    var another = [1, 2, 3];
+    function doSomething() { 
+        console.log( something );
+    }
+    function doAnother() {
+        console.log( another.join( " ! " ) );
+    }
+    return {
+        doSomething: doSomething,
+        doAnother: doAnother
+    }; 
+})();
+foo.doSomething(); // cool
+foo.doAnother(); // 1 ! 2 ! 3
+```
+模块模式另一个简单但强大的用法是命名将要作为公共 API 返回的对象:
+
+```js
+var foo = (function CoolModule(id) { 
+    function change() {
+        // 修改公共 API
+        publicAPI.identify = identify2;
+    }
+    function identify1() { 
+        console.log( id );
+    }
+    function identify2() {
+        console.log( id.toUpperCase() );
+    }
+    var publicAPI = { 
+        change: change,
+        identify: identify1
+    };
+    return publicAPI; 
+})( "foo module" );
+
+foo.identify(); // foo module
+foo.change();
+foo.identify(); // FOO MODULE
+```
+通过在模块实例的内部保留对公共 API 对象的内部引用，可以从内部对模块实例进行修 改，包括添加或删除方法和属性，以及修改它们的值。
+
+## 现代的模块机制
+
+
+
+
+
+
+
+
 
 
 
