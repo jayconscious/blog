@@ -69,6 +69,7 @@ module.exports = {
 				lang = 'zh-CN'
 				const moment = require('moment')
 				moment.locale(lang)
+				timestamp = timestamp + 8 * 60 * 60 * 1000
 				return moment(timestamp).format('llll');
 			}
 		  }
