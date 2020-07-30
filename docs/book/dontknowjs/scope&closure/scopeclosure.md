@@ -341,6 +341,61 @@ foo.awesome(); // LET ME INTRODUCE: HIPPO
 
 ## 未来的模块机制
 
+ES6 中为模块增加了一级语法支持。在通过模块系统进行加载时，ES6 会将文件当作独立的模块来处理。每个模块都可以导入其他模块或特定的 API 成员，同样也可以导出自己的 API 成员
+
+::: tip
+基于函数的模块并不是一个能被静态识别的模式(编译器无法识别)，它们 的 API 语义只有在运行时才会被考虑进来。因此可以在运行时修改一个模块 的 API(参考前面关于 public API 的讨论)。
+:::
+
+浏览器或引擎有一个默认的“模块加载器”(可以被重载，但这远超出了我们的讨论范围)可以在导入模块时同步地加载模块文件。
+
+考虑以下代码:
+
+```js
+// bar.js
+function hello(who) {
+    return "Let me introduce: " + who;
+}
+export hello;
+
+// foo.js
+// 仅从 "bar" 模块导入 hello()
+import hello from "bar";
+var hungry = "hippo";
+function awesome() {
+    console.log(
+        hello( hungry ).toUpperCase()
+    );
+}
+export awesome;
+
+// baz.js
+// 导入完整的 "foo" 和 "bar" 模块
+module foo from "foo";
+module bar from "bar";
+
+console.log(bar.hello( "rhino" )); // Let me introduce: rhino
+foo.awesome(); // LET ME INTRODUCE: HIPPO
+```
+::: tip
+**import 可以将一个模块中的一个或多个 API 导入到当前作用域中，并分别绑定在一个变量上(在我们的例子里是 hello)。module 会将整个模块的 API 导入并绑定到一个变量上(在 我们的例子里是 foo 和 bar)。export 会将当前模块的一个标识符(变量、函数)导出为公 共 API。这些操作可以在模块定义中根据需要使用任意多次**
+:::
+
+## 总结
+
+**当函数可以记住并访问所在的词法作用域，即使函数是在当前词法作用域之外执行，这时就产生了闭包。**
+
+但同时闭包也是一个非常强大的工具，可以用多种形式来实现模块等模式。
+
+模块有两个主要特征:
+ - 为创建内部作用域而调用了一个包装函数;
+ - 包装函数的返回 值必须至少包括一个对内部函数的引用，这样就会创建涵盖整个包装函数内部作用域的 闭包
+
+
+
+
+
+
 
 
 

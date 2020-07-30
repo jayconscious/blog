@@ -29,22 +29,29 @@ module.exports = {
 			{ text: 'My Github', link: 'https://github.com/jayconscious' }
 		],
 		sidebar: {
-			// Todo：分组
 			'/vue/vue/': [
 				'vueDiff',
 			],
 			'/book/dontknowjs/': [
 				{
-					title: '《你不知道的JavaScript》(上卷)',   // 必要的
-					path: '/book/dontknowjs/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					title: '第一部分：作用域和闭包',   // 必要的
+					path: '/book/dontknowjs/scope&closure/lexingscope',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
 					sidebarDepth: 0,    // 可选的, 默认值是 1
 					children: [
-						'/book/dontknowjs/scope',
-						'/book/dontknowjs/lexingscope',
-						'/book/dontknowjs/fnblockscope',
-						'/book/dontknowjs/hoisting',
-						'/book/dontknowjs/scopeclosure',
+						'/book/dontknowjs/scope&closure/lexingscope',
+						'/book/dontknowjs/scope&closure/fnblockscope',
+						'/book/dontknowjs/scope&closure/hoisting',
+						'/book/dontknowjs/scope&closure/scopeclosure',
+					]
+				},
+				{
+					title: '第二部分：this和对象原型',   // 必要的
+					path: '/book/dontknowjs/this&objectproto/aboutthis',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					collapsable: false, // 可选的, 默认值是 true,
+					sidebarDepth: 0,    // 可选的, 默认值是 1
+					children: [
+						'/book/dontknowjs/this&objectproto/aboutthis',
 					]
 				}
 			],
