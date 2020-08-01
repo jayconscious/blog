@@ -37,7 +37,7 @@ module.exports = {
 					title: '第一部分：作用域和闭包',   // 必要的
 					path: '/book/dontknowjs/scope&closure/lexingscope',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 0,    // 可选的, 默认值是 1
+					sidebarDepth: 1,    // 可选的, 默认值是 1
 					children: [
 						'/book/dontknowjs/scope&closure/lexingscope',
 						'/book/dontknowjs/scope&closure/fnblockscope',
@@ -49,9 +49,10 @@ module.exports = {
 					title: '第二部分：this和对象原型',   // 必要的
 					path: '/book/dontknowjs/this&objectproto/aboutthis',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 0,    // 可选的, 默认值是 1
+					sidebarDepth: 1,    // 可选的, 默认值是 1
 					children: [
 						'/book/dontknowjs/this&objectproto/aboutthis',
+						'/book/dontknowjs/this&objectproto/analysisthis',
 					]
 				}
 			],
