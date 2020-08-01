@@ -8,5 +8,6 @@
 4. #### [提升](https://jayconscious.github.io/blog/book/dontknowjs/scope&closure/hoisting.html)
 5. #### [作用域闭包](https://jayconscious.github.io/blog/book/dontknowjs/scope&closure/scopeclosure.html)
 
-6. #### [作用域闭包](https://jayconscious.github.io/blog/book/dontknowjs/scope&closure/scopeclosure.html)
+6. #### [关于this](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/aboutthis.html)
+7. #### [this全面解析](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/analysisthis.html)
 
