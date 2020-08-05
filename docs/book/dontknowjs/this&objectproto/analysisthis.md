@@ -128,6 +128,7 @@ function foo() {
 var obj = { 
     a: 2,
     foo: foo 
+    // foo: foo.bind(obj) Todo：为什么bind也不可以呢？
 };
 var bar = obj.foo; // 函数别名!
 var a = "oops, global"; // a 是全局对象的属性 
@@ -186,6 +187,47 @@ JavaScript 中的“所有”函数都有一些有用的特性(这和它们的 [
 严格来说，JavaScript 的宿主环境有时会提供一些非常特殊的函数，它们 并没有这两个方法。但是这样的函数非常罕见，JavaScript 提供的绝大多数函数以及你自己创建的所有函数都可以使用 call(..) 和 apply(..) 方法。
 
 这两个方法是如何工作的呢?它们的第一个参数是一个对象，是给 this 准备的，接着在调 用函数时将其绑定到 this。**因为你可以直接指定 this 的绑定对象，因此我们称之为显式绑定**
+
+```js
+function foo() { 
+    console.log( this.a );
+}
+var obj = { 
+    a:2
+};
+foo.call( obj ); // 2
+```
+通过 foo.call(..)，我们可以在调用 foo 时强制把它的 this 绑定到 obj 上。
+
+::: tip
+如果你传入了一个原始值(字符串类型、布尔类型或者数字类型)来当作 this 的绑定对象，这个原始值会被转换成它的对象形式(也就是new String(..)、new Boolean(..)或者 new Number(..))。这通常被称为*“**装箱**”*。
+:::
+
+**可惜，显式绑定仍然无法解决我们之前提出的丢失绑定问题(因为回调函数的执行或者说调用时期我们是不能改变的)。**
+
+- **硬绑定**
+但是显式绑定的一个变种可以解决这个问题。
+```js
+function foo () {
+    console.log(this.a)
+}
+var obj = {
+    a: 2
+}
+var bar = function () {
+    foo.call(obj)
+}
+bar() // 2
+
+setTimeout(bar, 100) // 2
+bar.apply(window)    // 2
+```
+我们来看看这个变种到底是怎样工作的。我们创建了函数 bar()，并在它的内部手动调用 了 foo.call(obj)，因此强制把 foo 的 this 绑定到了 obj。无论之后如何调用函数 bar，它总会手动在 obj 上调用 foo。这种绑定是一种显式的强制绑定，因此我们称之为**硬绑定**。
+
+
+
+
+
 
 
 
