@@ -12,7 +12,8 @@
   
   2.  第二部分：this和对象原型
   - [关于this](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/aboutthis.html)
-  - [this全面解析](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/analysisthis.html)
+  - [this全面解析(上)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/analysisthis1.html)
+  - [this全面解析(下)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/analysisthis2.html)
 
 
 

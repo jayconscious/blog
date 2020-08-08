@@ -52,7 +52,8 @@ module.exports = {
 					sidebarDepth: 1,    // 可选的, 默认值是 1
 					children: [
 						'/book/dontknowjs/this&objectproto/aboutthis',
-						'/book/dontknowjs/this&objectproto/analysisthis',
+						'/book/dontknowjs/this&objectproto/analysisthis1',
+						'/book/dontknowjs/this&objectproto/analysisthis2',
 					]
 				}
 			],
