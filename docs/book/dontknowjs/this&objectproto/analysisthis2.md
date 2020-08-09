@@ -39,10 +39,16 @@ var obj2 = {};
 obj1.foo( 2 );
 console.log( obj1.a ); // 2
 
-obj1.foo.call( obj2, 3 );
+obj1.foo.call( obj2, 3 );   // 显示绑定的优先级大于隐形
 console.log( obj2.a ); // 3
 
 var bar = new obj1.foo( 4 ); 
 console.log( obj1.a ); // 2 
-console.log( bar.a ); // 4
+console.log( bar.a ); // 4  // new绑定的优先级大于隐形
 ```
+
+但是 new 绑定和显式绑定谁的优先级更高呢?
+
+
+
+
