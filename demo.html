@@ -396,15 +396,40 @@
         // console.log( obj1.a ); // 2 
         // console.log( baz.a ); // 3
 
-        function test (haha) {
-          console.log(this.a + haha) // 3
-          console.log(arguments) // 2, 3, 9
+        // function test (haha) {
+        //   console.log(this.a + haha) // 3
+        //   console.log(arguments) // 2, 3, 9
+        // }
+        // var obj = {
+        //   a: 1
+        // }
+        // const bar = test.bind(obj, 2, 3)
+        // bar(9)
+
+        // function foo(p1,p2) { 
+        //   this.val = p1 + p2;
+        // }
+        // var bar = foo.bind( null, "p1" );
+        // // 之所以使用 null 是因为在本例中我们并不关心硬绑定的 this 是什么 
+        // // 反正使用 new 时 this 会被修改
+        // var baz = new bar('p2')
+        // console.log(baz.val) // p1p2
+
+        // function foo() {
+        //   console.log( this.a );
+        // }
+        // var a = 2;
+        // foo.call( null ); // 2
+
+        // const arr = []
+        // // arr.push(2, 3, 4)
+        // Array.prototype.push.apply(arr, [2, 3, 4])
+        // console.log(arr)
+
+        function foo(a,b) {
+            console.log( "a:" + a + ", b:" + b );
         }
-        var obj = {
-          a: 1
-        }
-        const bar = test.bind(obj, 2, 3)
-        bar(9)
+        foo(...[2, 3])
 
   </script>
 </body>
