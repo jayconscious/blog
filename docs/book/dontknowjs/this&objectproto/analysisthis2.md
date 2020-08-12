@@ -112,22 +112,23 @@ if (!Function.prototype.bind) (function(){
       // internal IsCallable function
       throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
     }
-    
-    var baseArgs= ArrayPrototypeSlice.call(arguments, 1),
+    var baseArgs= ArrayPrototypeSlice.call(arguments, 1), // 会发放入到返回函数(exotic function object（怪异函数对象，ECMAScript 2015 中的术语）)实参中
         baseArgsLength = baseArgs.length,
-        fToBind = this,
+        fToBind = this,  // 要绑定的函数
         fNOP    = function() {},
         fBound  = function() {
-          baseArgs.length = baseArgsLength; // reset to default base arguments
-          baseArgs.push.apply(baseArgs, arguments);
-          return fToBind.apply(
-                 fNOP.prototype.isPrototypeOf(this) ? this : otherThis, baseArgs
-          );
+            baseArgs.length = baseArgsLength; // reset to default base arguments
+            baseArgs.push.apply(baseArgs, arguments); // 合并返回函数执行时的参数
+            // isPrototypeOf()方法检查另一个对象的原型链中是否存在某个对象
+            // 判断 硬绑定函数是否是被 new 调用
+            return fToBind.apply(
+                fNOP.prototype.isPrototypeOf(this) ? this : otherThis, baseArgs
+            );
         };
 
     if (this.prototype) {
-      // Function.prototype doesn't have a prototype property
-      fNOP.prototype = this.prototype; 
+        // Function.prototype doesn't have a prototype property
+        fNOP.prototype = this.prototype; 
     }
     fBound.prototype = new fNOP();
 
