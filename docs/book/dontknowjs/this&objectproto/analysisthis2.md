@@ -203,6 +203,171 @@ bar( 3 ); // a:2, b:3
 
 #### 更安全的this
 
+一种“更安全”的做法是传入一个特殊的对象，把 this 绑定到这个对象不会对你的程序产生任何副作用。就像网络(以及军队)一样，我们可以创建一个“DMZ”(**demilitarized zone，非军事区**)对象——它就是一个空的非委托的对象(委托在第 5 章和第 6 章介绍)。
+
+::: tip
+无论你叫它什么，在 JavaScript 中创建一个空对象最简单的方法都是 Object.create(null) (详细介绍请看第 5 章)。**Object.create(null) 和 {} 很像，但是并不会创建 Object.
+prototype 这个委托，所以它比 {}“更空”: 字面量的对象声明会有__proto__
+:::
+
+```js
+function foo(a,b) {
+    console.log( "a:" + a + ", b:" + b );
+}
+const ø = Object.create(null)
+
+// 把数组展开成参数
+foo.apply( ø, [2, 3] ); // a:2, b:3
+
+// 使用 bind(..) 进行柯里化 
+var bar = foo.bind( ø, 2 );
+bar( 3 ); // a:2, b:3
+```
+
+使用变量名 ø 不仅让函数变得更加“安全”，而且可以提高代码的可读性，因为 ø 表示 “我希望 this 是空”，这比 null 的含义更清楚。
+
+### 间接引用
+
+另一个需要注意的是，你有可能(**有意或者无意地**)创建一个函数的“间接引用”，在这种情况下，调用这个函数会应用默认绑定规则。
+
+间接引用最容易在赋值时发生:
+
+```js
+function foo() {
+    console.log( this.a );
+}
+var a = 2;
+var o = { a: 3, foo: foo }; 
+var p = { a: 4 };
+o.foo(); // 3
+(p.foo = o.foo)(); // 2
+```
+赋值表达式 p.foo = o.foo 的**返回值是目标函数的引用**，因此调用位置是 foo() 而不是 p.foo() 或者 o.foo()。根据我们之前说过的，这里会应用**默认绑定**。
+
+::: tip
+注意:对于默认绑定来说，决定 this 绑定对象的并不是调用位置是否处于严格模式，而是函数体是否处于严格模式。**如果函数体处于严格模式，this 会被绑定到 undefined，否则 this 会被绑定到全局对象。**
+:::
+
+### 软绑定
+
+问题在于，硬绑定会大大降低函数的灵活性，使用硬绑定之后就**无法使用隐式绑定或者显式绑定来修改 this**。
+
+如果可以给默认绑定指定一个全局对象和 undefined 以外的值，那就可以实现和硬绑定相同的效果，同时保留隐式绑定或者显式绑定修改 this 的能力。
+
+可以通过一种被称为软绑定的方法来实现我们想要的效果:
+
+```js
+if (!Function.prototype.softBind) {
+    Function.prototype.softBind = function(obj) {
+        var fn = this;
+        // 捕获所有 curried 参数
+        var curried = [].slice.call( arguments, 1 ); 
+        var bound = function() {
+            return fn.apply((!this || this === (window || global)) ? obj : this,
+                curried.concat.apply( curried, arguments )
+            );
+        };
+        bound.prototype = Object.create( fn.prototype );
+        return bound;
+    };
+}
+```
+下面我们看看 softBind 是否实现了软绑定功能:
+
+```js
+function foo() {
+    console.log("name: " + this.name);
+}
+var obj = { name: "obj" }, 
+obj2 = { name: "obj2" }, 
+obj3 = { name: "obj3" };
+var fooOBJ = foo.softBind( obj );
+fooOBJ(); // name: obj
+obj2.foo = foo.softBind(obj); 
+obj2.foo(); // name: obj2 <---- 看!!!
+fooOBJ.call( obj3 ); // name: obj3 <---- 看! 
+setTimeout( obj2.foo, 10 );
+// name: obj <---- 应用了软绑定
+```
+可以看到，软绑定版本的 foo() 可以手动将 this 绑定到 obj2 或者 obj3 上，但如果应用默认绑定，则会将 this 绑定到 obj。
+
+## this词法
+
+我们之前介绍的四条规则已经可以包含所有正常的函数。但是 ES6 中介绍了一种无法使用这些规则的特殊函数类型:**箭头函数**。
+
+箭头函数并不是使用 function 关键字定义的，而是使用被称为“胖箭头”的操作符 => 定 义的。箭头函数不使用 this 的四种标准规则，而是根据**外层(函数或者全局)作用域来决定 this**。
+
+我们来看看箭头函数的词法作用域:
+
+```js
+function foo() {
+    // 返回一个箭头函数 
+    return (a) => {
+        //this 继承自 foo()
+        console.log( this.a ); 
+    };
+}
+var obj1 = { 
+    a:2
+};
+var obj2 = {
+    a:3
+};
+var bar = foo.call( obj1 );
+bar.call( obj2 ); // 2, 不是 3 !
+```
+foo() 内部创建的箭头函数会捕获调用时 foo() 的 this。由于 foo() 的 this 绑定到 obj1， bar(引用箭头函数)的 this 也会绑定到 obj1，箭头函数的绑定无法被修改。(new 也不 行!)
+
+箭头函数最常用于回调函数中，例如事件处理器或者定时器:
+
+```js
+function foo() { 
+    setTimeout(() => {
+    // 这里的 this 在词法上继承自 foo()
+        console.log( this.a );
+    },100);
+}
+var obj = { 
+    a:2
+};
+foo.call( obj ); // 2
+```
+::: tip
+call stack 中 箭头函数的上级一个是foo,所以 this 指向 obj
+:::
+实际上，在 ES6 之前我们就已经在使用一种几乎和箭头函数完全一样的模式。
+
+```js
+
+function foo() {
+    var self = this; // lexical capture of this 
+    setTimeout( function(){
+        console.log( self.a );
+    }, 100 );
+}
+var obj = { a: 2 };
+foo.call( obj ); // 2
+```
+虽然 self = this 和箭头函数看起来都可以取代 bind(..)，但是从本质上来说，它们想替 代的是 this 机制。
+如果你经常编写 this 风格的代码，但是绝大部分时候都会使用 self = this 或者箭头函数 来否定 this 机制，那你或许应当
+1. 只使用词法作用域并完全抛弃错误this风格的代码;
+2. 完全采用 this 风格，在必要时使用 bind(..)，尽量避免使用 self = this 和箭头函数。
+当然，包含这两种代码风格的程序可以正常运行，但是在同一个函数或者同一个程序中混 合使用这两种风格通常会使代码更难维护，并且可能也会更难编写。（我觉得在逻辑简单中，可以使用this，但是在包含躲过的逻辑中还是应该使用 self = this,避免有Bug时去排查）
+
+
+## 总结
+
+如果要判断一个运行中函数的 this 绑定，就需要找到这个函数的直接调用位置。找到之后就可以顺序应用下面这四条规则来判断 this 的绑定对象。
+
+1. 由new调用?绑定到新创建的对象。
+2. 由call或者apply(或者bind)调用?绑定到指定的对象。
+3. 由上下文对象调用?绑定到那个上下文对象
+4. 默认:在严格模式下绑定到undefined，否则绑定到全局对象。
+
+一定要注意，有些调用可能在无意中使用默认绑定规则。如果想“更安全”地忽略 this 绑定，你可以使用一个 DMZ 对象，比如 **ø = Object.create(null)**，以保护全局对象。
+
+ES6 中的箭头函数并不会使用四条标准的绑定规则，而是根据当前的词法作用域来决定 this，具体来说，箭头函数会继承外层函数调用的 this 绑定(无论 this 绑定到什么)。这其实和 ES6 之前代码中的 self = this 机制一样。
+
 
 
 

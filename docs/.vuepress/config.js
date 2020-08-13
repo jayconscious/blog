@@ -54,6 +54,7 @@ module.exports = {
 						'/book/dontknowjs/this&objectproto/aboutthis',
 						'/book/dontknowjs/this&objectproto/analysisthis1',
 						'/book/dontknowjs/this&objectproto/analysisthis2',
+						'/book/dontknowjs/this&objectproto/object',
 					]
 				}
 			],
