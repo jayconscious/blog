@@ -11,5 +11,6 @@
 6. #### [关于this](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/aboutthis.html)
 7. #### [this全面解析(上)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/analysisthis1.html)
 8. #### [this全面解析(下)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/analysisthis2.html)
-9. #### [对象](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/object.html)
+9. #### [对象(上)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/object1.html)
+9. #### [对象(下)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/object2.html)
 

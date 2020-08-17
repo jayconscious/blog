@@ -460,17 +460,28 @@
         // fooOBJ.call( obj3 ); // obj3
         // setTimeout( obj2.foo, 10 ); // obj
 
-        function foo() { 
-            setTimeout(() => {
-            // 这里的 this 在词法上继承自 foo()
-                debugger
-                console.log( this.a );
-            },100);
-        }
-        var obj = { 
-            a:2
+        // function foo() { 
+        //     setTimeout(() => {
+        //     // 这里的 this 在词法上继承自 foo()
+        //         debugger
+        //         console.log( this.a );
+        //     },100);
+        // }
+        // var obj = { 
+        //     a:2
+        // };
+        // foo.call( obj ); // 2
+
+        var prefix = "foo";
+        var myObject = {
+            [prefix + "bar"]: "hello", 
+            [prefix + "baz"]: "world"
         };
-        foo.call( obj ); // 2
+
+        myObject["foobar"]; // hello
+        myObject["foobaz"]; // world
+        console.log(myObject["foobar"])
+        console.log(myObject["foobaz"])
 
   </script>
 </body>
