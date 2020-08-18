@@ -472,16 +472,27 @@
         // };
         // foo.call( obj ); // 2
 
-        var prefix = "foo";
-        var myObject = {
-            [prefix + "bar"]: "hello", 
-            [prefix + "baz"]: "world"
-        };
+        // var prefix = "foo";
+        // var myObject = {
+        //     [prefix + "bar"]: "hello", 
+        //     [prefix + "baz"]: "world"
+        // };
 
-        myObject["foobar"]; // hello
-        myObject["foobaz"]; // world
-        console.log(myObject["foobar"])
-        console.log(myObject["foobaz"])
+        // myObject["foobar"]; // hello
+        // myObject["foobaz"]; // world
+        // console.log(myObject["foobar"])
+        // console.log(myObject["foobaz"])
+          
+        const foo = function () {
+          console.log(this.a)
+        }
+        var obj = {
+          a: 2,
+          foo: foo
+        }
+        console.log(
+          Object.getOwnPropertyDescriptor(obj, 'foo')
+        )
 
   </script>
 </body>
