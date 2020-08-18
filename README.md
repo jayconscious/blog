@@ -1,4 +1,4 @@
-## <a href="https://jayconscious.github.io/blog/" target="_blank">个人博客</a>
+## <a href="https://jayconscious.github.io/blog/" target="_blank">Jayconscious Blog</a>
 > 记录个人学习和成长
 
 ### Reading
@@ -15,8 +15,8 @@
   - [this全面解析(上)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/analysisthis1.html)
   - [this全面解析(下)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/analysisthis2.html)
   - [对象(上)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/object1.html)
-  - [对象(下)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/object2.html)
-
+  - [对象(中)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/object2.html)
+  - [对象(下)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/object3.html)
 
 
 
