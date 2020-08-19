@@ -15,3 +15,5 @@
 10. #### [对象(中)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/object2.html)
 11. #### [对象(下)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/object3.html)
 
+12. #### [混合对象“类”](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/mixedobjects.html)
+
