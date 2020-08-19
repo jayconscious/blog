@@ -483,16 +483,34 @@
         // console.log(myObject["foobar"])
         // console.log(myObject["foobaz"])
           
-        const foo = function () {
-          console.log(this.a)
+        // const foo = function () {
+        //   console.log(this.a)
+        // }
+        // var obj = {
+        //   a: 2,
+        //   foo: foo
+        // }
+        // console.log(
+        //   Object.getOwnPropertyDescriptor(obj, 'foo')
+        // )
+
+        // var myArray = [ 1, 2, 3 ];
+        // var it = myArray[Symbol.iterator]();
+
+        // console.log(it.next())
+        // console.log(it.next())
+        // console.log(it.next())
+        // console.log(it.next())
+
+        var myObject = { 
+            a: 2,
+            b: 3 
+        };
+
+        for (var v of myObject) { 
+            console.log( v );
         }
-        var obj = {
-          a: 2,
-          foo: foo
-        }
-        console.log(
-          Object.getOwnPropertyDescriptor(obj, 'foo')
-        )
+        // myObject is not iterable 不可迭代的
 
   </script>
 </body>
