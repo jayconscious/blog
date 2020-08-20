@@ -81,6 +81,60 @@ class SpeedBoat inherits Vehicle {
 
 Car 和 SpeedBoat。它们都从 Vehicle 继承了通用 的特性并根据自身类别修改了某些特性。汽车需要四个轮子，快艇需要两个发动机，因此 它必须启动两个发动机的点火装置。
 
+### 多态
+
+Car 重写了继承自父类的 drive() 方法，但是之后 Car 调用了 inherited:drive() 方法， 这表明 Car 可以引用继承来的原始 drive() 方法。快艇的 pilot() 方法同样引用了原始 drive() 方法。
+
+这个技术被称为多态或者虚拟多态。在本例中，更恰当的说法是相对多态。
+
+## 混入
+
+由于在其他语言中类**表现出来的都是复制行为**，因此 JavaScript 开发者也想出了一个方法来 模拟类的复制行为，这个方法就是混入。接下来我们会看到两种类型的混入:**显式** 和 **隐式**。
+
+首先我们来回顾一下之前提到的 Vehicle 和 Car。由于 JavaScript 不会自动实现 Vehicle 到 Car 的复制行为，所以我们需要手动实现复制功能。这个功能在许多库和框架中被称为 **extend(..)**，但是为了方便理解我们称之为 **mixin(..)**。
+
+```js
+// copy 没有的进入到 targetObj
+function mixin( sourceObj, targetObj ) {
+    for (var key in sourceObj) {
+    // 只会在不存在的情况下复制 
+        if (!(key in targetObj)) {
+            targetObj[key] = sourceObj[key];
+        }
+    }
+    return targetObj; 
+}
+var Vehicle = { 
+    engines: 1,
+    ignition: function() {
+        console.log( "Turning on my engine." );
+    },
+    drive: function() { 
+        this.ignition();
+        console.log( "Steering and moving forward!" );
+    }
+};
+
+// 生成新的Car
+var Car = mixin( Vehicle, 
+    { 
+        wheels: 4,
+        drive: function() { 
+            Vehicle.drive.call( this ); 
+            console.log( "Rolling on all " + this.wheels + " wheels!");
+        } 
+    }
+);
+```
+
+::: tip
+有一点需要注意，我们处理的已经不再是类了，因为在 JavaScript 中不存在类，Vehicle 和 Car 都是对象，供我们分别进行复制和粘贴。
+:::
+
+
+
+
+
 
 
 
