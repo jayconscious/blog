@@ -19,6 +19,7 @@
   - [对象(下)](https://jayconscious.github.io/blog/book/dontknowjs/this&objectproto/object3.html)
 
   - [混合对象“类”](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/mixedobjects.html)
+  - [原型](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/prototype.html)
 
 
 

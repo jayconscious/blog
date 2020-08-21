@@ -131,7 +131,50 @@ var Car = mixin( Vehicle,
 有一点需要注意，我们处理的已经不再是类了，因为在 JavaScript 中不存在类，Vehicle 和 Car 都是对象，供我们分别进行复制和粘贴。
 :::
 
+Car 已经有了 drive 属性(函数)，所以这个属性引用并没有被 mixin 重写，从而保留了 Car 中定义的同名属性，实现了“子类”对“父类”属性的重写(参见 mixin(..) 例子中 的 if 语句)
 
+
+### 隐式混入
+
+```js
+var Something = { 
+    cool: function() {
+        this.greeting = "Hello World";
+        this.count = this.count ? this.count + 1 : 1; 
+    }
+};
+
+Something.cool();
+Something.greeting; // "Hello World"
+Something.count; // 1
+
+var Another = {
+    cool: function() {
+        // 隐式把 Something 混入 Another
+        Something.cool.call( this );
+    }
+};
+
+Another.cool();
+Another.greeting; // "Hello World" 
+Another.count; // 1(count 不是共享状态)
+
+```
+
+虽然这类技术利用了 this 的重新绑定功能，但是 Something.cool.call( this ) 仍然无法 变成相对(而且更灵活的)引用，所以使用时千万要小心。通常来说，尽量避免使用这样的结构，以保证代码的整洁和可维护性。
+
+
+## 总结
+
+**类是一种设计模式**。许多语言提供了对于面向类软件设计的原生语法。JavaScript 也有类似的语法，但是和其他语言中的类完全不同。
+
+**类意味着复制。**
+
+传统的类被实例化时，它的行为会被复制到实例中。类被继承时，行为也会被复制到子类中
+
+**多态**(在继承链的不同层次名称相同但是功能不同的函数)**看起来似乎是从子类引用父类**，**但是本质上引用的其实是复制的结果**。
+
+此外，显式混入实际上无法完全模拟类的复制行为，**因为对象(和函数!别忘了函数也是对象)只能复制引用，无法复制被引用的对象或者函数本身。**忽视这一点会导致许多 问题。
 
 
 
