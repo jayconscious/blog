@@ -502,15 +502,45 @@
         // console.log(it.next())
         // console.log(it.next())
 
-        var myObject = { 
-            a: 2,
-            b: 3 
-        };
+        // var myObject = { 
+        //     a: 2,
+        //     b: 3 
+        // };
 
-        for (var v of myObject) { 
-            console.log( v );
-        }
+        // for (var v of myObject) { 
+        //     console.log( v );
+        // }
         // myObject is not iterable 不可迭代的
+
+        // var anotherObject = { 
+        //     a:  2
+        // };
+        // 创建一个关联到 anotherObject 的对象
+        // var myObject = Object.create( anotherObject ); 
+        // console.log(myObject.a) // 2
+        // console.log(myObject)
+
+        // var obj1 = {}
+        // var obj2 = {
+        //   a: 3
+        // }
+        // obj1.__proto__ = obj2
+
+        // // console.log(obj1.a)
+        // obj1.a = 4
+        // console.log(obj1)
+        // console.log(obj2)
+
+
+        function foo () {
+
+        }
+
+        // console.log(foo.prototype.__proto__ == Object.__proto__ )
+        // console.log(foo.__proto__)
+
+
+
 
   </script>
 </body>
