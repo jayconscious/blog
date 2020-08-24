@@ -23,6 +23,7 @@ module.exports = {
 				text: 'Reading',
 				items: [
 					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs/' },
+					{ text: '《TypeScript入门教程》', link: '/book/tstutorial/' },
 					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' },
 				]
 			},
@@ -61,6 +62,17 @@ module.exports = {
 						'/book/dontknowjs/this&objectproto/prototype',
 					]
 				}
+			],
+			'/book/tstutorial/': [
+				{
+					title: '第一部分：简介',   // 必要的
+					path: '/book/tstutorial/intro/index',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					collapsable: false, // 可选的, 默认值是 true,
+					sidebarDepth: 1,    // 可选的, 默认值是 1
+					children: [
+						'/book/dontknowjs/intro/index',
+					]
+				},
 			],
 			'/book/explainindepthnodejs/': [
 				''
