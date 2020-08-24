@@ -1,4 +1,4 @@
-# 原型
+# 原型(上)
 
 ## [[Prototype]]
 
@@ -125,7 +125,7 @@ myObject.hasOwnProperty( "a" ); // true
 
 多年以来，JavaScript 中有一种奇怪的行为一直在被无耻地滥用，那就是模仿类。我们会仔细分析这种方法。
 
-这种奇怪的“类似类”的行为利用了函数的一种特殊特性:所有的函数默认都会拥有一个 名为 prototype 的公有并且不可枚举的属性，它会指向另一个对象:
+这种奇怪的“类似类”的行为利用了函数的一种特殊特性:**所有的函数默认都会拥有一个名为 prototype 的公有并且不可枚举的属性，它会指向另一个对象**:
 
 ```js
 function Foo() { 
@@ -138,6 +138,133 @@ Foo.prototype; // { }
 这个对象通常被称为 Foo 的原型，因为我们通过名为 Foo.prototype 的属性引用来访问它。然而不幸的是，这个术语对我们造成了极大的误导，稍后我们就会看到。如果是我的话就会叫它“之前被称为 Foo 的原型的那个对象”。好吧我是开玩笑的，你觉得“被贴上‘Foo 点 prototype’标签的对象”这个名字怎么样?你觉得“被贴上‘Foo 点 prototype’标签的对象”这个名字怎么样?
 
 最直接的解释就是，这个对象是在调用new Foo()(参见第2章)时创建的，最后会被(有点武断地)关联到这个“Foo.prototype”对象上。
+
+```js
+function Foo() { 
+    // ...
+}
+var a = new Foo();
+Object.getPrototypeOf( a ) === Foo.prototype; // true
+```
+
+调用new Foo()时会创建a(具体的4个步骤参见第2章)，其中一步就是将a内部的 [[Prototype]] 链接到 Foo.prototype 所指向的对象。
+
+在面向类的语言中，类可以被复制(或者说实例化)多次，就像用模具制作东西一样。我们在前面中看到过，之所以会这样是因为实例化(或者继承)一个类就意味着“**把类的行为复制到物理对象中**”，对于每一个新实例来说都会重复这个过程。
+
+但是在 JavaScript 中，并没有类似的复制机制。你不能创建一个类的多个实例，只能创建多个对象，它们 [[Prototype]] 关联的是同一个对象。但是在默认情况下并不会进行复制， 因此这些对象之间并不会完全失去联系，它们是互相关联的
+
+new Foo() 会生成一个新对象(我们称之为 a)，这个新对象的内部链接 [[Prototype]] 关联 的是 Foo.prototype 对象。
+
+实际上，绝大多数 JavaScript 开发者不知道的秘密是，new Foo() 这个函数调用实际上并没 有直接创建关联，这个关联只是一个意外的副作用。new Foo()只是间接完成了我们的目 标:一个关联到其他对象的新对象。
+
+那么有没有更直接的方法来做到这一点呢?当然!功臣就是 Object.create(..)，不过我们现在暂时不介绍它
+
+#### 关于名称
+
+在 JavaScript 中，我们并不会将一个对象(“类”)复制到另一个对象(“实例”)，只是将它们 关联起来。从视觉角度来说，[[Prototype]] 机制如下图所示，箭头从右到左，从下到上:
+
+![image](/blog/assets/img/prototype.png)
+
+这个机制通常被称为**原型继承**(稍后我们会分析具体代码)，它常常被视为动态语言版本 的类继承。这个名称主要是为了对应面向类的世界中“继承”的意义，但是违背(写作违 背，读作推翻)了动态脚本中对应的语义。
+
+继承意味着复制操作，JavaScript(默认)并不会复制对象属性。相反，JavaScript 会在两个对象之间创建一个关联，这样一个对象就可以通过**委托**访问另一个对象的属性和函数。 **委托**(参见第 6 章)这个术语可以更加准确地描述 JavaScript 中对象的关联机制。
+
+### 构造函数”
+
+```js
+function Foo() { 
+    // ...
+}
+var a = new Foo();
+```
+到底是什么让我们认为 Foo 是一个“类”呢?
+
+其中一个原因是我们看到了关键字 **new**，在面向类的语言中构造类实例时也会用到它。另一个原因是，看起来我们执行了类的构造函数方法，Foo() 的调用方式很像初始化类时类构造函数的调用方式。
+
+除了令人迷惑的“构造函数”语义外，Foo.prototype 还有另一个绝招。思考下面的代码:
+
+```js
+function Foo() { 
+    // ...
+}
+Foo.prototype.constructor === Foo; // true
+
+var a = new Foo();
+a.constructor === Foo; // true
+
+a.constructor === Foo === Foo.prototype.constructor
+```
+Foo.prototype 默认(在代码中第一行声明时!)有一个公有并且不可枚举的属性 .constructor，这个属性引用的是对象关联的函数(本例中是 Foo)。此外，我们可以看到通过“构造函数”调用 new Foo() 创建的对象也有一个 .constructor 属性，指向 “创建这个对象的函数”。
+
+::: tip
+实际上 a 本身并没有 .constructor 属性。而且，虽然 a.constructor 确实指 向 Foo 函数，但是这个属性并不是表示 a 由 Foo“构造”，稍后我们会解释
+:::
+
+**1. 构造函数还是调用**
+
+实际上，Foo 和你程序中的其他函数没有任何区别。函数本身并不是构造函数，然而，当 你在普通的函数调用前面加上 new 关键字之后，就会把这个函数调用变成一个“构造函数 调用”。实际上，**new 会劫持所有普通函数并用构造对象的形式来调用它**。
+
+举例来说:
+
+```js 
+function NothingSpecial() { 
+    console.log( "Don't mind me!" );
+}
+var a = new NothingSpecial();
+// "Don't mind me!" 
+a; // {}
+```
+
+换句话说，在 JavaScript 中对于“构造函数”最准确的解释是，所有带 new 的函数调用。
+
+函数不是构造函数，但是当且仅当使用 new 时，函数调用会变成“构造函数调用”
+
+### 技术
+
+JavaScript 开发者绞尽脑汁想要模仿类的行为:
+
+```js
+function Foo(name) { 
+    this.name = name;
+}
+Foo.prototype.myName = function() {
+    return this.name;
+};
+var a = new Foo( "a" );
+var b = new Foo( "b" ); 
+a.myName(); // "a"
+b.myName(); // "b"
+```
+这段代码展示了另外两种“面向类”的技巧:
+
+1. this.name = name 给每个对象(也就是 a 和 b，参见第 2 章中的 this 绑定)都添加 了 .name 属性，有点像类实例封装的数据值。
+
+2. Foo.prototype.myName = ... 可能个更有趣的技巧，它会给 Foo.prototype 对象添加一个属性(函数)。现在，a.myName() 可以正常工作，但是你可能会觉得很惊讶，这是什么原理呢?
+
+因此，在创建的过程中，a 和 b 的内部 [[Prototype]] 都会关联到 Foo.prototype 上。当 a 和 b 中无法找到 myName 时，它会(通过委托，参见第 6 章)在 Foo.prototype 上找到。
+
+举例来说，Foo.prototype 的 .constructor 属性只是 Foo 函数在声明时的默认属性。**如果你创建了一个新对象并替换了函数默认的 .prototype 对象引用，那么新对象并不会自动获得 .constructor 属性。**
+
+Thinking code:
+
+```js
+function Foo() { /* .. */ }
+Foo.prototype = { /* .. */ }; 
+// 创建一个新原型对象
+// 如果只是添加一个属性呢？
+var a1 = new Foo();
+
+a1.constructor === Foo; // false! 
+a1.constructor === Object; // true!
+```
+
+到底怎么回事? a1 并没有 .constructor 属性，所以它会委托 [[Prototype]] 链上的 Foo. prototype。但是这个对象也没有 .constructor 属性(不过默认的 Foo.prototype 对象有这个属性!)，所以它会继续委托，这次会委托给委托链顶端的 Object.prototype。这个对象有 .constructor 属性，指向内置的 Object(..) 函数。
+
+实际上，对象的 .constructor 会默认指向一个函数，这个函数可以通过对象的 .prototype 引用。“constructor”和“prototype”这两个词本身的含义可能适用也可能不适用。最好的 办法是记住这一点“**constructor 并不表示被构造**”。
+
+.constructor 并不是一个不可变属性。它是不可枚举(参见上面的代码)的，但是它的值 是可写的(可以被修改)。此外，你可以给任意 [[Prototype]] 链中的任意对象添加一个名 为 constructor 的属性或者对其进行修改，**你可以任意对其赋值**。
+
+**a1.constructor 是一个非常不可靠并且不安全的引用。通常来说要尽量避免使用这些引用。**
 
 
 
