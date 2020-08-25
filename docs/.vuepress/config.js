@@ -67,11 +67,11 @@ module.exports = {
 			'/book/tstutorial/': [
 				{
 					title: '第一部分：简介',   // 必要的
-					path: '/book/tstutorial/intro/index',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					path: '/book/tstutorial/intro/home',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
 					sidebarDepth: 1,    // 可选的, 默认值是 1
 					children: [
-						'/book/tstutorial/intro/index',
+						'/book/tstutorial/intro/home',
 					]
 				},
 			],
