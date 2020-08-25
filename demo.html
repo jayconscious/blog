@@ -568,9 +568,12 @@
         function NothingSpecial() { 
             console.log( "Don't mind me!" );
         }
-        var a = new NothingSpecial();
+        // var a = new NothingSpecial();
+        // console.log(a)
 
-        console.log(a)
+        console.log(Object.prototype.hasOwnProperty.call(NothingSpecial, 'prototype'))
+
+
 
 
 
