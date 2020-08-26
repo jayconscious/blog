@@ -565,18 +565,23 @@
         // console.log(a.constructor === Foo.prototype.constructor); // true
 
 
-        function NothingSpecial() { 
-            console.log( "Don't mind me!" );
-        }
+        // function NothingSpecial() { 
+        //     console.log( "Don't mind me!" );
+        // }
         // var a = new NothingSpecial();
         // console.log(a)
 
-        console.log(Object.prototype.hasOwnProperty.call(NothingSpecial, 'prototype'))
+        // console.log(Object.prototype.hasOwnProperty.call(NothingSpecial, 'prototype'))
 
+        var anotherObject = { 
+            cool: function() {
+                console.log( "cool!" );
+            }
+        };
+        var myObject = Object.create( anotherObject ); 
+        myObject.cool(); // "cool!"
 
-
-
-
+        console.log(myObject)
 
   </script>
 </body>
