@@ -22,5 +22,7 @@
   - [原型(上)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/prototype1.html)
   - [原型(下)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/prototype2.html)
 
+  - [行为委托(上)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/actiontrust1.html)
+
 
 

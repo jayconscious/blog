@@ -61,6 +61,7 @@ module.exports = {
 						'/book/dontknowjs/this&objectproto/mixedobjects',
 						'/book/dontknowjs/this&objectproto/prototype1',
 						'/book/dontknowjs/this&objectproto/prototype2',
+						'/book/dontknowjs/this&objectproto/actiontrust1',
 					]
 				}
 			],
