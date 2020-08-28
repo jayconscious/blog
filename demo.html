@@ -573,15 +573,46 @@
 
         // console.log(Object.prototype.hasOwnProperty.call(NothingSpecial, 'prototype'))
 
-        var anotherObject = { 
-            cool: function() {
-                console.log( "cool!" );
-            }
-        };
-        var myObject = Object.create( anotherObject ); 
-        myObject.cool(); // "cool!"
+        // var anotherObject = { 
+        //     cool: function() {
+        //         console.log( "cool!" );
+        //     }
+        // };
+        // var myObject = Object.create( anotherObject ); 
+        // myObject.cool(); // "cool!"
 
-        console.log(myObject)
+        // console.log(myObject)
+
+        function Foo(who) { 
+            this.me = who
+        }
+
+        Foo.prototype.identify = function() {
+            return "I am " + this.me; 
+        };
+
+        function Bar(who) { 
+            Foo.call( this, who );
+        }
+
+        Bar.prototype = Object.create( Foo.prototype );
+
+        Bar.prototype.speak = function() {
+            console.log( "Hello, " + this.identify() + "." );
+        }
+
+        var b1 = new Bar( "b1" );
+        var b2 = new Bar( "b2" );
+
+        b1.speak();
+        b2.speak();
+
+        // console.log(b1.__proto__)
+
+        // console.log(Bar.prototype.__proto__)
+
+        console.log(Foo.prototype.constructor === Foo)
+        console.log(Foo.constructor === Function)
 
   </script>
 </body>
