@@ -181,4 +181,4 @@ b2.speak();
 
 首先，类风格代码的思维模型强调实体以及实体间的关系:
 
-![image](/blog/assets/img/prototype.png)
+![image](/blog/assets/img/prototype1.png)
