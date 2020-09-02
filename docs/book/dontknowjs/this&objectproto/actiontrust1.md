@@ -182,3 +182,174 @@ b2.speak();
 首先，类风格代码的思维模型强调实体以及实体间的关系:
 
 ![image](/blog/assets/img/prototype1.png)
+
+好，下面我们来看一张简化版的图，它更“清晰”一些——只展示了必要的对象和关系:
+
+![image](/blog/assets/img/prototype2.png)
+
+
+现在我们看看对象关联风格代码的思维模型:
+
+
+![image](/blog/assets/img/relationPrototype.png)
+
+通过比较可以看出，对象关联风格的代码显然更加简洁，因为这种代码只关注一件事: **对象之间的关联关系**。
+
+## 类与对象
+
+首先看看 Web 开发中非常典型的一种前端场景:创建 UI 控件(按钮、下拉列表，等等)。
+
+
+### 控件“类”
+
+你可能已经习惯了面向对象设计模式，所以很快会想到一个包含所有通用控件行为的父类(可能叫作 Widget)和继承父类的特殊控件子类(比如 Button)
+
+下面这段代码展示的是如何在不使用任何“类”辅助库或者语法的情况下，使用纯 JavaScript 实现类风格的代码:
+
+```js
+// 父类
+function Widget(width,height) {
+    this.width = width || 50; 
+    this.height = height || 50; 
+    this.$elem = null;
+}
+Widget.prototype.render = function($where){ 
+    if (this.$elem) {
+        this.$elem
+        .css({ width: this.width + "px", height: this.height + "px"} )
+        .appendTo( $where );
+    }
+}
+
+// 子类
+function Button(width,height,label) {
+    // 调用“super”构造函数 
+    Widget.call( this, width, height ); 
+    this.label = label || "Default";
+    this.$elem = $( "<button>" ).text( this.label );
+}
+// 让 Button“继承”Widget
+Button.prototype = Object.create( Widget.prototype );
+
+// 重写 render(..)
+Button.prototype.render = function($where) {
+    //“super”调用
+    Widget.prototype.render.call( this, $where ); 
+    this.$elem.click( this.onClick.bind( this ) );
+};
+
+Button.prototype.onClick = function(evt) {
+    console.log( "Button '" + this.label + "' clicked!" );
+}
+
+$( document ).ready( function () {
+    var $body = $( document.body );
+    var btn1 = new Button( 125, 30, "Hello" ); 
+    var btn2 = new Button( 150, 40, "World" );
+    btn1.render( $body );
+    btn2.render( $body );
+})
+
+```
+在面向对象设计模式中我们需要先在父类中定义基础的 render(..)，然后在子类中重写它。子类并不会替换基础的 render(..)，只是添加一些按钮特有的行为。
+
+可以看到代码中出现了丑陋的显式伪多态(参见第 4 章)，即通过 Widget.call 和 Widget. prototype.render.call 从“子类”方法中引用“父类”中的基础方法。(呸!)
+
+**ES6的class语法糖**
+
+```js
+class Widget {
+    constructor (width, height) {
+        this.width = width || 50; 
+        this.height = height || 50; 
+        this.$elem = null;
+    }
+    render ($where) {
+        if (this.$elem) {
+            this.$elem
+            .css({ width: this.width + "px", height: this.height + "px"} )
+            .appendTo( $where );
+        }
+    }
+}
+
+class Button extends Widget { 
+    constructor(width,height,label) {
+        super( width, height );
+        this.label = label || "Default";
+        this.$elem = $( "<button>" ).text( this.label );
+    }
+    render($where) {
+        super.render( $where );
+        this.$elem.click( this.onClick.bind( this ) ); 
+    }
+    onClick(evt) {
+        console.log( "Button '" + this.label + "' clicked!" )
+    }
+}
+$( document ).ready( function() {
+        var $body = $( document.body )
+        var btn1 = new Button( 125, 30, "Hello" ); 
+        var btn2 = new Button( 150, 40, "World" );
+        btn1.render( $body );
+        btn2.render( $body );
+    }
+);
+```
+无论你使用的是传统的原型语法还是 ES6 中的新语法糖，你仍然需要用“类”的概念来对 问题(UI 控件)进行建模。就像前几章试图证明的一样，这种做法会为你带来新的麻烦。
+
+### 委托控件对象
+
+下面的例子使用对象关联风格委托来更简单地实现 Widget/Button:
+
+```js
+
+var Widget = {
+    init: function(width,height){
+        this.width = width || 50; 
+        this.height = height || 50; 
+        this.$elem = null;
+    },
+    insert: function($where){
+        if (this.$elem) { 
+            this.$elem
+                .css( {width: this.width + "px",height: this.height + "px" } )
+                .appendTo( $where );
+        }
+    }
+};
+
+var Button = Object.create( Widget );
+
+Button.setup = function(width,height,label){ 
+    // 委托调用
+    this.init( width, height ); 
+    this.label = label || "Default";
+    this.$elem = $( "<button>" ).text( this.label )
+};
+Button.build = function($where) {
+    // 委托调用
+    this.insert( $where );
+    this.$elem.click( this.onClick.bind( this ) );
+};
+Button.onClick = function(evt) {
+    console.log( "Button '" + this.label + "' clicked!" ); 
+};
+
+$( document ).ready( function(){ 
+    var $body = $( document.body );
+    var btn1 = Object.create( Button ); 
+    btn1.setup( 125, 30, "Hello" );
+    var btn2 = Object.create( Button ); 
+    btn2.setup( 150, 40, "World" );
+    btn1.build( $body );
+    btn2.build( $body );
+});
+```
+使用对象关联风格来编写代码时不需要把 Widget 和 Button 当作父类和子类。相反， Widget 只是一个对象，包含一组通用的函数，任何类型的控件都可以委托，Button 同样只 是一个对象。(当然，它会通过委托关联到 Widget !)
+
+在委托设计模式中，除了建议使用不相同并且更具描述性的方法名之外，还要通过对象关 联避免丑陋的显式伪多态调用(Widget.call 和 Widget.prototype.render.call)，代之以 简单的相对委托调用 this.init(..) 和 this.insert(..)。
+
+**对象关联**可以更好地支持**关注分离**(separation of concerns)原则，创建和初始化并不需要 合并为一个步骤。
+
+
