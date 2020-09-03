@@ -20,6 +20,7 @@
 14. #### [原型(下)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/prototype2.html)
 
 15. #### [行为委托(上)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/actiontrust1.html)
+16. #### [行为委托(下)](https://jayconscious.github.io/blog/book/dontknowjs/sthis&objectproto/actiontrust2.html)
 
 
 

@@ -62,6 +62,7 @@ module.exports = {
 						'/book/dontknowjs/this&objectproto/prototype1',
 						'/book/dontknowjs/this&objectproto/prototype2',
 						'/book/dontknowjs/this&objectproto/actiontrust1',
+						'/book/dontknowjs/this&objectproto/actiontrust2',
 					]
 				}
 			],
