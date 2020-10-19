@@ -24,12 +24,21 @@ module.exports = {
 				items: [
 					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs/' },
 					{ text: '《TypeScript入门教程》', link: '/book/tstutorial/' },
-					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' },
+					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' }
+				]
+			},
+			{
+				text: 'Others',
+				items: [
+					{ text: '服务器相关', link: '/others/server/' },
 				]
 			},
 			{ text: 'My Github', link: 'https://github.com/jayconscious' }
 		],
 		sidebar: {
+			'/others/server/': [
+				'cdn'
+			],
 			'/vue/vue/': [
 				'vueDiff',
 			],
