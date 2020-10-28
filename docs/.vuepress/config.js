@@ -30,7 +30,8 @@ module.exports = {
 			{
 				text: 'Others',
 				items: [
-					{ text: '服务器相关', link: '/others/server/' },
+					{ text: '服务器相关', link: '/others/server/cdn' },
+					{ text: 'Redis', link: '/others/redis/start' },
 				]
 			},
 			{ text: 'My Github', link: 'https://github.com/jayconscious' }
@@ -38,6 +39,9 @@ module.exports = {
 		sidebar: {
 			'/others/server/': [
 				'cdn'
+			],
+			'/others/redis/': [
+				'start'
 			],
 			'/vue/vue/': [
 				'vueDiff',
