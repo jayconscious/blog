@@ -22,7 +22,8 @@ module.exports = {
 			{
 				text: 'Reading',
 				items: [
-					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs/' },
+					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs1/' },
+					{ text: '《你不知道的JavaScript》(中卷)', link: '/book/dontknowjs2/' },
 					{ text: '《TypeScript入门教程》', link: '/book/tstutorial/' },
 					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' }
 				]
@@ -46,36 +47,56 @@ module.exports = {
 			'/vue/vue/': [
 				'vueDiff',
 			],
-			'/book/dontknowjs/': [
+			'/book/dontknowjs1/': [
 				{
 					title: '第一部分：作用域和闭包',   // 必要的
-					path: '/book/dontknowjs/scope&closure/lexingscope',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					path: '/book/dontknowjs1/scope&closure/lexingscope',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
 					sidebarDepth: 1,    // 可选的, 默认值是 1
 					children: [
-						'/book/dontknowjs/scope&closure/lexingscope',
-						'/book/dontknowjs/scope&closure/fnblockscope',
-						'/book/dontknowjs/scope&closure/hoisting',
-						'/book/dontknowjs/scope&closure/scopeclosure',
+						'/book/dontknowjs1/scope&closure/lexingscope',
+						'/book/dontknowjs1/scope&closure/fnblockscope',
+						'/book/dontknowjs1/scope&closure/hoisting',
+						'/book/dontknowjs1/scope&closure/scopeclosure',
 					]
 				},
 				{
 					title: '第二部分：this和对象原型',   // 必要的
-					path: '/book/dontknowjs/this&objectproto/aboutthis',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					path: '/book/dontknowjs1/this&objectproto/aboutthis',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
 					collapsable: false, // 可选的, 默认值是 true,
 					sidebarDepth: 1,    // 可选的, 默认值是 1
 					children: [
-						'/book/dontknowjs/this&objectproto/aboutthis',
-						'/book/dontknowjs/this&objectproto/analysisthis1',
-						'/book/dontknowjs/this&objectproto/analysisthis2',
-						'/book/dontknowjs/this&objectproto/object1',
-						'/book/dontknowjs/this&objectproto/object2',
-						'/book/dontknowjs/this&objectproto/object3',
-						'/book/dontknowjs/this&objectproto/mixedobjects',
-						'/book/dontknowjs/this&objectproto/prototype1',
-						'/book/dontknowjs/this&objectproto/prototype2',
-						'/book/dontknowjs/this&objectproto/actiontrust1',
-						'/book/dontknowjs/this&objectproto/actiontrust2',
+						'/book/dontknowjs1/this&objectproto/aboutthis',
+						'/book/dontknowjs1/this&objectproto/analysisthis1',
+						'/book/dontknowjs1/this&objectproto/analysisthis2',
+						'/book/dontknowjs1/this&objectproto/object1',
+						'/book/dontknowjs1/this&objectproto/object2',
+						'/book/dontknowjs1/this&objectproto/object3',
+						'/book/dontknowjs1/this&objectproto/mixedobjects',
+						'/book/dontknowjs1/this&objectproto/prototype1',
+						'/book/dontknowjs1/this&objectproto/prototype2',
+						'/book/dontknowjs1/this&objectproto/actiontrust1',
+						'/book/dontknowjs1/this&objectproto/actiontrust2',
+					]
+				}
+			],
+			'/book/dontknowjs2/': [
+				// {
+				// 	title: '第一部分：类型和语法',   // 必要的
+				// 	path: '/book/dontknowjs2/type&grammar/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+				// 	collapsable: false, // 可选的, 默认值是 true,
+				// 	sidebarDepth: 1,    // 可选的, 默认值是 1
+				// 	children: [
+				// 		'/book/dontknowjs2/type&grammar/',
+				// 	]
+				// },
+				{
+					title: '第二部分：异步和性能',   // 必要的
+					path: '/book/dontknowjs2/async&performance/now&future',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+					collapsable: false, // 可选的, 默认值是 true,
+					sidebarDepth: 1,    // 可选的, 默认值是 1
+					children: [
+						'/book/dontknowjs2/async&performance/now&future'
 					]
 				}
 			],
