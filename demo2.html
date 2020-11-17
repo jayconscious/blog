@@ -7,13 +7,29 @@
 </head>
 <body>
     <script>
-        var a = {
-            index: 1
-        };
-        // 然后
-        console.log( a ); // ?? 2
-        // 再然后 
-        a.index++;
+        // var a = {
+        //     index: 1
+        // };
+        // // 然后
+        // console.log( a ); // ?? 2
+        // // 再然后 
+        // a.index++;
+
+        var p = Promise.resolve( 21 );
+
+        var p2 = p.then( function(v){
+            console.log( v );
+            // 用值42填充p2
+            return v * 2;
+        });
+        
+        // 连接p2
+        p2.then( function(v){
+            console.log( v );
+        } );
+        // 21
+        // 42
+
     </script>
 </body>
 </html>

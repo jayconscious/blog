@@ -69,7 +69,102 @@ if ( p !== null && ( typeof p === "object" || typeof p === "function") && typeof
 我并不喜欢最后还得用 thenable 鸭子类型检测作为 Promise 的识别方案。还 有其他选择，比如 branding，甚至 anti-branding。
 :::
 
-## Promise 信任问题
+## 3.3 Promise 信任问题
+
+3.3.7 关于promise的信任问题  -  197
+
+
+
+
+很可能前面的讨论现在已经完全“解决”(resolve，英语中也表示“决议”的意思)了你的 疑惑:Promise 为什么是可信任的，以及更重要的，为什么对构建健壮可维护的软件来说， 这种信任非常重要。
+
+可一旦开始思考你在其上构建代码的机制具有何种程度的可预见性和可靠性时，你就会开始意识到回调的可信任基础是相当不牢靠
+
+Promise 这种模式通过可信任的语义把回调作为参数传递，使得这种行为更可靠更合理。 通过把回调的控制反转反转回来，我们把控制权放在了一个可信任的系统(Promise)中， 这种系统的设计目的就是为了使异步编码更清晰
+
+
+
+## 3.4 链式流
+
+我们可以把多个 Promise 连接到一起以表示一系列异步步骤。
+
+这种方式可以实现的关键在于以下两个 Promise 固有行为特性:
+
+- 每次你对 Promise 调用 then(..)，它都会创建并返回一个新的 Promise，我们可以将其链接起来;
+
+- 不管从 then(..) 调用的完成回调(第一个参数)返回的值是什么，它都会被自动设置 为被链接 Promise(第一点中的)的完成。(没懂)
+
+先来解释一下这是什么意思，然后推导一下其如何帮助我们创建流程控制异步序列。考虑 如下代码:
+
+```js
+var p = Promise.resolve( 21 );
+
+var p2 = p.then( function(v){
+    console.log( v )
+    // 用值42填充p2
+    return v * 2
+})
+// 连接p2
+p2.then( function(v){
+    console.log( v )
+})
+// 21
+// 42
+
+```
+```js
+var p = Promise.resolve( 21 );
+p.then( function(v){
+    console.log( v );    // 21
+    // 用值42完成连接的promise
+    return v * 2; 
+}).then( function(v){
+    console.log(v)      // 42
+})
+// 这里是链接的promise
+```
+
+但这里还漏掉了一些东西。如果需要步骤 2 等待步骤 1 异步来完成一些事情怎么办?我们使用了立即返回 return 语句，这会立即完成链接的 promise。
+
+```js
+
+var p = Promise.resolve( 21 );
+
+p.then( function(v){
+    console.log( v )       // 21
+    // 创建一个promise并将其返回
+    return new Promise( function(resolve,reject){
+        // 42
+        console.log( v );
+        resolve( v * 2 );
+    })
+    // 用值42填充
+}).then( function(v){
+    console.log( v );
+})
+```
+让我们来简单总结一下使链式流程控制可行的 Promise 固有特性。
+- 调用 Promise 的 then(..) 会自动创建一个新的 Promise 从调用返回。
+- 在完成或拒绝处理函数内部，如果返回一个值或抛出一个异常，新返回的(可链接的) Promise 就相应地决议。
+- 如果完成或拒绝处理函数返回一个 Promise，它将会被展开，这样一来，不管它的决议值是什么，都会成为当前 then(..) 返回的链接 Promise 的决议值。
+
+
+## 3.6 Promise 模式
+
+## 3.7 Promise API 概述
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
