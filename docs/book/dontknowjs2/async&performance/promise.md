@@ -46,6 +46,41 @@ new Promise( function(..){ .. } )模式通常称为revealingconstructor (http://
 本例中我们将其分别称为 resolve 和 reject。这些是 promise 的决议函数。 resolve(..) 通常标识完成，而 reject(..) 则标识拒绝。
 :::
 
+## 3.2 具有 then 方法的鸭子类型
+
+既然 Promise 是通过 new Promise(..) 语法创建的，那你可能就认为可以通过 p instanceof Promise 来检查。但遗憾的是，这并不足以作为检查方法，原因有许多。
+
+其中最主要的是，Promise 值可能是从其他浏览器窗口(iframe 等)接收到的。这个浏览 器窗口自己的 Promise 可能和当前窗口 /frame 的不同，因此这样的检查无法识别 Promise 实例。
+
+在本章后面讨论 Promise 决议过程的时候，你就会了解为什么有能力识别和判断类似于 Promise 的值是否是真正的 Promise 仍然很重要。
+
+
+根据一个值的形态(具有哪些属性)对这个值的类型做出一些假定。这种**类型检查(type check)**一般用术语**鸭子类型(duck typing)**来表示——“如果它看起来像只鸭子，叫起来像只鸭子，那它一定就是只鸭子”(参见本书的“类型和语法”部分)。于是，对 thenable 值的鸭子类型检测就大致类似于:
+
+```js
+if ( p !== null && ( typeof p === "object" || typeof p === "function") && typeof p.then === "function" ){
+    // 假定这是一个thenable! 
+} else {
+    // 不是thenable
+}
+```
+
+::: tip
+我并不喜欢最后还得用 thenable 鸭子类型检测作为 Promise 的识别方案。还 有其他选择，比如 branding，甚至 anti-branding。
+:::
+
+## Promise 信任问题
+
+
+
+
+
+
+
+
+
+
+
 
 
 
