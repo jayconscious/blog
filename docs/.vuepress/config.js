@@ -12,6 +12,12 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{
+				text: 'SourceCode',
+				items: [
+					{ text: 'SourceCode', link: '/sourcecode/basicjs/' },
+				]
+			},
+			{
 				text: 'Vue',
 				items: [
 					{ text: 'vue', link: '/vue/vue/' },
@@ -43,6 +49,9 @@ module.exports = {
 			],
 			'/others/redis/': [
 				'start'
+			],
+			'/sourcecode/basicjs/': [
+				'promise'
 			],
 			'/vue/vue/': [
 				'vueDiff',
