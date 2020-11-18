@@ -15,21 +15,121 @@
         // // 再然后 
         // a.index++;
 
-        var p = Promise.resolve( 21 );
+        // var p = Promise.resolve( 21 );
 
-        var p2 = p.then( function(v){
-            console.log( v );
-            // 用值42填充p2
-            return v * 2;
-        });
+        // var p2 = p.then( function(v){
+        //     console.log( v );
+        //     // 用值42填充p2
+        //     return v * 2;
+        // });
         
-        // 连接p2
-        p2.then( function(v){
-            console.log( v );
-        } );
-        // 21
-        // 42
+        // // 连接p2
+        // p2.then( function(v){
+        //     console.log( v );
+        // } );
+        // // 21
+        // // 42
 
+//         class MyPromise {
+//             constructor (executor) {
+//                 const resolve = res => {}
+//                 const reject = res => {}
+//                 executor(resolve, reject)
+//             }
+//         }
+// Z        // function MyPromise (executor) {
+//         //     const resolve = res => {}
+//         //     const reject = res => {}
+//         //     // 判断 executor
+//         //     executor(resolve, reject)
+//         // }
+//         new MyPromise(function (a, b) {
+//             console.log('test')
+//         })
+
+        // class MyPromise {
+        //     constructor (executor) {
+        //         this.status = 'pending'
+        //         this.value = ''
+        //         this.error = ''
+
+        //         const resolve = function (res) {
+        //             if (this.status == 'pending') {
+        //                 this.status = 'fulfilled'
+        //                 this.value = res
+        //             }
+        //         }
+
+        //         const reject = function (error) {
+        //             if (this.status == 'pending') {
+        //                 this.status = 'rejected'
+        //                 this.error = error
+        //             }
+        //         }
+        //         executor(resolve.bind(this), reject.bind(this))
+        //         // executor(resolve, reject)
+        //     }
+        // }
+
+        // console.log(new MyPromise(function(resolve, reject) {
+        //     resolve()
+        // }))
+
+        class MyPromise {
+            constructor (executor) {
+                this.status = 'pending'
+                this.value = ''
+                this.error = ''
+                this.resolvsQueue = []       // 存放成功的后需要执行的函数
+                this.rejectQueue = []        // 存放失败的后需要执行的函数
+
+                const resolve = res => {
+                    if (this.status == 'pending') {
+                        this.status = 'fulfilled'
+                        this.value = res
+                        this.resolvsQueue.forEach(fn => fn())
+                    }
+                }
+                const reject = error => {
+                    if (this.status == 'pending') {
+                        this.status = 'rejected'
+                        this.error = error
+                        this.rejectQueue.forEach(fn => fn())
+                    }
+                }
+                executor(resolve, reject)
+            }
+
+            then (onFulfilled, onRejected) {
+                if (this.status == 'fulfilled') {
+                    this.resolvsQueue.push(() => {
+                        onFulfilled(this.value)
+                    })
+                }
+                if (this.status == 'rejected') {
+                    this.rejectQueue.push(() => {
+                        onRejected(this.value)
+                    })
+                }
+                // How ?
+                if (this.status == 'pending') {
+                    this.resolvsQueue.push(() => {
+                        onFulfilled(this.value)
+                    })
+                    this.rejectQueue.push(() => {
+                        onRejected(this.value)
+                    })
+                }
+            }
+        }
+
+        new MyPromise(function (resolve, reject){
+            setTimeout(function () {
+                resolve('答应')
+            }, 1000)
+        }).then(res => {
+            console.log(res)
+        })
     </script>
 </body>
 </html>
