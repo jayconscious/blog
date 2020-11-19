@@ -1,4 +1,4 @@
-# 手撕promise
+# Promise 解析
 
 ## 前言
 
@@ -210,8 +210,81 @@ class MyPromise {
 ```
 
 ::: tip
-其实从这个设计中我们可以看出，其实promise只是使用一些设计结构包装了一下，解决了之前回调方式所存在的问题
+其实从这个设计中我们可以看出，其实promise只是使用一些设计结构包装了一下，解决了之前回调方式所存在的问题, promise内部then利用event-loop的机制，现将成功和失败的回调函数塞到数组中，当异步任务完成的时候，再将其取出执行。
 :::
+
+
+## then 的链式调用
+
+有时候 `new Promise().then().then()` 的用法，这样的链式调用为了解决回调地狱（`callback hell`）问题。那么如何去实现呢？我们可以再第一个 then 函数内再返回一个 Promise，让这个新的 Promise 返回的值传递到下一个 then 中。
+
+代码如下:
+
+```js
+class MyPromise {
+    constructor (executor){
+        this.status = 'pending'
+        this.resolveQueue = []
+        this.rejectQueue = []
+        this.value = ''
+        this.error = ''
+
+        const resolve = res => {
+            if (this.status == 'pending') {
+                this.status == 'fulfilled'
+                this.value = res
+                this.resolveQueue.forEach(fn => fn())
+            }
+        }
+
+         const reject = error => {
+            if (this.status == 'pending') {
+                this.status == 'rejected'
+                this.error = error
+                this.rejectQueue.forEach(fn => fn())
+            }
+        }
+        executor(resolve, reject)
+    }
+
+    then (onFulfilled, onRejected) {
+        let promiseObj;
+
+        if (this.status == 'fulfilled') {
+            promiseObj = new MyPromise((resolve, reject) => {
+                let data = onFulfilled(this.value)
+                resolvePromise(promiseObj, data, resolve, reject)  // resolvePromise 作用是什么？
+            })
+        }
+
+        // return new MyPromise(function (resolve, reject) {
+        //     if (this.status == 'fulfilled') {
+        //         this.resolveQueue.push(() => {
+        //             resolve(onFulfilled(this.value))
+        //         })
+        //     }
+        //     if (this.status == 'rejected') {
+        //         this.rejectQueue.push(() => {
+        //             reject(onRejected(this.error))
+        //         })
+        //     }
+        //     if (this.status == 'pending') {
+        //         this.resolveQueue.push(() => {
+        //             resolve(onFulfilled(this.value))
+        //         })
+        //         this.rejectQueue.push(() => {
+        //             reject(onRejected(this.error))
+        //         })
+        //     }   
+        // })
+    }
+}
+```
+
+
+
+
+
 
 
 

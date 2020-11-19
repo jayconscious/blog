@@ -77,12 +77,12 @@
 
         class MyPromise {
             constructor (executor) {
+                debugger
                 this.status = 'pending'
                 this.value = ''
                 this.error = ''
                 this.resolvsQueue = []       // 存放成功的后需要执行的函数
                 this.rejectQueue = []        // 存放失败的后需要执行的函数
-
                 const resolve = res => {
                     if (this.status == 'pending') {
                         this.status = 'fulfilled'
@@ -101,6 +101,7 @@
             }
 
             then (onFulfilled, onRejected) {
+                debugger
                 if (this.status == 'fulfilled') {
                     this.resolvsQueue.push(() => {
                         onFulfilled(this.value)
