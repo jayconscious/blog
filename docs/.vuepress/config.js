@@ -1,4 +1,5 @@
 const moment = require('moment');
+const { dontknowjs1, dontknowjs2, tstutorial } = require('./sidebarCfg')
 module.exports = {
 	head: [
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
@@ -9,119 +10,15 @@ module.exports = {
 	themeConfig: {
 		logo: '/assets/img/log.png',
 		// navbar: false   禁用所有页面的导航栏
-		nav: [
-			{ text: 'Home', link: '/' },
-			{
-				text: 'SourceCode',
-				items: [
-					{ text: 'SourceCode', link: '/sourcecode/basicjs/' },
-				]
-			},
-			{
-				text: 'Vue',
-				items: [
-					{ text: 'vue', link: '/vue/vue/' },
-					// { text: 'vueRouter', link: '/vue/vuerouter/' },
-					// { text: 'vueStore', link: '/vue/vuestore/' },
-				]
-			},
-			{
-				text: 'Reading',
-				items: [
-					{ text: '《你不知道的JavaScript》(上卷)', link: '/book/dontknowjs1/' },
-					{ text: '《你不知道的JavaScript》(中卷)', link: '/book/dontknowjs2/' },
-					{ text: '《TypeScript入门教程》', link: '/book/tstutorial/' },
-					{ text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' }
-				]
-			},
-			{
-				text: 'Others',
-				items: [
-					{ text: '服务器相关', link: '/others/server/cdn' },
-					{ text: 'Redis', link: '/others/redis/start' },
-				]
-			},
-			{ text: 'My Github', link: 'https://github.com/jayconscious' }
-		],
+		nav: require('./nav/zh'),
 		sidebar: {
-			'/others/server/': [
-				'cdn'
-			],
-			'/others/redis/': [
-				'start'
-			],
-			'/sourcecode/basicjs/': [
-				'promise'
-			],
-			'/vue/vue/': [
-				'vueDiff',
-			],
-			'/book/dontknowjs1/': [
-				{
-					title: '第一部分：作用域和闭包',   // 必要的
-					path: '/book/dontknowjs1/scope&closure/lexingscope',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 1,    // 可选的, 默认值是 1
-					children: [
-						'/book/dontknowjs1/scope&closure/lexingscope',
-						'/book/dontknowjs1/scope&closure/fnblockscope',
-						'/book/dontknowjs1/scope&closure/hoisting',
-						'/book/dontknowjs1/scope&closure/scopeclosure',
-					]
-				},
-				{
-					title: '第二部分：this和对象原型',   // 必要的
-					path: '/book/dontknowjs1/this&objectproto/aboutthis',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 1,    // 可选的, 默认值是 1
-					children: [
-						'/book/dontknowjs1/this&objectproto/aboutthis',
-						'/book/dontknowjs1/this&objectproto/analysisthis1',
-						'/book/dontknowjs1/this&objectproto/analysisthis2',
-						'/book/dontknowjs1/this&objectproto/object1',
-						'/book/dontknowjs1/this&objectproto/object2',
-						'/book/dontknowjs1/this&objectproto/object3',
-						'/book/dontknowjs1/this&objectproto/mixedobjects',
-						'/book/dontknowjs1/this&objectproto/prototype1',
-						'/book/dontknowjs1/this&objectproto/prototype2',
-						'/book/dontknowjs1/this&objectproto/actiontrust1',
-						'/book/dontknowjs1/this&objectproto/actiontrust2',
-					]
-				}
-			],
-			'/book/dontknowjs2/': [
-				// {
-				// 	title: '第一部分：类型和语法',   // 必要的
-				// 	path: '/book/dontknowjs2/type&grammar/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-				// 	collapsable: false, // 可选的, 默认值是 true,
-				// 	sidebarDepth: 1,    // 可选的, 默认值是 1
-				// 	children: [
-				// 		'/book/dontknowjs2/type&grammar/',
-				// 	]
-				// },
-				{
-					title: '第二部分：异步和性能',   // 必要的
-					path: '/book/dontknowjs2/async&performance/now&future',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 1,    // 可选的, 默认值是 1
-					children: [
-						'/book/dontknowjs2/async&performance/now&future',
-						'/book/dontknowjs2/async&performance/callback',
-						'/book/dontknowjs2/async&performance/promise'
-					]
-				}
-			],
-			'/book/tstutorial/': [
-				{
-					title: '第一部分：简介',   // 必要的
-					path: '/book/tstutorial/intro/home',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-					collapsable: false, // 可选的, 默认值是 true,
-					sidebarDepth: 1,    // 可选的, 默认值是 1
-					children: [
-						'/book/tstutorial/intro/home',
-					]
-				},
-			],
+			'/others/server/': [ 'cdn' ],
+			'/others/redis/': [ 'start' ],
+			'/sourcecode/basicjs/': [ 'promise'],
+			'/vue/vue/': [ 'vueDiff' ],
+			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
+			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
+			'/book/tstutorial/': getBookSideBar(tstutorial),
 			'/book/explainindepthnodejs/': [
 				''
 			],
@@ -147,6 +44,24 @@ module.exports = {
 				return moment(timestamp).format('llll');
 			}
 		  }
-		]
+		],
+		['@vuepress/back-to-top', true],
 	  ]
+}
+
+/**
+ * CfgList []
+ */
+function getBookSideBar (CfgList) {
+	if (Array.isArray(CfgList) && CfgList.length > 0) {
+		return CfgList.map(item => ({
+			...item,
+			collapsable: false, // 可选的, 默认值是 true,
+			sidebarDepth: 1,    // 可选的, 默认值是 1
+			path: `${item.path}${item.children[0]}`,
+			children: item.children.map(child => (
+				`${item.path}${child}`
+			))
+		}))
+	}
 }
