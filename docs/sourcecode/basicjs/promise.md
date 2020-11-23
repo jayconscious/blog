@@ -256,30 +256,96 @@ class MyPromise {
                 resolvePromise(promiseObj, data, resolve, reject)  // resolvePromise 作用是什么？
             })
         }
-
-        // return new MyPromise(function (resolve, reject) {
-        //     if (this.status == 'fulfilled') {
-        //         this.resolveQueue.push(() => {
-        //             resolve(onFulfilled(this.value))
-        //         })
-        //     }
-        //     if (this.status == 'rejected') {
-        //         this.rejectQueue.push(() => {
-        //             reject(onRejected(this.error))
-        //         })
-        //     }
-        //     if (this.status == 'pending') {
-        //         this.resolveQueue.push(() => {
-        //             resolve(onFulfilled(this.value))
-        //         })
-        //         this.rejectQueue.push(() => {
-        //             reject(onRejected(this.error))
-        //         })
-        //     }   
-        // })
+        if (this.status == 'rejected') {
+            promiseObj = new MyPromise((reaolve, reject) => {
+                let data = onRejected(this.error)
+                resolvePromise(promiseObj, data, resolve, reject)  // resolvePromise 作用是什么？
+            })
+        }
+        if (this.status == 'pending') {
+            promiseObj = new MyPromise((reaolve, reject) => {
+                this.resolveQueue.push(() => {
+                    let data = onFulfilled(this.value)
+                    resolvePromise(promiseObj, data, resolve, reject)
+                })
+                this.rejectQueue.push(() => {
+                    let data = onRejected(this.error)
+                    resolvePromise(promiseObj, data, resolve, reject)
+                })
+            })
+        }
+        return promiseObj
     }
 }
 ```
+
+::: tip
+在resolvePromise 在这个函数中，data是作为第一个then的返回值 我们要去判断 data 是否为 promise,
+- Yes,则取他的结果，作为新的 promise2 成功的结果
+- No,直接作为新的 promise2 成功的结果
+:::
+
+```js
+/**
+ * 处理promise递归的函数
+ * promiseObj {Promise} 默认返回的promise
+ * data {*} 我们自己 return 的对象
+ * resolve
+ * reject
+ */
+function resolvePromise (promiseObj, data, resolve, reject) {
+    // 循环引用报错
+    if (data === promiseObj) {
+        // reject 报错抛出
+        return reject(new TypeError('Chaining cycle detected for promise'));
+    }
+    // 锁，防止多次调用
+    let called
+    // data 不是 null 且 data 是对象或者函数
+    if (data != null && (typeof promiseObj === 'object' || typeof promiseObj === 'function')) {
+        try {
+            // A+ 规定，声明then = data的then方法
+            let then = data.then
+            if (typeof then === 'function') {  // 这是时候data就是 promise
+                // then 执行 第一个参数是 this 后面是成功的回调 和 失败的回调
+                then.call(data, y => {
+                    // 成功和失败只能调用一个
+                    if (called) return
+                    called = true
+
+                    // 核心点2：resolve 的结果依旧是 promise 那就继续递归执行
+                    resolvePromise(promise2, y, resolve, reject)
+                }, err => {
+                    // 成功和失败只能调用一个
+                    if (called) return
+                    called = true
+                    reject(err) // 失败了就失败了
+                })
+            } else {
+                resolve(data); // 直接成功即可
+            }
+        } catch (e) {
+            // 走到 catch 也属于失败
+            if (called) return
+            called = true
+            // 取then出错了那就不要在继续执行了
+            reject(e)
+        }
+    } else {
+        resolve(data)
+    }
+}
+
+```
+
+## onFulfilled 和 onRejected 的异步调用
+
+核心思路：
+
+> 用setTimeout解决异步问题
+
+
+
 
 
 

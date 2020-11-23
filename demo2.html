@@ -75,24 +75,95 @@
         //     resolve()
         // }))
 
+        // class MyPromise {
+        //     constructor (executor) {
+        //         debugger
+        //         this.status = 'pending'
+        //         this.value = ''
+        //         this.error = ''
+        //         this.resolvsQueue = []       // 存放成功的后需要执行的函数
+        //         this.rejectQueue = []        // 存放失败的后需要执行的函数
+        //         const resolve = res => {
+        //             if (this.status == 'pending') {
+        //                 this.status = 'fulfilled'
+        //                 this.value = res
+        //                 this.resolvsQueue.forEach(fn => fn())
+        //             }
+        //         }
+        //         const reject = error => {
+        //             if (this.status == 'pending') {
+        //                 this.status = 'rejected'
+        //                 this.error = error
+        //                 this.rejectQueue.forEach(fn => fn())
+        //             }
+        //         }
+        //         executor(resolve, reject)
+        //     }
+
+        //     then (onFulfilled, onRejected) {
+        //         debugger
+        //         if (this.status == 'fulfilled') {
+        //             this.resolvsQueue.push(() => {
+        //                 onFulfilled(this.value)
+        //             })
+        //         }
+        //         if (this.status == 'rejected') {
+        //             this.rejectQueue.push(() => {
+        //                 onRejected(this.value)
+        //             })
+        //         }
+        //         // How ?
+        //         if (this.status == 'pending') {
+        //             this.resolvsQueue.push(() => {
+        //                 onFulfilled(this.value)
+        //             })
+        //             this.rejectQueue.push(() => {
+        //                 onRejected(this.value)
+        //             })
+        //         }
+        //     }
+        // }
+
+        // new MyPromise(function (resolve, reject){
+        //     setTimeout(function () {
+        //         resolve('答应')
+        //     }, 1000)
+        // }).then(res => {
+        //     console.log(res)
+        // })
+
+        // then 的链式调用
+        // new Promise((resolve, reject) => {
+        //     resolve();
+        // }).then((res) => {
+        //     console.log('进入第一个then！')
+        //     return new Promise((resolve,reject)=>{
+        //         resolve('hello world');
+        //     })
+        // }).then((res) => {
+        //     console.log('进入第二个then！', res);
+        // })
+        // 目标就是每一个then的调用可以拿到上一个then的返回值
+
         class MyPromise {
             constructor (executor) {
-                debugger
                 this.status = 'pending'
                 this.value = ''
                 this.error = ''
-                this.resolvsQueue = []       // 存放成功的后需要执行的函数
-                this.rejectQueue = []        // 存放失败的后需要执行的函数
+                this.resolveQueue = []
+                this.rejectQueue = []
+
                 const resolve = res => {
                     if (this.status == 'pending') {
-                        this.status = 'fulfilled'
+                        this.status == 'fulfilled'
                         this.value = res
-                        this.resolvsQueue.forEach(fn => fn())
+                        this.resolveQueue.forEach(fn => fn())
                     }
                 }
+
                 const reject = error => {
                     if (this.status == 'pending') {
-                        this.status = 'rejected'
+                        this.status == 'rejected'
                         this.error = error
                         this.rejectQueue.forEach(fn => fn())
                     }
@@ -101,36 +172,85 @@
             }
 
             then (onFulfilled, onRejected) {
-                debugger
-                if (this.status == 'fulfilled') {
-                    this.resolvsQueue.push(() => {
-                        onFulfilled(this.value)
-                    })
-                }
-                if (this.status == 'rejected') {
-                    this.rejectQueue.push(() => {
-                        onRejected(this.value)
-                    })
-                }
-                // How ?
-                if (this.status == 'pending') {
-                    this.resolvsQueue.push(() => {
-                        onFulfilled(this.value)
-                    })
-                    this.rejectQueue.push(() => {
-                        onRejected(this.value)
-                    })
-                }
+                let promise2
+                promise2 = new MyPromise((resolve, reject) => {
+                    if (this.status === 'fulfilled') {
+                        this.resolveQueue.push(() => {
+                            let data = onFulfilled(this.value)
+                            resolvePromise(promise2, data, resolve, reject)
+                        })
+                    }
+                    if (this.status === 'rejected') {
+                        this.rejectQueue.push(() => {
+                            let data = onRejected(this.error)
+                            resolvePromise(promise2, data, resolve, reject)
+                        })
+                    }
+                    if (this.status === 'pending') {
+                        this.resolveQueue.push(() => {
+                            let data = onFulfilled(this.value)
+                            resolvePromise(promise2, data, resolve, reject)
+                        })
+                        this.rejectQueue.push(() => {
+                            let data = onRejected(this.error)
+                            resolvePromise(promise2, data, resolve, reject)
+                        })
+                    }
+                })
+
+                return promise2
             }
         }
 
-        new MyPromise(function (resolve, reject){
-            setTimeout(function () {
-                resolve('答应')
-            }, 1000)
-        }).then(res => {
-            console.log(res)
+        // 
+        function resolvePromise (promise, data, resolve, reject) {
+            // 循环引用
+            if (promise === data) {
+                return 
+            }
+
+            let called = false
+
+            if (data != null && (typeof data === 'object' || typeof data === 'function')) {
+                try {
+                    let then = data.then
+
+                    if (typeof then === 'function') {
+                        then.call(data, y => {
+                            if (called) return
+                            called = true
+                            resolvePromise(promise2, y, resolve, reject)
+                        }, err => {
+                            if (called) return 
+                            called = true
+                            reject(err)
+                        })
+                    } else {
+                        // 是对象
+                        resolve(data)
+                    }
+                } catch (e) {
+                    if (called) return
+                    called = true
+                    reject(e)
+                }
+            } else {
+                resolve(data)
+            }
+        }
+
+        new MyPromise((resolve, reject) => {
+            resolve();
+        }).then((res) => {
+            console.log('进入第一个then！')
+            return new MyPromise((resolve,reject)=>{
+                resolve('hello world');
+            })
+        }).then((res) => {
+            console.log('进入第二个then！', res);
         })
+
+
     </script>
 </body>
 </html>
