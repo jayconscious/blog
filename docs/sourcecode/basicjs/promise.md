@@ -224,57 +224,58 @@ class MyPromise {
 class MyPromise {
     constructor (executor){
         this.status = 'pending'
-        this.resolveQueue = []
-        this.rejectQueue = []
         this.value = ''
         this.error = ''
-
+        this.resolveQueue = []
+        this.rejectQueue = []
         const resolve = res => {
-            if (this.status == 'pending') {
-                this.status == 'fulfilled'
+            if (this.status === 'pending') {
+                this.status = 'fulfilled'
                 this.value = res
                 this.resolveQueue.forEach(fn => fn())
             }
         }
-
-         const reject = error => {
-            if (this.status == 'pending') {
-                this.status == 'rejected'
-                this.error = error
+        const reject = err => {
+            if (this.status === 'pending') {
+                this.status = 'rejected'
+                this.error = err
                 this.rejectQueue.forEach(fn => fn())
             }
         }
         executor(resolve, reject)
     }
-
+    // 偶有的函数执行都是在resolve 这一步做的
     then (onFulfilled, onRejected) {
-        let promiseObj;
-
-        if (this.status == 'fulfilled') {
-            promiseObj = new MyPromise((resolve, reject) => {
-                let data = onFulfilled(this.value)
-                resolvePromise(promiseObj, data, resolve, reject)  // resolvePromise 作用是什么？
-            })
-        }
-        if (this.status == 'rejected') {
-            promiseObj = new MyPromise((reaolve, reject) => {
-                let data = onRejected(this.error)
-                resolvePromise(promiseObj, data, resolve, reject)  // resolvePromise 作用是什么？
-            })
-        }
-        if (this.status == 'pending') {
-            promiseObj = new MyPromise((reaolve, reject) => {
+        let promise2
+        promise2 = new Promise((resolve, reject) => {
+            if (this.status === "fulfilled") {
+                // 前一个promise的状态已经改变就不需要 Push 了
+                let x = onFullfilled(this.value)
+                resolvePromise(promise2, x, resolve, reject)
+            }
+            if (this.status === "rejected") {
+                // 前一个promise的状态已经改变就不需要 Push 了
+                let x = onRejected(this.error)
+                resolvePromise(promise2, x, resolve, reject)
+            }
+            if (this.status === 'pending') {
                 this.resolveQueue.push(() => {
-                    let data = onFulfilled(this.value)
-                    resolvePromise(promiseObj, data, resolve, reject)
+                    // 这个回调函数的这行有多种可能性, 还有在写onFulfilled 必须要 return 这个值x
+                    // 1. x = 普通对象
+                    // 2. x = promise对象
+                    let x = onFulfilled(this.value)
+                    resolvePromise(promise2, x, resolve, reject)
                 })
                 this.rejectQueue.push(() => {
-                    let data = onRejected(this.error)
-                    resolvePromise(promiseObj, data, resolve, reject)
+                    // 这个回调函数的这行有多种可能性, 还有在写onFulfilled 必须要 return 这个值x
+                    // 1. x = 普通对象
+                    // 2. x = promise对象
+                    let x = onRejected(this.error)
+                    resolvePromise(promise2, x, resolve, reject)
                 })
-            })
-        }
-        return promiseObj
+            }
+        })
+        return promise2
     }
 }
 ```
@@ -293,49 +294,40 @@ class MyPromise {
  * resolve
  * reject
  */
-function resolvePromise (promiseObj, data, resolve, reject) {
-    // 循环引用报错
-    if (data === promiseObj) {
+function resolvePromise (promise2, x, resolve, reject) {
+    // 1.判断x对象是否为promise对象
+    if (promise2 === x) {
+        // 循环引用
         // reject 报错抛出
         return reject(new TypeError('Chaining cycle detected for promise'));
     }
-    // 锁，防止多次调用
-    let called
-    // data 不是 null 且 data 是对象或者函数
-    if (data != null && (typeof promiseObj === 'object' || typeof promiseObj === 'function')) {
+    let called = false
+    // x 即为 promise
+    if (x !== null && (typeof x == 'object' || typeof x == 'function') ) {
         try {
-            // A+ 规定，声明then = data的then方法
-            let then = data.then
-            if (typeof then === 'function') {  // 这是时候data就是 promise
-                // then 执行 第一个参数是 this 后面是成功的回调 和 失败的回调
-                then.call(data, y => {
-                    // 成功和失败只能调用一个
+            let then = x.then
+            if (typeof then === 'function') {
+                then.call(x, y => {
                     if (called) return
                     called = true
-
-                    // 核心点2：resolve 的结果依旧是 promise 那就继续递归执行
                     resolvePromise(promise2, y, resolve, reject)
-                }, err => {
-                    // 成功和失败只能调用一个
+                }, (e) => {
                     if (called) return
                     called = true
-                    reject(err) // 失败了就失败了
+                    reject(e)
                 })
             } else {
-                resolve(data); // 直接成功即可
+                resolve(x)
             }
         } catch (e) {
-            // 走到 catch 也属于失败
             if (called) return
             called = true
-            // 取then出错了那就不要在继续执行了
             reject(e)
         }
     } else {
-        resolve(data)
+        resolve(x)
     }
 }
-
 ```
 
 ## onFulfilled 和 onRejected 的异步调用
@@ -344,7 +336,11 @@ function resolvePromise (promiseObj, data, resolve, reject) {
 
 > 用setTimeout解决异步问题
 
+代码如下：
 
+```js
+
+```
 
 
 
