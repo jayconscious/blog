@@ -1,5 +1,4 @@
 module.exports = [
-    // { text: 'Home', link: '/' },
     {
         text: '源码',
         items: [
