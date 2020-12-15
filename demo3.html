@@ -16,7 +16,6 @@
 
     <script>
         const curVue = new Vue({
-            el: '#app',
             data: {
                 list: [1, 2, 3]
             },
@@ -25,10 +24,11 @@
                     console.log(this.list)
                     this.list.splice(index, 1)
                 }
-            }
-        })
+            },
+        }).$mount('#app')
+
         console.log(curVue)
-        // .$mount('#app')
+        console.log(curVue.$options.render.toString())
     </script>
 </body>
 </html>
