@@ -8,29 +8,34 @@
 
 </head>
 <body>
-    <div id="app">
-        <ul>
-            <li v-for="(item, index) in list" :key="index" v-on:click="del(index)"></li>
-        </ul>
-    </div>
+    <div id="app" v-on:click="onShow"><template v-for="item in list"><li :key="item"></li></template><span>haha</span><template v-for="item in table"><div :key="item"></div></template></div>
 
     <script>
         const curVue = new Vue({
             data: {
-                list: [1, 2, 3]
+                list: [],
+                isShow: true,
+                table: [1]
             },
             methods: {
                 del (index) {
-                    console.log(this.list)
-                    this.list.splice(index, 1)
+                    this.isShow = false
+                    // console.log(this.list)
+                    // this.list.splice(index, 1)
+                },
+                onShow () {
+                    this.list.push(1)
+                    this.table.pop()
+                    // this.isShow = false
                 }
             },
         }).$mount('#app')
 
-        console.log(curVue)
-        console.log(curVue.$options.render.toString())
+        // console.log(curVue)
+        // console.log(curVue.$options.render.toString())
 
         
     </script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
 </body>
 </html>
