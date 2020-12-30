@@ -8,10 +8,15 @@
 
 </head>
 <body>
-    <div id="app" v-on:click="onShow"><template v-for="item in list"><li :key="item"></li></template><span>haha</span><template v-for="item in table"><div :key="item"></div></template></div>
+    <div id="app" v-on:click="onShow"></div>
 
     <script>
         const curVue = new Vue({
+            render: function (createElement) {
+                // 也可以使用 this.$createElement 创建 VNode
+                // return createElement.call(this, 'div', 'hellow world');
+                return this.$createElement('div', 'hello world')
+            },
             data: {
                 list: [],
                 isShow: true,
@@ -31,8 +36,8 @@
             },
         }).$mount('#app')
 
-        // console.log(curVue)
-        // console.log(curVue.$options.render.toString())
+        console.log(curVue)
+        console.log(curVue.$options.render.toString())
 
         
     </script>
