@@ -1,29 +1,14 @@
 ## <a href="https://jayconscious.github.io/blog/" target="_blank">Jayconscious Blog</a>
 > 记录个人学习和成长
 
-### Reading
-《你不知道的JavaScript》(上卷)
-  1.  第一部分：作用域和闭包
-  - [作用域是什么](https://jayconscious.github.io/blog/book/dontknowjs1/scope&closure/scope.html)
-  - [词法作用域](https://jayconscious.github.io/blog/book/dontknowjs1/scope&closure/lexingscope.html)
-  - [函数作用域和块作用域](https://jayconscious.github.io/blog/book/dontknowjs1/scope&closure/fnblockscope.html)
-  - [提升](https://jayconscious.github.io/blog/book/dontknowjs1/scope&closure/hoisting.html)
-  - [作用域闭包](https://jayconscious.github.io/blog/book/dontknowjs1/scope&closure/scopeclosure.html)
+### vue2
+- [vue2.x](https://jayconscious.github.io/blog/vue2/vue2/)
+
+
+### 读书
+
+- [《你不知道的JavaScript》(上卷)](https://jayconscious.github.io/blog/book/dontknowjs1/)
   
-  2.  第二部分：this和对象原型
-  - [关于this](https://jayconscious.github.io/blog/book/dontknowjs1/this&objectproto/aboutthis.html)
-  - [this全面解析(上)](https://jayconscious.github.io/blog/book/dontknowjs1/this&objectproto/analysisthis1.html)
-  - [this全面解析(下)](https://jayconscious.github.io/blog/book/dontknowjs1/this&objectproto/analysisthis2.html)
-  - [对象(上)](https://jayconscious.github.io/blog/book/dontknowjs1/this&objectproto/object1.html)
-  - [对象(中)](https://jayconscious.github.io/blog/book/dontknowjs1/this&objectproto/object2.html)
-  - [对象(下)](https://jayconscious.github.io/blog/book/dontknowjs1/this&objectproto/object3.html)
-
-  - [混合对象“类”](https://jayconscious.github.io/blog/book/dontknowjs1/sthis&objectproto/mixedobjects.html)
-  - [原型(上)](https://jayconscious.github.io/blog/book/dontknowjs1/sthis&objectproto/prototype1.html)
-  - [原型(下)](https://jayconscious.github.io/blog/book/dontknowjs1/sthis&objectproto/prototype2.html)
-
-  - [行为委托(上)](https://jayconscious.github.io/blog/book/dontknowjs1/sthis&objectproto/actiontrust1.html)
-  - [行为委托(下)](https://jayconscious.github.io/blog/book/dontknowjs1/sthis&objectproto/actiontrust2.html)
 
 
 

@@ -16,7 +16,7 @@ module.exports = {
 			'/others/server/': [ 'cdn' ],
 			'/others/redis/': [ 'start' ],
 			'/sourcecode/basicjs/': [ 'promise'],
-			'/vue/vue/': [ 'vueDiff' ],
+			'/vue2/vue2/': [ 'vueDiff' ],
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),

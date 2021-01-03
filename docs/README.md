@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: 
+herodontknowjs1: 
 heroText: Welcome To My Channel~
 tagline: 
 actionText: Let's Go ~
