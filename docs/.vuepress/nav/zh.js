@@ -1,8 +1,8 @@
 module.exports = [
     {
-        text: '源码',
+        text: 'javascript',
         items: [
-            { text: '源码', link: '/sourcecode/basicjs/' },
+            { text: 'js', link: '/javascript/basicjs/' },
         ]
     },
     {

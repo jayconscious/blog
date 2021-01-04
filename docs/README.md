@@ -8,5 +8,5 @@ actionLink: ./guide/index.md
 features:
 - title: 胖胖的Blob
   details: 胖胖的Blob。
-footer: MIT Licensed | Copyright © 2018-present jayconscious
+footer: MIT Licensed | Copyright © 2020-2021 jayconscious
 ---
