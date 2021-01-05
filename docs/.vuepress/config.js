@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { dontknowjs1, dontknowjs2, tstutorial } = require('./sidebarCfg')
+const { vue2, dontknowjs1, dontknowjs2, tstutorial } = require('./sidebarCfg')
 
 module.exports = {
 	head: [
@@ -16,7 +16,7 @@ module.exports = {
 			'/others/server/': [ 'cdn' ],
 			'/others/redis/': [ 'start' ],
 			'/javascript/basicjs/': [ 'promise'],
-			'/vue2/vue2/': [ 'vueDiff', 'dataisfn' ],
+			'/vue2/vue2/': getBookSideBar(vue2),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),

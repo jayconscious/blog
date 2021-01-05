@@ -1,4 +1,14 @@
 module.exports = {
+    // vue2.x
+    vue2: [{
+        title: '源码分析',
+        path: '/vue2/vue2/sourcecode/',
+        children: ['vueDiff']
+    },{
+        title: '问题解答',
+        path: '/vue2/vue2/question/',
+        children: [ 'dataIsFn', 'checkDupKeys' ]
+    }],
     // 《你不知道的JavaScript》(上卷)
     dontknowjs1: [{
         title: '第一部分：作用域和闭包',
@@ -22,5 +32,4 @@ module.exports = {
             children: [ 'home' ]
         },
     ],
-
 }
