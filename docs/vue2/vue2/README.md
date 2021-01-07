@@ -4,6 +4,7 @@
 
 ### 源码相关
 1. [virtual DOM && Diff](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/vueDiff.html)
+2. [异步渲染](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/asyncRender.html)
 
 
 ### 问题相关
