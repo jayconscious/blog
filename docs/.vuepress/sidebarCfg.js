@@ -3,11 +3,11 @@ module.exports = {
     vue2: [{
         title: '源码分析',
         path: '/vue2/vue2/sourcecode/',
-        children: ['vueDiff']
+        children: ['vueDiff', 'asyncRender']
     },{
         title: '问题解答',
         path: '/vue2/vue2/question/',
-        children: [ 'dataIsFn', 'checkDupKeys' ]
+        children: [ 'dataIsFn', 'checkDupKeys', 'aboutNextTick' ]
     }],
     // 《你不知道的JavaScript》(上卷)
     dontknowjs1: [{
