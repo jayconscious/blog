@@ -3,7 +3,7 @@ module.exports = {
     vue2: [{
         title: '源码分析',
         path: '/vue2/vue2/sourcecode/',
-        children: ['vueDiff', 'asyncRender']
+        children: ['vueDiff', 'reactivityInDepth', 'asyncRender' ]
     },{
         title: '问题解答',
         path: '/vue2/vue2/question/',

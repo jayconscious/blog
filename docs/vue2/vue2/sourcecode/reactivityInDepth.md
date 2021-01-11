@@ -1,25 +1,65 @@
 # 深入响应式原理
 
-### 背景
-`Vue` 最独特的特性之一，是其非侵入性的响应式系统。数据模型仅仅是普通的 `JavaScript` 对象。而当你修改它们时，视图会进行更新。
+### 什么是数据响应式
+
+在上古(jq)时代，比如我们要渲染一个列表是，我们需要借助DOM操作(jq)和模板引擎(underscore…)，结合数据来完成，非常的繁琐。有了 vue 的之后，借助数据响应式系统，只需要 <div v-for=“item in list”></div> 就可以完成。这个简单的demo, 体现了 Vue.js 一个核心思想就是数据驱动。所谓数据驱动，是指视图是由数据驱动生成的，我们对视图的修改，不会直接操作 DOM，而是通过修改数据。接下来我们，深入源码分析这一部分。这个过程大致分为三个部分`让数据变成响应式`、`依赖收集` 和 `派发更新`。
+
+### 什么是数据响应式
+
+这里我们借助官网的一张图，如下图：
+
+![image](/blog/assets/img/vue2/reactivity/reactivity.png)
+
+在渲染时，`vm._update()`方法重新渲染，这个会 `touch` 到模板中的数据，会发响应数据的 `get` 函数，收集本次渲染的依赖。收集依赖和更新派发都是基于 `Watcher` 观察者。在我们给某些数据进行复制操作时，会触发响应数据的 `set` 函数，`set` 会调用 `dep.notify()`，通知依赖它的 `watcher`, 触发试图更新。
+
+总之数据驱动的核心，就是通过 `Object.defineProperty` 方法去重写数据的`get`和`set`属性描述符，**让数据在被渲染时把所有用到自己的订阅者存放在自己的订阅者列表中，当数据发生变化时将该变化通知到所有订阅了自己的订阅者**，达到重新渲染的目的。
 
 
-### 如何追踪变化
+### 让数据变成响应式
 
-当你把一个普通的 `JavaScript` 对象传入 `Vue` 实例作为 `data` 选项，`Vue` 将遍历此对象所有的 `property`，并使用 `Object.defineproperty` 把这些 `property` 全部转为 `getter/setter`。`Object.defineproperty` 是 `ES5` 中一个无法 `shim(垫片)` 的特性，这也就是 `Vue` 不支持 `IE8` 以及更低版本浏览器的原因。
+Vue 的数据响应式原理是 `ES5` 内置对象方法 `Object.defineProperty`(一些浏览器上不支持的，IE8: 大家都看我干吗？) 来实现的。[这个方法的作用是在一个对象上定义一个新属性，或者修改一个对象的现有属性。](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)，在新的vue3当前是使用了 `ES6` 的 `Proxy`代替了它。接下来我们理清整个响应式的初始化链路，如下图：
 
-这些 `getter/setter` 对用户来说是不可见的，但是在内部它们让 `Vue` 能够追踪依赖，在 `property` 被访问和修改时通知变更。这里需要注意的是不同浏览器在控制台打印数据对象时对 `getter/setter` 的格式化并不同，所以建议安装 `vue-devtools` 来获取对检查数据更加友好的用户界面。
+![image](/blog/assets/img/vue2/reactivity/defineProperty.png)
 
-每个组件实例都对应一个 `watcher` 实例，它会在组件渲染的过程中把“接触”过的数据 `property` 记录为依赖。之后当依赖项的 `setter` 触发时，会通知 `watcher`，从而使它关联的组件重新渲染。
+##### Vue的初始化
 
-::: tip
-以上来自官网的解答，了解一个东西，最好是去官网看相关的文档，然后就是去 debug 一个 MPV (最小可运行的逻辑单元)，如果源码的入手难度较大，可以从单元测试入手，如果还是很难的话，可以从别人的解析文章入手，其实这种方式是我最不推荐的。
-:::
+```js
+function Vue(options) {
+    if (!(this instanceof Vue)) {
+        warn('Vue is a constructor and should be called with the `new` keyword');
+    }
+    this._init(options);
+}
+
+initMixin(Vue);
+stateMixin(Vue);
+eventsMixin(Vue);
+lifecycleMixin(Vue);
+renderMixin(Vue);
+// ...
+```
+上述的代码中，我们可以看到 `new Vue` 时，实际上调用了 `this._init(options)` 这个方法，`_init` 这个方法是在 `initMixin(Vue)`时，添加到 `Vue.prototype` 上的。`_init` 中有调用了一堆初始化的方法，关于响应式的主要是在 `initState` 中。
+
+```js
+function initState(vm) {
+    vm._watchers = [];
+    var opts = vm.$options;
+    if (opts.props) { initProps(vm, opts.props); }
+    if (opts.methods) { initMethods(vm, opts.methods); }
+    if (opts.data) {
+        initData(vm);
+    } else {
+        observe(vm._data = {}, true /* asRootData */ );
+    }
+    if (opts.computed) { initComputed(vm, opts.computed); }
+    if (opts.watch && opts.watch !== nativeWatch) { initWatch(vm, opts.watch); }
+}
+```
+
+##### 将options.data 变为响应式
 
 
-<!-- 我们将这一部分的代码分析大致分为三部分：让数据变成响应式、依赖收集 和 派发更新。 -->
 
-### 数据响应式的中心思想
 
 
 
