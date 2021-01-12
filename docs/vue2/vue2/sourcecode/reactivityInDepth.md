@@ -58,6 +58,121 @@ function initState(vm) {
 
 ##### 将options.data 变为响应式
 
+在上述的 `initState` 方法中，主要是对 `props`，`methods`，`data`，`computed`，`watch`进行了相关初始化操作，除了 `methods`，其他都会变成响应式。我们主要看一下 `initData` 做了哪些事情。
+
+```js
+function initData(vm) {
+    var data = vm.$options.data;
+    data = vm._data = typeof data === 'function' ?
+        getData(data, vm) :
+        data || {};
+    if (!isPlainObject(data)) {
+        data = {};
+        warn(
+            'data functions should return an object:\n' +
+            'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
+            vm
+        );
+    }
+    // proxy data on instance
+    var keys = Object.keys(data);
+    var props = vm.$options.props;
+    var methods = vm.$options.methods;
+    var i = keys.length;
+    while (i--) {
+        var key = keys[i]; {
+            if (methods && hasOwn(methods, key)) {
+                warn(
+                    ("Method \"" + key + "\" has already been defined as a data property."),
+                    vm
+                );
+            }
+        }
+        if (props && hasOwn(props, key)) {
+            warn(
+                "The data property \"" + key + "\" is already declared as a prop. " +
+                "Use prop default value instead.",
+                vm
+            );
+        } else if (!isReserved(key)) {
+            proxy(vm, "_data", key);
+        }
+    }
+    // observe data
+    observe(data, true /* asRootData */ );
+}
+```
+上述的 `initData` 主要是对 `$options.data` 处理，主要有两个功能：
+
+1. **将 `data` 挂载到 `vm` 示例上**，同时检查 `data`中的 `key`是否与 `props` 和 `methods` 中的 `key`有冲突
+2. `observe(data, true)`，使用 `observe`方法将 `data` 成为响应式。
+- 检查 `data` 属性是否是一个函数，对于组件来说<!-- Todo： 前面做了什么 -->
+- 遍历过程将会使用 `hasOwn(methods, key)`、`hasOwn(props, key)`、`!isReserved(key)` 方法对该数据是否占用保留字、是否与 `props` 和 `methods` 中的属性重名进行判断，然后调用 `proxy` 方法将其代理到 `Vue` 实例上。<!-- Todo： 为什么要挂载到 vue proxy  -->
+
+::: tip
+如果 data 中的属性与 props、methods 中的属性重名，那么在 Vue 实例上调用这个属性时的优先级顺序是 props > methods > data
+:::
+
+
+最后对每一个 data 中的属性调用 observe 方法，该方法的功能是赋予 data 中的属性可被监测的特性。observe 方法主要是调用 Observer 类构造方法，将每一个 data 中的 value 变成可观察、响应式的：
+
+```js
+ var Observer = function Observer(value) {
+    this.value = value;
+    this.dep = new Dep();
+    this.vmCount = 0;
+    def(value, '__ob__', this);
+    if (Array.isArray(value)) {
+        if (hasProto) {
+            protoAugment(value, arrayMethods);
+        } else {
+            copyAugment(value, arrayMethods, arrayKeys);
+        }
+        this.observeArray(value);
+    } else {
+        this.walk(value);
+    }
+}
+```
+初始化 `Observer`，有一下几个步骤：
+- 针对当前的数据对象新建一个订阅器；
+- 为每个数据的 `value` 都添加一个 `__ob__` 属性，该属性不可枚举并指向自身；
+- 针对数组类型的数据进行单独处理（包括赋予其数组的属性和方法，以及 `observeArray` 进行的数组类型数据的响应式）；
+- `this.walk(value)`，遍历对象的 `key` 调用 `defineReactive` 方法；
+
+`defineReactive` 是真正为数据添加 `get` 和 `set` 属性方法的方法，它将 `data` 中的数据定义一个响应式对象，并给该对象设置 `get` 和 `set` 属性方法，其中 `get` 方法是对依赖进行收集， `set` 方法是当数据改变时通知 `Watcher` 派发更新。
+
+
+##### 依赖收集
+
+为什么要做依赖收集，因为不知道是不是所有声明的数据都会在页面渲染时用到。基于这样的场景，所以在 `touch` 页面渲染会触发相关数据的 `get` 方法，通过 `get` 方法进行依赖的收集。
+
+我们来看一下 `defineReactive$$1` 中，对 `value` 的 `get`属性描述符是如何定义的。
+
+```js
+get: function reactiveGetter() {
+    var value = getter ? getter.call(obj) : val;
+    if (Dep.target) {
+        dep.depend();
+        if (childOb) {
+            childOb.dep.depend();
+            if (Array.isArray(value)) {
+                dependArray(value);
+            }
+        }
+    }
+    return value
+},
+```
+
+
+
+
+
+
+
+
+
 
 
 
