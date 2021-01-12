@@ -4,7 +4,7 @@
 
 在上古(jq)时代，比如我们要渲染一个列表是，我们需要借助DOM操作(jq)和模板引擎(underscore…)，结合数据来完成，非常的繁琐。有了 vue 的之后，借助数据响应式系统，只需要 <div v-for=“item in list”></div> 就可以完成。这个简单的demo, 体现了 Vue.js 一个核心思想就是数据驱动。所谓数据驱动，是指视图是由数据驱动生成的，我们对视图的修改，不会直接操作 DOM，而是通过修改数据。接下来我们，深入源码分析这一部分。这个过程大致分为三个部分`让数据变成响应式`、`依赖收集` 和 `派发更新`。
 
-### 什么是数据响应式
+### 数据响应式整体原理
 
 这里我们借助官网的一张图，如下图：
 
@@ -21,7 +21,7 @@ Vue 的数据响应式原理是 `ES5` 内置对象方法 `Object.defineProperty`
 
 ![image](/blog/assets/img/vue2/reactivity/defineProperty.png)
 
-##### Vue的初始化
+#### Vue的初始化
 
 ```js
 function Vue(options) {
@@ -56,7 +56,7 @@ function initState(vm) {
 }
 ```
 
-##### 将options.data 变为响应式
+### 将options.data 变为响应式
 
 在上述的 `initState` 方法中，主要是对 `props`，`methods`，`data`，`computed`，`watch`进行了相关初始化操作，除了 `methods`，其他都会变成响应式。我们主要看一下 `initData` 做了哪些事情。
 
@@ -143,7 +143,7 @@ function initData(vm) {
 `defineReactive` 是真正为数据添加 `get` 和 `set` 属性方法的方法，它将 `data` 中的数据定义一个响应式对象，并给该对象设置 `get` 和 `set` 属性方法，其中 `get` 方法是对依赖进行收集， `set` 方法是当数据改变时通知 `Watcher` 派发更新。
 
 
-##### 依赖收集
+### 依赖收集
 
 为什么要做依赖收集，因为不知道是不是所有声明的数据都会在页面渲染时用到。基于这样的场景，所以在 `touch` 页面渲染会触发相关数据的 `get` 方法，通过 `get` 方法进行依赖的收集。
 
