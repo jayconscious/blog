@@ -165,6 +165,110 @@ get: function reactiveGetter() {
 },
 ```
 
+在触发 `get` 函数时，调用了 `dep.depend()`，这是依赖收集的过程，或者是说订阅者添加依赖订阅，流程如下图：
+
+![image](/blog/assets/img/vue2/reactivity/addDep.png)
+
+首先这里我们要搞清楚谁是依赖，谁是订阅，`watcher`类 就是依赖，因为它依赖于数据，`Dep`类就是订阅，会将依赖放在自己的订阅者`subs`列表中管理。
+
+这里有点抽象，我们来举个🌰：
+
+假如当前渲染的组件 `User` ,它的`template`模板 `{{ name }}`,依赖了自己的 `data` 中的 `name`。`User`组件渲染会产生的 `watcher`, 通过 `pushTarget` 方法，赋值在 `Dep.target` 上， 由 `name`实例化的订阅器在调用`dep.depend`，其实调用了  `watcher.addDep(dep) => dep.addSub(watcher)`，后面这一步，我们可以看到，`name`订阅器将 `User`依赖(`watcher`)添加到了自己的订阅者列表中，这样就完成了依赖收集的过程了。
+
+### Dep 订阅器
+
+上面只是简单介绍了`Dep` 参与了数据依赖的过程，具体来看看`Dep`类是如何实现的。
+
+```js
+var Dep = function Dep() {
+    this.id = uid++;
+    this.subs = [];
+};
+Dep.prototype.addSub = function addSub(sub) {
+    this.subs.push(sub);
+};
+Dep.prototype.removeSub = function removeSub(sub) {
+    remove(this.subs, sub);
+};
+Dep.prototype.depend = function depend() {
+    if (Dep.target) {
+        Dep.target.addDep(this);
+    }
+};
+Dep.prototype.notify = function notify() {
+    var subs = this.subs.slice();
+    if (!config.async) {
+        subs.sort(function (a, b) {
+            return a.id - b.id;
+        });
+    }
+    for (var i = 0, l = subs.length; i < l; i++) {
+        subs[i].update();
+    }
+};
+```
+`Dep`类中主要与三个属性：`id`，`subs`，`target`，分别表示当前订阅器的标识，订阅者列表以及当前的订阅者。此外还提供一些添加，删除，通知订阅者的方法。
+
+这里重点说明一点 `Dep.target`，指的是当前全局的唯一订阅者。这个订阅者是有一个订阅者栈 `targetStack`，当某一个组件执行到某个生命周期的 `hook` 时（例如 mountComponent），会将当前目标订阅者 `target` 置为这个 `watcher`，并将其压入 `targetStack` 栈顶。
+
+所以这里很显然 `Dep.target.addDep(this)` 就是 `watcher.addDep(dep)`，我们来看看 `Watcher` 类中的这个方法做了哪些事情。
+```js
+Watcher.prototype.addDep = function addDep(dep) {
+    var id = dep.id;
+    if (!this.newDepIds.has(id)) {
+        this.newDepIds.add(id);
+        this.newDeps.push(dep);
+        if (!this.depIds.has(id)) {
+            dep.addSub(this);
+        }
+    }
+}
+```
+`newDepIds` 是当前数据依赖 `dep` 的 `id` 列表，`newDeps` 是当前数据依赖 `dep` 列表，`depsId` 则是上一个 `tick`(疑问：tick是什么，后面我们会解释的) 的数据依赖的 `id` 列表。在这里可以简单理解为 `User`又添加其他的数据依赖，比如 `family`，所以之前的数据订阅和现在的数据订阅会有所不同，如果之前有了就不必添加到这个数据的订阅者列表了。
+
+
+### Watcher.target 何时产生的
+
+上述的过程描述中我们一定会疑惑 `Watcher.target` 是何时挂在的。这里主要涉及到了 `mountComponent` 这个方法。组件挂载时会调用此方法。
+
+```js
+function mountComponent( vm, el, hydrating ) {
+    vm.$el = el;
+    if (!vm.$options.render) {
+        // ...
+    }
+    callHook(vm, 'beforeMount');
+    var updateComponent;
+    /* istanbul ignore if */
+    if (config.performance && mark) {
+        updateComponent = function () {
+            // 初次渲染，生成 vNode
+        };
+    } else {
+        updateComponent = function () {
+            // 更新渲染
+            vm._update(vm._render(), hydrating);
+        };
+    }
+    new Watcher(vm, updateComponent, noop, {
+        before: function before() {
+            if (vm._isMounted && !vm._isDestroyed) {
+                callHook(vm, 'beforeUpdate');
+            }
+        }
+    }, true /* isRenderWatcher */ );
+    // ...
+    return vm
+}
+```
+
+
+
+
+
+
+
+
 
 
 
