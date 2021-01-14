@@ -1,10 +1,10 @@
 # 深入响应式原理
 
-### 什么是数据响应式
+## 什么是数据响应式
 
 在上古(jq)时代，比如我们要渲染一个列表是，我们需要借助DOM操作(jq)和模板引擎(underscore…)，结合数据来完成，非常的繁琐。有了 vue 的之后，借助数据响应式系统，只需要 <div v-for=“item in list”></div> 就可以完成。这个简单的demo, 体现了 Vue.js 一个核心思想就是数据驱动。所谓数据驱动，是指视图是由数据驱动生成的，我们对视图的修改，不会直接操作 DOM，而是通过修改数据。接下来我们，深入源码分析这一部分。这个过程大致分为三个部分`让数据变成响应式`、`依赖收集` 和 `派发更新`。
 
-### 数据响应式整体原理
+## 数据响应式整体原理
 
 这里我们借助官网的一张图，如下图：
 
@@ -15,13 +15,13 @@
 总之数据驱动的核心，就是通过 `Object.defineProperty` 方法去重写数据的`get`和`set`属性描述符，**让数据在被渲染时把所有用到自己的订阅者存放在自己的订阅者列表中，当数据发生变化时将该变化通知到所有订阅了自己的订阅者**，达到重新渲染的目的。
 
 
-### 让数据变成响应式
+## 让数据变成响应式
 
 Vue 的数据响应式原理是 `ES5` 内置对象方法 `Object.defineProperty`(一些浏览器上不支持的，IE8: 大家都看我干吗？) 来实现的。[这个方法的作用是在一个对象上定义一个新属性，或者修改一个对象的现有属性。](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)，在新的vue3当前是使用了 `ES6` 的 `Proxy`代替了它。接下来我们理清整个响应式的初始化链路，如下图：
 
 ![image](/blog/assets/img/vue2/reactivity/defineProperty.png)
 
-#### Vue的初始化
+### Vue的初始化
 
 ```js
 function Vue(options) {
@@ -56,7 +56,7 @@ function initState(vm) {
 }
 ```
 
-### 将options.data 变为响应式
+## 将options.data 变为响应式
 
 在上述的 `initState` 方法中，主要是对 `props`，`methods`，`data`，`computed`，`watch`进行了相关初始化操作，除了 `methods`，其他都会变成响应式。我们主要看一下 `initData` 做了哪些事情。
 
@@ -143,7 +143,7 @@ function initData(vm) {
 `defineReactive` 是真正为数据添加 `get` 和 `set` 属性方法的方法，它将 `data` 中的数据定义一个响应式对象，并给该对象设置 `get` 和 `set` 属性方法，其中 `get` 方法是对依赖进行收集， `set` 方法是当数据改变时通知 `Watcher` 派发更新。
 
 
-### 依赖收集
+## 依赖收集
 
 为什么要做依赖收集，因为不知道是不是所有声明的数据都会在页面渲染时用到。基于这样的场景，所以在 `touch` 页面渲染会触发相关数据的 `get` 方法，通过 `get` 方法进行依赖的收集。
 
@@ -175,7 +175,7 @@ get: function reactiveGetter() {
 
 假如当前渲染的组件 `User` ,它的`template`模板 `{{ name }}`,依赖了自己的 `data` 中的 `name`。`User`组件渲染会产生的 `watcher`, 通过 `pushTarget` 方法，赋值在 `Dep.target` 上， 由 `name`实例化的订阅器在调用`dep.depend`，其实调用了  `watcher.addDep(dep) => dep.addSub(watcher)`，后面这一步，我们可以看到，`name`订阅器将 `User`依赖(`watcher`)添加到了自己的订阅者列表中，这样就完成了依赖收集的过程了。
 
-### Dep 订阅器
+## Dep 订阅器
 
 上面只是简单介绍了`Dep` 参与了数据依赖的过程，具体来看看`Dep`类是如何实现的。
 
@@ -227,7 +227,7 @@ Watcher.prototype.addDep = function addDep(dep) {
 `newDepIds` 是当前数据依赖 `dep` 的 `id` 列表，`newDeps` 是当前数据依赖 `dep` 列表，`depsId` 则是上一个 `tick`(疑问：tick是什么，后面我们会解释的) 的数据依赖的 `id` 列表。在这里可以简单理解为 `User`又添加其他的数据依赖，比如 `family`，所以之前的数据订阅和现在的数据订阅会有所不同，如果之前有了就不必添加到这个数据的订阅者列表了。
 
 
-### Watcher.target 何时产生的
+## Watcher.target 何时产生的
 
 上述的过程描述中我们一定会疑惑 `Watcher.target` 是何时挂在的。这里主要涉及到了 `mountComponent` 这个方法。组件挂载时会调用此方法。
 
@@ -331,7 +331,7 @@ function popTarget() {
 这里有一个闭包变量 `targetStack` 来存储 `watcher`，`pushTarget`把当前的 `watcher` 压入 `targetStack` 栈中。并且把当前的订阅器 `Dep.target` 指向当前的 `watcher`。此外我们的渲染函数挂载在 `watcher.getter` 上，`this.getter.call(vm, vm)` 渲染完成之后，当前的 `watcher`会被弹出栈，并且会清除所有的订阅器。因为 `watcher`所依赖的数据，是由模板决定的，模板所要依赖的数据是由用户编写的逻辑决定的，每次重新渲染的时候再去收集数据。如果在数据的订阅器中已经有了当前的 `watcher` 是不会添加到自己的 `subs` 订阅者列表中的。
 
 
-### 派发更新
+## 派发更新
 
 <!-- Todo 添加一张流程图 -->
 
@@ -462,6 +462,6 @@ function flushSchedulerQueue() {
 ```
 在 `flushSchedulerQueue`中，先将 `queue` 中的 `watcher` 从小到大排序，然后重置 `has[id] = null`，循环执行 `watcher.run()`。在重置清空之前，要考备一份发布队列。然后调用 `resetSchedulerState`，重置整个任务队列状态。然后调用 `UpdatedHooks`，通知组件内部已经更新了。至此整个响应式的逻辑已走完整了。哎...，真的多
 
-### 总结
+## 总结
 
 分析源码，不仅了解了整个框架的设计，而且对于作者对细节的把握，有了深刻的认知，可能不能面面俱到，有些细枝末节的东西还没有搞清楚。要知道我们对事物的认知是螺旋式上升波浪式前进的，多几次的接触就会有更多新的领悟，应用也更加灵活。
