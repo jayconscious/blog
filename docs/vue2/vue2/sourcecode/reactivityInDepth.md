@@ -261,27 +261,207 @@ function mountComponent( vm, el, hydrating ) {
     return vm
 }
 ```
+`updateComponent` 函数会调用是渲染真实DOM的方法，所以在生命周期`beforeMount`后调用。在 `watcher`实例化时，会依据入参`lazy`默认值(默认值是 false)来调用 `this.get()`。
+
+```js
+var Watcher = function Watcher( vm, expOrFn, cb, options, isRenderWatcher ) {
+    this.vm = vm;
+    if (isRenderWatcher) {
+        vm._watcher = this;
+    }
+    vm._watchers.push(this);
+    // options
+    if (options) {
+        this.deep = !!options.deep;
+        this.user = !!options.user;
+        this.lazy = !!options.lazy;
+        this.sync = !!options.sync;
+        this.before = options.before;
+    } else {
+        this.deep = this.user = this.lazy = this.sync = false;
+    }
+    this.cb = cb;
+    this.id = ++uid$2; // uid for batching
+    this.active = true;
+    this.dirty = this.lazy; // for lazy watchers
+    this.deps = [];
+    this.newDeps = [];
+    this.depIds = new _Set();
+    this.newDepIds = new _Set();
+    this.expression = expOrFn.toString();
+    // parse expression for getter
+    if (typeof expOrFn === 'function') {
+        this.getter = expOrFn;
+    } else {
+        this.getter = parsePath(expOrFn);
+        // ...
+    }
+    this.value = this.lazy ? undefined : this.get();
+};
+Watcher.prototype.get = function get() {
+    pushTarget(this);
+    // ...
+    try {
+        value = this.getter.call(vm, vm);
+    } catch (e) {
+        // ...
+    } finally {
+        // "touch" every property so they are all tracked as
+        // dependencies for deep watching
+        if (this.deep) {
+            traverse(value);
+        }
+        popTarget();
+        this.cleanupDeps();
+    }
+};
+// ...
+Dep.target = null;
+var targetStack = [];
+
+function pushTarget(target) {
+    targetStack.push(target);
+    Dep.target = target;
+}
+function popTarget() {
+    targetStack.pop();
+    Dep.target = targetStack[targetStack.length - 1];
+}
+```
+这里有一个闭包变量 `targetStack` 来存储 `watcher`，`pushTarget`把当前的 `watcher` 压入 `targetStack` 栈中。并且把当前的订阅器 `Dep.target` 指向当前的 `watcher`。此外我们的渲染函数挂载在 `watcher.getter` 上，`this.getter.call(vm, vm)` 渲染完成之后，当前的 `watcher`会被弹出栈，并且会清除所有的订阅器。因为 `watcher`所依赖的数据，是由模板决定的，模板所要依赖的数据是由用户编写的逻辑决定的，每次重新渲染的时候再去收集数据。如果在数据的订阅器中已经有了当前的 `watcher` 是不会添加到自己的 `subs` 订阅者列表中的。
 
 
+### 派发更新
 
+<!-- Todo 添加一张流程图 -->
 
+当数据更新时，会触发数据的 `set` 函数，我们来看看 `set` 有哪些逻辑。
 
+```js
+set: function reactiveSetter(newVal) {
+    var value = getter ? getter.call(obj) : val; // 原始值
+    if (newVal === value || (newVal !== newVal && value !== value)) {
+        return
+    }
+    if (customSetter) {
+        customSetter();
+    }
+    if (getter && !setter) {
+        return
+    }
+    if (setter) {
+        setter.call(obj, newVal);
+    } else {
+        val = newVal;
+    }
+    // 如果是对象
+    childOb = !shallow && observe(newVal);
+    dep.notify();
+}
+```
+- 如果原来的数据存在 `getter`，`getter.call(obj)`获取到原始值 `value`，满足 `newVal === value`，则表明数据没有变化，直接 `return `。
+- 如果原来的数据存在 `setter`，`setter.call(obj, newVal)`，调用原值的 `stter`；如果没有，则将 `newVal` 赋值给闭包变量 `val`，触发 `get`会返回这个值。
+- 派发更新主要是调用了 `dep.notify()`,我们来看看这部分的具体实现。
 
+```js
+Dep.prototype.notify = function notify() {
+    var subs = this.subs.slice(); // 浅拷贝数组
+    if (!config.async) {
+        // 同步需要排序 有小到大
+        subs.sort(function (a, b) {
+            return a.id - b.id;
+        });
+    }
+    for (var i = 0, l = subs.length; i < l; i++) {
+        subs[i].update();
+    }
+};
+Watcher.prototype.update = function update() {
+    if (this.lazy) {
+        this.dirty = true;
+    } else if (this.sync) {
+        this.run();
+    } else {
+        queueWatcher(this);
+    }
+};
+```
+如果是 `config.async` 同步的话，需要将订阅者列表排序，然后依次派发更新，即调用 `watcher.update()`。如果 `watcher` 是同步，则调用 `this.run();`,就是同步更新视图。
+如果 `watcher` 内部 `this.sync == false`，调用 `queueWatcher(this)`
 
+```js
+function queueWatcher(watcher) {
+    var id = watcher.id;
+    if (has[id] == null) {
+        has[id] = true;
+        if (!flushing) {
+            queue.push(watcher);
+        } else {
+            // if already flushing, splice the watcher based on its id
+            // 如果已经冲洗，则根据其ID拼接观察者
+            // if already past its id, it will be run next immediately.
+            // 如果已经超过其ID，它将立即立即运行。
+            var i = queue.length - 1;
+            while (i > index && queue[i].id > watcher.id) {
+                i--;
+            }
+            queue.splice(i + 1, 0, watcher);
+        }
+        // queue the flush
+        if (!waiting) {
+            waiting = true;
+            // 同步
+            if (!config.async) {
+                flushSchedulerQueue();
+                return
+            }
+            nextTick(flushSchedulerQueue);
+        }
+    }
+}
+```
+使用闭包变量`has`来判断传入的`watcher`是否已经存在，不存在的话，标识`has[id] = true`；如果当前的 `queueWatcher`正在 `flushing`，判断当前的 `watcher`队列正在执行的`watcher.id`和这个比较，如果`queue`中id大于当前的id，立即插入；没有则插到后面。`config.async`异步的话，就是用 `nextTick` 创建一个微任务，执行 `flushSchedulerQueue`。
 
+```js
+function flushSchedulerQueue() {
+    currentFlushTimestamp = getNow();
+    flushing = true;
+    var watcher, id;
+    queue.sort(function (a, b) {
+        return a.id - b.id;
+    });
+    // do not cache length because more watchers might be pushed
+    // as we run existing watchers
+    for (index = 0; index < queue.length; index++) {
+        watcher = queue[index];
+        if (watcher.before) {
+            watcher.before();
+        }
+        id = watcher.id;
+        has[id] = null;
+        watcher.run();
+        // in dev build, check and stop circular updates.
+        // 在开发版本中，检查并停止循环更新。
+        if (has[id] != null) {
+            // ...
+        }
+    }
+    // keep copies of post queues before resetting state
+    var activatedQueue = activatedChildren.slice(); // keep-alive 组件
+    var updatedQueue = queue.slice(); // 普通组件
+    resetSchedulerState();
+    // call component updated and activated hooks
+    callActivatedHooks(activatedQueue);
+    callUpdatedHooks(updatedQueue);
+    // devtool hook
+    /* istanbul ignore if */
+    if (devtools && config.devtools) {
+        devtools.emit('flush');
+    }
+}
+```
+在 `flushSchedulerQueue`中，先将 `queue` 中的 `watcher` 从小到大排序，然后重置 `has[id] = null`，循环执行 `watcher.run()`。在重置清空之前，要考备一份发布队列。然后调用 `resetSchedulerState`，重置整个任务队列状态。然后调用 `UpdatedHooks`，通知组件内部已经更新了。至此整个响应式的逻辑已走完整了。哎...，真的多
 
+### 总结
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+分析源码，不仅了解了整个框架的设计，而且对于作者对细节的把握，有了深刻的认知，可能不能面面俱到，有些细枝末节的东西还没有搞清楚。要知道我们对事物的认知是螺旋式上升波浪式前进的，多几次的接触就会有更多新的领悟，应用也更加灵活。
