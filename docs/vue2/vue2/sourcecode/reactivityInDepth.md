@@ -333,7 +333,7 @@ function popTarget() {
 
 ## 派发更新
 
-<!-- Todo 添加一张流程图 -->
+![image](/blog/assets/img/vue2/reactivity/dispatch.png)
 
 当数据更新时，会触发数据的 `set` 函数，我们来看看 `set` 有哪些逻辑。
 
