@@ -2,8 +2,9 @@
 > 记录个人学习和成长
 
 ### Vue2.x
-- [virtual DOM && Diff](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/vueDiff.html)
+- [模板引擎](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/templateEngine.html)
 - [深入响应式原理](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/reactivityInDepth.html)
+- [virtual DOM && Diff](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/vueDiff.html)
 - [异步渲染](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/asyncRender.html)
 
 
