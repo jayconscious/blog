@@ -13,9 +13,8 @@ module.exports = {
 		// navbar: false   禁用所有页面的导航栏
 		nav: require('./nav/zh'),
 		sidebar: {
-			'/others/server/': [ 'cdn' ],
-			'/others/redis/': [ 'start' ],
 			'/javascript/basicjs/': [ 'promise'],
+			'/javascript/es6/': [ 'proxy' ],
 			'/vue2/vue2/': getBookSideBar(vue2),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
@@ -23,6 +22,8 @@ module.exports = {
 			'/book/explainindepthnodejs/': [
 				''
 			],
+			'/others/server/': [ 'cdn' ],
+			'/others/redis/': [ 'start' ],
 		},
 		sidebarDepth: 0,  // 获取页面的h3标签作为连接锚点
 		displayAllHeaders: false, // 显示所有页面的标题链接

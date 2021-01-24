@@ -2,7 +2,8 @@ module.exports = [
     {
         text: 'javascript',
         items: [
-            { text: 'js', link: '/javascript/basicjs/' },
+            { text: '深入理解JS', link: '/javascript/basicjs/' },
+            { text: '深入理解ES6', link: '/javascript/es6/' }
         ]
     },
     {
