@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6-proxy</title>
+</head>
+<body>
+    <script>
+        // const obj = new Proxy({}, {
+        //     get: function (target, propKey, receiver) {
+        //         console.log(`getting ${propKey}!`);
+        //         return Reflect.get(target, propKey, receiver);
+        //     },
+        //     set: function (target, propKey, value, receiver) {
+        //         console.log(`setting ${propKey}!`);
+        //         return Reflect.set(target, propKey, value, receiver);
+        //     }
+        // })
+
+        // obj.count = 1
+        // ++obj.count
+
+        // const obj = new Proxy({}, {
+        //     get: function (target, propKey, receiver) {
+        //         return 35
+        //     }
+        // })
+        // console.log(obj.name)
+        // console.log(obj.age)
+        // console.log(obj.time)
+
+        // https://www.ghosind.com/2019/04/13/js-proxy
+        // var target = {};
+        // var handler = {};
+        // var proxy = new Proxy(target, handler);
+        // proxy.a = 'b';
+        // console.log('target.a', target.a)
+        // console.log(target === proxy)
+
+
+        // var proxy = new Proxy({}, {
+        //     get: function(target, propKey) {
+        //         console.log(propKey)
+        //         return 35;
+        //     }
+        // });
+        // let obj = Object.create(proxy);
+        // console.log(obj.time) // 35
+
+        var handler = {
+            get: function(target, name) {
+                if (name === 'prototype') {
+                    return Object.prototype;
+                }
+                return 'Hello, ' + name;
+            },
+            apply: function(target, thisBinding, args) {
+                // console.log('target', target)
+                // console.log('thisBinding', thisBinding)
+                // console.log('args', args)
+                return args[0];
+            },
+            construct: function(target, args) {
+                return {value: args[1]};
+            }
+        };
+        var fproxy = new Proxy(function(x, y) {
+            return x + y;
+        }, handler);
+        console.log(typeof fproxy)  // function
+        console.log(fproxy(1, 2)) // 1
+        console.log(new fproxy(1, 2)) // {value: 2}
+        console.log(fproxy.prototype === Object.prototype) // true
+        console.log(fproxy.foo === "Hello, foo") // true
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
