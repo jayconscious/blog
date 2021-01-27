@@ -130,6 +130,34 @@ console.log(fproxy.foo === "Hello, foo") // true (触发了 get)
 下面是上面这些拦截方法的详细介绍。
 
 
+1. **get()**
+
+`get`方法用于拦截某个属性的读取操作，可以接受三个参数，依次为目标对象、属性名和 `proxy` 实例本身（严格地说，是操作行为所针对的对象），其中最后一个参数可选。
+
+`get`方法的用法，上文已经有一个例子，下面是另一个拦截读取操作的例子。
+
+```js
+var person = { name: "张三" };
+var proxy = new Proxy(person, {
+    get: function(target, propKey) {
+        if (propKey in target) {
+            return target[propKey];
+        } else {
+            throw new ReferenceError("Prop name \"" + propKey + "\" does not exist.");
+        }
+    }
+});
+
+console.log(proxy.name) // "张三"
+console.log(proxy.age) // 抛出一个错误  
+```
+
+
+
+
+
+
+
 
 
 
