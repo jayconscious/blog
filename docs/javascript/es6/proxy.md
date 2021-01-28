@@ -152,6 +152,64 @@ console.log(proxy.name) // "张三"
 console.log(proxy.age) // 抛出一个错误  
 ```
 
+上面代码表示，如果访问目标对象不存在的属性，会抛出一个错误。如果没有这个拦截函数，访问不存在的属性，只会返回undefined。
+
+`get` 方法可以继承。
+
+```js
+let proto = new Proxy({}, {
+    get(target, propertyKey, receiver) {
+        console.log('GET ' + propertyKey);
+        return target[propertyKey];
+    }
+});
+
+let obj = Object.create(proto);
+console.log(obj.foo) // "GET foo" // undefine
+```
+
+上面代码中，拦截操作定义在 `Prototype` 对象上面，所以如果读取obj对象继承的属性时，拦截会生效。
+
+下面的例子使用get拦截，实现数组读取负数的索引。
+
+```js
+// 可以把多个参数存为一个数组
+function createArray(...elements) {
+    console.log('elements', elements)
+    // elements == [...arguments]
+    let handler = {
+        get(target, propKey, receiver) {
+            let index = Number(propKey);
+            if (index < 0) {
+                propKey = String(target.length + index);
+            }
+            return Reflect.get(target, propKey, receiver);
+        }
+    };
+
+    let target = [];
+    target.push(...elements);
+    return new Proxy(target, handler);
+}
+
+let arr = createArray('a', 'b', 'c');
+console.log(arr[-1]) // c
+```
+上面代码中，数组的位置参数是 -1，就会输出数组的倒数第一个成员。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
