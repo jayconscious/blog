@@ -197,6 +197,81 @@ console.log(arr[-1]) // c
 ```
 上面代码中，数组的位置参数是 -1，就会输出数组的倒数第一个成员。
 
+利用 `Proxy` 可以将读取属性的操作`（get）`，转变为执行某个函数，从而实现属性的链式操作。
+
+```js
+// Array.prototype.reduce()
+const array1 = [1, 2, 3, 4];
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+// 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer));
+// expected output: 10
+// 5 + 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer, 5));
+// expected output: 15
+
+var pipe = function (value) {
+    var funcStack = [];
+    var oproxy = new Proxy({} , {
+        get : function (pipeObject, fnName) {
+            if (fnName === 'get') {
+                return funcStack.reduce(function (val, fn) {
+                    return fn(val);
+                }, value);
+            }
+            funcStack.push(window[fnName]);
+            return oproxy;
+        }
+    });
+    return oproxy;
+}
+var double = n => n * 2;
+
+var pow = n => n * n;
+var reverseInt = n => n.toString().split("").reverse().join("") | 0;
+console.log(pipe(3).double.pow.reverseInt.get); // 63
+// ((3 * 2) * (3 * 2)) = 36
+```
+
+下面是一个get方法的第三个参数的例子，它总是指向原始的读操作所在的那个对象，一般情况下就是 `Proxy` 实例。
+
+```js
+const proxy = new Proxy({}, {
+    get: function(target, key, receiver) {
+        return receiver;
+    }
+});
+console.log(proxy.get === proxy)
+```
+
+上面代码中， `proxy` 对象的 `getReceiver` 属性是由 `proxy` 对象提供的，所以 `receiver` 指向 `proxy` 对象。
+
+```js
+const proxy = new Proxy({}, {
+  get: function(target, key, receiver) {
+    return receiver;
+  }
+});
+
+const d = Object.create(proxy);
+console.log(d.a === d) // true
+```
+
+如果一个属性**不可配置**（ `configurable` ）且**不可写**（ `writable` ），则 `Proxy` **不能修改该属性**，否则通过 Proxy 对象访问该属性会报错。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
