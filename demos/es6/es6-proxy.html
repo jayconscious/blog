@@ -159,14 +159,91 @@
 
 
 
-        const proxy = new Proxy({}, {
-            get: function(target, key, receiver) {
-                return receiver;
-            }
-        });
+        // const proxy = new Proxy({}, {
+        //     get: function(target, key, receiver) {
+        //         return receiver;
+        //     }
+        // });
+        // const d = Object.create(proxy);
+        // console.log(d.a === d)
 
-        const d = Object.create(proxy);
-        console.log(d.a === d)
+        // 假定 `Person` 对象有一个 `age` 属性，该属性应该是一个不大于 `200` 的整数，那么可以使用 `Proxy` 保证 `age` 的属性值符合要求。
+        // let validator = {
+        //     set: function (obj, prop, value) {
+        //         if (prop == 'age') {
+        //             if (Number.isInteger(value)) {
+        //                 throw new Error('age is not a integer')
+        //             } else if (value <= 200) {
+        //                 obj[prop] = value
+        //             } else {
+        //                 throw new Error('age less than 200')
+        //             }
+        //         }
+        //     }
+        // }
+        
+        // const per = new Proxy({}, validator)
+        // per.age = 20
+        // per.age = 1000
+        // per.age = "asdasd"
+        // console.log(per)
+        // const handler = {
+        //     get (target, key) {
+        //         // 校验
+        //         return target[key]
+        //     },
+        //     set (target, key, value) {
+        //     }
+        // }
+        // function validator (key) {
+        //     if (key.startWith('_')) {
+        //         throw 
+        //     }
+        // }
+
+
+        // const handler = {
+        //     set: function(obj, prop, value, receiver) {
+        //         obj[prop] = receiver;
+        //     }
+        // };
+
+        // const proxy = new Proxy({}, handler);
+        // const myObj = {};
+        // Object.setPrototypeOf(myObj, proxy);
+        // // Object.getPrototypeOf
+        // // Object.setPrototypeOf
+        // myObj.foo = 'bar';
+        // myObj.foo === myObj // true
+        // console.log(myObj.__proto__) // proxy
+
+        // console.log(proxy.prototype)
+        
+        // const my = {}
+        // const per = {
+        //     name: '人类'
+        // }
+        // Object.setPrototypeOf(my, per);
+        // console.log(my.__proto__)
+
+
+        var target = function () { return 'I am the target'; };
+        var handler = {
+            apply: function () {
+                return 'I am the proxy';
+            }
+        };
+        var p = new Proxy(target, handler)
+        
+        console.log(p()) // I am the proxy
+
+
+
+
+
+
+        
+
 
 
 

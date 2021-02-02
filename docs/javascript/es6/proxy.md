@@ -260,12 +260,74 @@ console.log(d.a === d) // true
 如果一个属性**不可配置**（ `configurable` ）且**不可写**（ `writable` ），则 `Proxy` **不能修改该属性**，否则通过 Proxy 对象访问该属性会报错。
 
 
+2. **set()**
 
 
+`set` 方法用来拦截某个属性的赋值操作，可以接受四个参数，依次为目标对象、属性名、属性值和 `Proxy` 实例本身，其中最后一个参数可选。
 
+假定 `Person` 对象有一个 `age` 属性，该属性应该是一个不大于 `200` 的整数，那么可以使用 `Proxy` 保证 `age` 的属性值符合要求。
 
+```js
+let validator = {
+    set: function (obj, prop, value) {
+        if (prop == 'age') {
+            if (Number.isInteger(value)) {
+                throw new Error('age is not a integer')
+            } else if (value <= 200) {
+                obj[prop] = value
+            } else {
+                throw new Error('age less than 200')
+            }
+        }
+    }
+}
 
+const per = new Proxy({}, validator)
+per.age = 20
+per.age = 1000
+per.age = "asdasd"
+console.log(per)
+```
 
+```js
+const handler = {
+    set: function(obj, prop, value, receiver) {
+        obj[prop] = receiver;
+    }
+};
+
+const proxy = new Proxy({}, handler);
+const myObj = {};
+Object.setPrototypeOf(myObj, proxy);
+// Object.getPrototypeOf
+// Object.setPrototypeOf
+myObj.foo = 'bar';
+myObj.foo === myObj // true
+console.log(myObj.__proto__) // proxy
+```
+
+上面代码中，设置 `myObj.foo` 属性的值时， `myObj` 并没有 `foo` 属性，因此引擎会到 `myObj` 的原型链去找 `foo` 属性。 `myObj` 的原型对象 `proxy` 是一个 `Proxy` 实例，设置它的 `foo` 属性会触发 `set` 方法。这时，第四个参数 `receiver` 就指向原始赋值行为所在的对象 `myObj` 。
+
+::: tip
+注意，如果目标对象自身的某个属性**不可写(writable: false)** ，那么 `set` 方法将不起作用。
+:::
+
+3. **apply()**
+
+`apply` 方法拦截**函数的调用**、**call**和 **apply** 操作。
+
+`apply` 方法可以接受三个参数，分别是目标对象、目标对象的上下文对象（this）和目标对象的参数数组。举个🌰：
+
+```js
+var target = function () { return 'I am the target'; };
+var handler = {
+    apply: function () {
+        return 'I am the proxy';
+    }
+};
+var p = new Proxy(target, handler)
+console.log(p()) // I am the proxy
+```
 
 
 
