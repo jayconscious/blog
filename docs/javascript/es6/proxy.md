@@ -330,6 +330,103 @@ console.log(p()) // I am the proxy
 ```
 
 
+```js
+var twice = {
+    apply (target, ctx, args) {
+        return Reflect.apply(...arguments) * 2;
+    }
+};
+function sum (left, right) {
+    return left + right;
+};
+var proxy = new Proxy(sum, twice);
+console.log(proxy(1, 2)) // 6
+console.log(proxy.call(null, 5, 6)) // 22
+console.log(proxy.apply(null, [7, 8])) // 30
+```
+
+4. **has()**
+
+`has()` 方法用来拦截 `HasProperty` 操作，即判断对象是否具有某个属性时，这个方法会生效。典型的操作就是 `in` 运算符。
+
+`has()`方法可以接受两个参数，分别是目标对象、需查询的属性名。下面的例子使用 `has()` 方法隐藏某些属性，不被 `in` 运算符发现。
+
+```js
+var handler = {
+    has (target, key) {
+        if (key.startsWith('_')) {
+            return false;
+        }
+        return key in target
+    }
+}
+const obj = {
+    _proxy: 'sda',
+    foo: 'sadasd'
+}
+const proxy = new Proxy(obj, handler)
+console.log('_proxy' in proxy) // false
+console.log('foo' in proxy)  // true
+console.log(Object.hasOwnProperty.call(proxy, '_proxy')) // true
+console.log(proxy.hasOwnProperty('_proxy')) // true
+```
+`proxy.has()` 就会返回 `false` ，从而不会被 `in` 运算符发现。
+
+值得注意的是，`has()`方法拦截的是 `HasProperty` 操作，而不是 `HasOwnProperty` 操作，即`has()`方法不判断一个属性是对象自身的属性，还是继承的属性。
+
+另外，虽然`for...in`循环也用到了 `in` 运算符，但是 `has()` 拦截对 `for...in` 循环不生效。
+
+
+4. **construct()**
+
+`construct()` 方法用于拦截 `new` 命令，下面是拦截对象的写法。
+
+`construct()` 方法可以接受三个参数。
+
+- `target：`目标对象。
+- `args：` 构造函数的参数数组。
+- `newTarget：`创造实例对象时，new命令作用的构造函数（下面例子的p）。
+
+```js
+const p = new Proxy(function () {}, {
+    construct: function(target, args) {
+        console.log('called: ' + args.join(', '));
+        return { value: args[0] * 10 };
+    }
+});
+(new p(1)).value
+```
+
+5. **deleteProperty()**
+
+`deleteProperty` 方法用于拦截 `delete` 操作，如果这个方法抛出错误或者返回 `false` ，当前属性就无法被 `delete` 命令删除。
+
+注意，目标对象自身的不可配置`（configurable）`的属性，不能被 `deleteProperty` 方法删除，否则报错。
+
+
+6. **defineProperty()**
+
+`defineProperty()` 方法拦截了 `Object.defineProperty()` 操作。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
