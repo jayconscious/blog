@@ -408,6 +408,79 @@ const p = new Proxy(function () {}, {
 
 `defineProperty()` 方法拦截了 `Object.defineProperty()` 操作。
 
+```js
+var handler = {
+    defineProperty (target, key, descriptor) {
+        return false;
+    }
+}
+var target = {};
+var proxy = new Proxy(target, handler);
+proxy.foo = 'bar' // 不会生效
+console.log(proxy.foo)
+```
+注意，如果目标对象不可扩展`（non-extensible）`，则 `defineProperty()` 不能增加目标对象上不存在的属性，否则会报错。另外，如果目标对象的某个属性不可写`（writable）`或不可配置`（configurable）`，则 `defineProperty()` 方法不得改变这两个设置。
+
+7. **getOwnPropertyDescriptor()**
+
+`getOwnPropertyDescriptor()` 方法拦截 `Object.getOwnPropertyDescriptor()` ，返回一个属性描述对象或者 `undefined` 。
+
+
+8. **getPrototypeOf()**
+
+`getPrototypeOf()` 方法主要用来拦截获取对象原型。具体来说，拦截下面这些操作。
+
+- Object.prototype.__proto__
+- Object.prototype.isPrototypeOf()
+- Object.getPrototypeOf()
+- Reflect.getPrototypeOf()
+- instanceof
+
+```js
+var proto = {}
+var p = new Proxy({}, {
+    getPrototypeOf(target) {
+        return proto;
+    }
+});
+console.log(Object.getPrototypeOf(p) === proto ) // true
+```
+
+9. **setPrototypeOf()**
+
+`setPrototypeOf()` 方法主要用来拦截 `Object.setPrototypeOf()` 方法。
+
+```js
+var handler = {
+    setPrototypeOf (target, proto) {
+        throw new Error('Changing the prototype is forbidden');
+    }
+};
+var proto = {};
+var target = function () {};
+var proxy = new Proxy(target, handler);
+Object.setPrototypeOf(proxy, proto);
+// Error: Changing the prototype is forbidden
+```
+
+
+## Proxy.revocable()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
