@@ -466,91 +466,80 @@ Object.setPrototypeOf(proxy, proto);
 
 ## Proxy.revocable()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+`Proxy.revocable()` 方法返回一个可取消的 Proxy 实例。
+
+```js
+let target = {};
+let handler = {};
+let { proxy, revoke } = Proxy.revocable(target, handler);
+proxy.foo = 123;
+proxy.foo // 123
+revoke();
+proxy.foo // Uncaught TypeError: Cannot perform 'get' on a proxy that has been revoked
+```
+`Proxy.revocable()` 的一个使用场景是，目标对象不允许直接访问，必须通过代理访问，一旦访问结束，就收回代理权，不允许再次访问
+
+
+## this 问题
+
+虽然 `Proxy` 可以代理针对目标对象的访问，但它不是目标对象的透明代理，即不做任何拦截的情况下，也无法保证与目标对象的行为一致。
+主要原因就是在 `Proxy` 代理的情况下，目标对象内部的 `this` **关键字会指向** `Proxy` 代理。
+
+```js
+const target = {
+    m: function () {
+        console.log(this === proxy);
+    }
+};
+const handler = {};
+const proxy = new Proxy(target, handler);
+target.m() // false
+proxy.m()  // true
+```
+
+下面是一个例子，由于this指向的变化，导致 Proxy 无法代理目标对象。
+
+```js
+const _name = new WeakMap()
+class Person {
+    constructor (name) {
+        _name.set(this, name)
+    }
+    get name() {
+        return _name.get(this)
+    }
+}
+const zhu = new Person('zzy')
+console.log(zhu.name)  // zzy
+const proxy = new Proxy(zhu, {})
+console.log(proxy.name) // undefined
+```
+
+## 实例：Web 服务的客户端
+
+`Proxy` 对象可以拦截目标对象的任意属性，这使得它很合适用来写 `Web` 服务的客户端。
+
+```js
+const service = createWebService('http://example.com/data');
+
+service.employees().then(json => {
+  const employees = JSON.parse(json);
+  // ···
+});
+```
+
+```js
+function createWebService (baseUrl) {
+    return new Proxy({}, {
+        get (target, propKey, proxy) {
+            // return () => http(`${baseUrl}/${propKey}`)
+            return http(`${baseUrl}/${propKey}`)
+            // return function () {
+            //     return http(`${baseUrl}/${propKey}`)
+            // }
+        }
+    })
+}
+```
+
+同理，Proxy 也可以用来实现数据库的 `ORM` 层。(Object Relational Mapping) 对象关系映射

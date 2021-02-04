@@ -314,17 +314,51 @@
 
 
 
-        var handler = {
-            setPrototypeOf (target, proto) {
-                throw new Error('Changing the prototype is forbidden');
-            }
-        };
-        var proto = {};
-        var target = function () {};
-        var proxy = new Proxy(target, handler);
-        Object.setPrototypeOf(proxy, proto);
+        // var handler = {
+        //     setPrototypeOf (target, proto) {
+        //         throw new Error('Changing the prototype is forbidden');
+        //     }
+        // };
+        // var proto = {};
+        // var target = function () {};
+        // var proxy = new Proxy(target, handler);
+        // Object.setPrototypeOf(proxy, proto);
         // Error: Changing the prototype is forbidden
 
+
+
+        // let target = {};
+        // let handler = {};
+        // let { proxy, revoke } = Proxy.revocable(target, handler);
+        // proxy.foo = 123;
+        // proxy.foo // 123
+        // revoke();
+        // proxy.foo // Uncaught TypeError: Cannot perform 'get' on a proxy that has been revoked
+
+
+        // const target = {
+        //     m: function () {
+        //         console.log(this === proxy);
+        //     }
+        // };
+        // const handler = {};
+        // const proxy = new Proxy(target, handler);
+        // target.m() // false
+        // proxy.m()  // true
+
+        const _name = new WeakMap()
+        class Person {
+            constructor (name) {
+                _name.set(this, name)
+            }
+            get name() {
+                return _name.get(this)
+            }
+        }
+        const zhu = new Person('zzy')
+        console.log(zhu.name)  // zzy
+        const proxy = new Proxy(zhu, {})
+        console.log(proxy.name) // undefined
 
 
 
