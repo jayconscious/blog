@@ -13,7 +13,7 @@
     <!--  -->
     <script>
         const curVue = new Vue({
-            template: '<div><span>{{ msg }}</span></div>',
+            template: '<div v-if="{{msg}}" id="name"><span>{{ msg }}</span></div>',
             data: {
                 msg: 'hello world',
             },
