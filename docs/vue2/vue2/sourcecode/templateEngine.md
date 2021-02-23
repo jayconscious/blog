@@ -156,8 +156,7 @@ HTML解析器在解析HTML时，是从前向后解析。每当遇到开始标签
 
 这样就可以保证每当触发钩子函数 `start` 时，栈的最后一个节点就是当前正在构建的节点的父节点。
 
-<!-- Todo: 缺少图片 -->
-
+![image](/blog/assets/img/vue2/templateEngine/templateEngine1.png)
 
 ## HTML解析器
 
@@ -250,7 +249,7 @@ const startTagOpen = new RegExp(`^<${qnameCapture}`)
 
 事实上，开始标签被拆分成三个小部分，分别是标签名、属性和结尾。
 
-<!-- Todo: 少图 -->
+![image](/blog/assets/img/vue2/templateEngine/templateEngine2.png)
 
 通过“标签名”这一段字符，就可以分辨出模板是否以开始标签开头，此后要想得到属性和自闭合标识，则需要进一步解析。
 
@@ -506,7 +505,353 @@ while (html) {
 }
 ```
 
+这个 `while` 循环中有三个 `if` 逻辑判断，
+- 第一个， `<` 之前的所有字符都是文本，直接使用 `html.substring` 从模板的最开始位置截取到 `<` 之前的位置，就可以将文本截取出来。
+- 第二个，如果在整个模板中都找不到 `<` ，那么说明整个模板全是文本。
+- 第三个，触发钩子函数并将截取出来的文本放到参数中。
+
+这里其实有一种比较操蛋的情况，就是有人在文本中写了 `<`,这种要怎么处理？
+
+我们来举个栗子，
+
+```js
+1<2</div>
+```
+
+有一个思路是，如果将 `<` 前面的字符截取完之后，剩余的模板不符合任何需要被解析的片段的类型，就说明这个 `<` 是文本的一部分。
+
+什么是需要被解析的片段的类型？我们说过HTML解析器是一段一段截取模板的，而被截取的每一段都符合某种类型，这些类型包括**开始标签**、**结束标签**和**注释**等。
+
+说的再具体一点，那就是上面这段代码中的1被截取完之后，剩余模板是下面的样子：
+
+```js
+<2</div>
+```
+在接下来的循环中，我们会判断这段文本复合什么样子的规则。
+
+`<2` 符合开始标签的特征么？不符合。
+`<2` 符合结束标签的特征么？不符合。
+`<2` 符合注释的特征么？不符合。
+
+当剩余的模板什么都不符合时，就说明 `<` 属于文本的一部分。
+
+当判断出 `<` 是属于文本的一部分后，我们需要做的事情是找到下一个 `<` 并将其前面的文本截取出来加到前面截取了一半的文本后面
+
+这里还用上面的例子，第二个<之前的字符是<2，那么把<2截取出来后，追加到上一次截取出来的1的后面，此时的结果是：
+
+```js
+1<2
+```
+如果剩余的模板依然不符合任何被解析的类型，那么重复此过程。直到所有文本都解析完。
+
+```js
+while (html) {
+    let text, rest, next
+    let textEnd = html.indexOf('<')
+    
+    // 截取文本
+    if (textEnd >= 0) {
+        rest = html.slice(textEnd)
+        while ( !endTag.test(rest) && !startTagOpen.test(rest) && !comment.test(rest) && !conditionalComment.test(rest) ) {
+            // 如果'<'在纯文本中，将它视为纯文本对待
+            next = rest.indexOf('<', 1) // fromIndex 从哪个位置开始找 // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
+            if (next < 0) break
+            textEnd += next
+            rest = html.slice(textEnd)
+        }
+        text = html.substring(0, textEnd)
+        html = html.substring(textEnd)
+    }
+    
+    // 如果模板中找不到<，那么说明整个模板都是文本
+    if (textEnd < 0) {
+        text = html
+        html = ''
+    }
+    // 触发钩子函数
+    if (options.chars && text) {
+        options.chars(text)
+    }
+}
+```
+::: tip
+在代码中，我们通过while来解决这个问题（注意是里面的while）。如果剩余的模板不符合任何被解析的类型，那么重复解析文本，直到剩余模板符合被解析的类型为止。
+:::
+
 ### 纯文本内容元素的处理
+
+当我看到**纯文本内容元素**这几个字的时候，我感觉有点陌生，因为它和想象的不太一样，是这几个元素`script`,`style`,`textare`，解析它们的时候，会把这三种标签内包含的所有内容都当作文本处理。那么，具体该如何处理呢？
+
+事实上，在 `while` 循环中，最外层的判断条件就是父级元素是不是纯文本内容元素。例如下面的伪代码：
+
+```js
+var isPlainTextElement = makeMap('script,style,textarea', true);
+
+while (html) {
+    if (!lastTag || !isPlainTextElement(lastTag)) {
+        // 父元素为正常元素的处理逻辑
+    } else {
+        // 父元素为script、style、textarea的处理逻辑
+    }
+}
+```
+
+在上面的代码中， `lastTag` 代表父元素。可以看到，在 `while` 中，首先进行判断，如果父元素不存在或者不是纯文本内容元素，那么进行正常的处理逻辑，也就是前面介绍的逻辑。
+
+而当父元素是 `script` 这种纯文本内容元素时，会进入到 `else` 这个语句里面。由于纯文本内容元素都被视作文本处理，所以我们的处理逻辑就变得很简单，只需要把这些文本截取出来并触发钩子函数 `chars` ，然后再将结束标签截取出来并触发钩子函数 `end` 。
+
+伪代码如下：
+
+```js
+while (html) {
+    if (!lastTag || !isPlainTextElement(lastTag)) {
+        // 父元素为正常元素的处理逻辑
+    } else {
+        // 父元素为script、style、textarea的处理逻辑
+        const stackedTag = lastTag.toLowerCase()
+        const reStackedTag = reCache[stackedTag] || (reCache[stackedTag] = new RegExp('([\\s\\S]*?)(</' + stackedTag + '[^>]*>)', 'i'))
+        const rest = html.replace(reStackedTag, function (all, text) {
+            if (options.chars) {
+                options.chars(text)
+            }
+            return ''
+        })
+        html = rest
+        options.end(stackedTag)
+    }
+}
+```
+上面代码中的正则表达式可以匹配结束标签前包括结束标签自身在内的所有文本。
+
+我们可以给 `replace` 方法的第二个参数传递一个函数。在这个函数中，我们得到了参数 `text` （代表结束标签前的所有内容），触发了钩子函数 `chars` 并把 `text` 放到钩子函数的参数中传出去。最后，返回了一个空字符串，代表将匹配到的内容都截掉了。注意，这里的截掉会将内容和结束标签一起截取掉。
+
+### 梳理整体逻辑
+
+前面我们把开始标签、结束标签、注释、文本、纯文本内容元素等的截取方式拆分开，单独进行了详细介绍。本节中，我们就来介绍如何将这些解析方式组装起来完成HTML解析器的功能。
+
+首先，HTML解析器是一个函数。就像9.2节介绍的那样，HTML解析器最终的目的是实现这样的功能：
+
+```js
+parseHTML(template, {
+    start (tag, attrs, unary) {
+        // 每当解析到标签的开始位置时，触发该函数
+    },
+    end () {
+        // 每当解析到标签的结束位置时，触发该函数
+    },
+    chars (text) {
+        // 每当解析到文本时，触发该函数
+    },
+    comment (text) {
+        // 每当解析到注释时，触发该函数
+    }
+})
+```
+所以HTML解析器在实现上肯定是一个函数，它有两个参数——模板和选项,我们的模板是一小段一小段去截取与解析的，所以需要一个循环来不断截取，直到全部截取完毕：
+
+```js
+export function parseHTML (html, options) {
+    while (html) {
+        // 做点什么
+    }
+}
+```
+在循环中，首先要判断父元素是不是纯文本内容元素，因为不同类型父节点的解析方式将完全不同：
+
+```js
+export function parseHTML (html, options) {
+    while (html) {
+        if (!lastTag || !isPlainTextElement(lastTag)) {
+            // 父元素为正常元素的处理逻辑
+        } else {
+            // 父元素为script、style、textarea的处理逻辑
+        }
+    }
+}
+```
+在上面的代码中，我们发现这里已经把整体逻辑分成了两部分，一部分是父标签是正常标签的逻辑，另一部分是父标签是 `script` 、 `style` 、 `textarea` 这种纯文本内容元素的逻辑。
+
+如果父标签为正常的元素，那么有几种情况需要分别处理，比如需要分辨出当前要解析的一小段模板到底是什么类型。是开始标签？还是结束标签？又或者是文本？
+
+
+我们把所有需要处理的情况都列出来，有下面几种情况：
+
+- 文本
+- 注释
+- 条件注释
+- DOCTYPE
+- 结束标签
+- 开始标签
+
+我们会发现，在这些需要处理的类型中，除了文本之外，其他都是以标签形式存在的，而标签是以<开头的。
+
+所以逻辑就很清晰了，我们先根据<来判断需要解析的字符是文本还是其他的：
+
+```js
+function parseHTML (html, options) {
+    while (html) {
+        if (!lastTag || !isPlainTextElement(lastTag)) {
+            let textEnd = html.indexOf('<')
+            if (textEnd === 0) {
+                // 做点什么
+            }
+            let text, rest, next
+            if (textEnd >= 0) {
+                // 解析文本
+            }
+            if (textEnd < 0) {
+                text = html
+                html = ''
+            }
+            if (options.chars && text) {
+                options.chars(text)
+            }
+        } else {
+            // 父元素为script、style、textarea的处理逻辑
+        }
+    }
+}
+```
+如果通过 `<` 分辨出即将解析的这一小部分字符不是文本而是标签类，那么标签类有那么多类型，我们需要进一步分辨具体是哪种类型：
+
+```js
+function parseHTML (html, options) {
+    while (html) {
+        if (!lastTag || !isPlainTextElement(lastTag)) {
+            let textEnd = html.indexOf('<')
+            if (textEnd === 0) {
+                // 注释
+                if (comment.test(html)) {
+                    // 注释的处理逻辑
+                    continue
+                }
+                // 条件注释
+                if (conditionalComment.test(html)) {
+                    // 条件注释的处理逻辑
+                    continue
+                }
+                // DOCTYPE
+                const doctypeMatch = html.match(doctype)
+                if (doctypeMatch) {
+                    // DOCTYPE的处理逻辑
+                    continue
+                }
+                // 结束标签
+                const endTagMatch = html.match(endTag)
+                if (endTagMatch) {
+                    // 结束标签的处理逻辑
+                    continue
+                }
+                // 开始标签
+                const startTagMatch = parseStartTag()
+                if (startTagMatch) {
+                    // 开始标签的处理逻辑
+                    continue
+                }
+            }
+            let text, rest, next
+            if (textEnd >= 0) {
+                // 解析文本
+            }
+            if (textEnd < 0) {
+                text = html
+                html = ''
+            }
+            if (options.chars && text) {
+                options.chars(text)
+            }
+        } else {
+            // 父元素为script、style、textarea的处理逻辑
+        }
+    }
+}
+```
+
+## 文本解析器
+
+文本解析器的作用是解析文本。你可能会觉得很奇怪，文本不是在HTML解析器中被解析出来了么？准确地说，文本解析器是对HTML解析器解析出来的文本进行二次加工。为什么要进行二次加工？
+
+在这里主要是为了解决 `vue` 的模板渲染所自定义的语法，比如 `{{ msg }}`，因为模板解析最终是要为生成 `VNode` 而服务。
+
+我们先看看，通过文本解析的解析将上述表达式解析成数目样子了。
+
+```js
+'_s(msg)'
+```
+```js
+// _s就是 toString 函数
+function toString(val) {
+    return val == null ?
+        '' :
+        Array.isArray(val) || (isPlainObject(val) && val.toString === _toString) ?
+        JSON.stringify(val, null, 2) :
+        String(val)
+}
+```
+
+在文本解析器中，第一步要做的事情就是使用正则表达式来判断文本是否是带变量的文本，也就是检查文本中是否包含 `{{xxx}}` 这样的语法。如果是纯文本，则直接返回 `undefined` ；如果是带变量的文本，再进行二次加工。所以我们的代码是这样的：
+
+```js
+function parseText (text) {
+    const tagRE = /\{\{((?:.|\n)+?)\}\}/g
+    if (!tagRE.test(text)) {
+        return
+    }
+}
+```
+在上面的代码中，如果是纯文本，则直接返回。如果是带变量的文本，该如何处理呢？
+
+一个解决思路是使用正则表达式匹配出文本中的变量，先把变量左边的文本添加到数组中，然后把变量改成 `_s(x)` 这样的形式也添加到数组中。如果变量后面还有变量，则重复以上动作，直到所有变量都添加到数组中。如果最后一个变量的后面有文本，就将它添加到数组中。
+
+这时我们其实已经有一个数组，数组元素的顺序和文本的顺序是一致的，此时将这些数组元素用+连起来变成字符串，就可以得到最终想要的效果了。
+
+```js
+function parseText (text) {
+    const tagRE = /\{\{((?:.|\n)+?)\}\}/g
+    if (!tagRE.test(text)) {
+        return
+    }
+
+    const tokens = []
+    let lastIndex = tagRE.lastIndex = 0
+    let match, index
+    while ((match = tagRE.exec(text))) {
+        index = match.index
+        // 先把 {{ 前边的文本添加到tokens中
+        if (index > lastIndex) {
+            tokens.push(JSON.stringify(text.slice(lastIndex, index)))
+        }
+        // 把变量改成`_s(x)`这样的形式也添加到数组中
+        tokens.push(`_s(${match[1].trim()})`)
+        
+        // 设置lastIndex来保证下一轮循环时，正则表达式不再重复匹配已经解析过的文本
+        lastIndex = index + match[0].length
+    }
+    
+    // 当所有变量都处理完毕后，如果最后一个变量右边还有文本，就将文本添加到数组中
+    if (lastIndex < text.length) {
+        tokens.push(JSON.stringify(text.slice(lastIndex)))
+    }
+    return tokens.join('+')
+}
+console.log(parseText('哈哈{{name}}')) // "哈哈"+_s(name)
+console.log(parseText('哈哈{{name}}asdas{{hobby}}')) // templateEngine.html:95 "哈哈"+_s(name)+"asdas"+_s(hobby)
+```
+从上面代码的打印结果可以看到，文本已经被正确解析了。
+
+## 总结
+
+解析器的作用是通过模板得到AST（抽象语法树）。
+
+生成AST的过程需要借助HTML解析器，当HTML解析器触发不同的钩子函数时，我们可以构建出不同的节点。
+
+随后，我们可以通过栈来得到当前正在构建的节点的父节点，然后将构建出的节点添加到父节点的下面。
+
+最终，当HTML解析器运行完毕后，我们就可以得到一个完整的带DOM层级关系的AST。
+
+HTML解析器的内部原理是一小段一小段地截取模板字符串，每截取一小段字符串，就会根据截取出来的字符串类型触发不同的钩子函数，直到模板字符串截空停止运行。
+
+文本分两种类型，不带变量的纯文本和带变量的文本，后者需要使用文本解析器进行二次加工。
 
 
 
