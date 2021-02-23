@@ -22,5 +22,46 @@
             },
         }).$mount('#app')
     </script>
+    <script>
+        // var str = '阿斯达萨达'
+        // var unicodeRegExp = /a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;
+        // var ncname = "[a-zA-Z_][\\-\\.0-9_a-zA-Z" + (unicodeRegExp.source) + "]*";
+        // var qnameCapture = "((?:" + ncname + "\\:)?" + ncname + ")";
+        // var startTagOpen = new RegExp(("^<" + qnameCapture));
+        // console.log(str.match(startTagOpen))
+
+
+        // const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/
+        // let html = ' class="box" id="el"></div>'
+        // let attr = html.match(attribute)
+        // html = html.substring(attr[0].length)
+
+        // console.log(attr)
+        // [" class="box"", "class", "=", "box", undefined, undefined, index: 0, input: " class="box" id="el"></div>", groups: undefined]
+
+
+        // const ncname = '[a-zA-Z_][\\w\\-\\.]*'
+        // const qnameCapture = `((?:${ncname}\\:)?${ncname})`
+        // const endTag = new RegExp(`^<\\/${qnameCapture}[^>]*>`)
+
+        // const endTagMatch = '</div>'.match(endTag)
+        // const endTagMatch2 = '<div>'.match(endTag)
+
+
+        // console.log(endTagMatch) // ["</div>", "div", index: 0, input: "</div>"]
+        // console.log(endTagMatch2) // null
+
+        const conditionalComment = /^<!\[/
+        let html = '<![if !IE]><link href="non-ie.css" rel="stylesheet"><![endif]>'
+        if (conditionalComment.test(html)) {
+            const conditionalEnd = html.indexOf(']>')
+            if (conditionalEnd >= 0) {
+                html = html.substring(conditionalEnd + 2)
+            }
+        }
+
+        console.log(html) // <link href="non-ie.css" rel="stylesheet"><![endif]>
+
+    </script>
 </body>
 </html>

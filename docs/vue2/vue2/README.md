@@ -3,7 +3,7 @@
 > 记录学习 vue2.x 
 
 ### 源码相关
-1. [模板引擎](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/templateEngine.html)
+1. [模板解析](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/templateEngine.html)
 2. [深入响应式原理](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/reactivityInDepth.html)
 3. [virtual DOM && Diff](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/vueDiff.html)
 4. [异步渲染](https://jayconscious.github.io/blog/vue2/vue2/sourcecode/asyncRender.html)
