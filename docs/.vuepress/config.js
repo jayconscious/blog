@@ -75,8 +75,9 @@ function getVuexSidebar (groupA) {
 			collapsable: false,
 			sidebarDepth: 2,
 			children: [
-				['', 'Outline'],
+				['', '目录'],
 				'what-is-vuex',
+				'a-simple-demo',
 			]
 		}
 	]
