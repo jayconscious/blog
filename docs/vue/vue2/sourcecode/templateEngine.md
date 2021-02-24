@@ -178,10 +178,10 @@ function parseHTML(html, options) {
 
 在上面的截取例子中，被截取的片段分为很多类型，
 
-- 开始标签，例如<div>。
-- 结束标签，例如</div>。
+- 开始标签，例如 `<div>`。
+- 结束标签，例如 `</div>`。
 - HTML注释，例如<!-- 我是注释 -->。
-- DOCTYPE，例如<!DOCTYPE html>。
+- DOCTYPE，例如 `<!DOCTYPE html>`。
 - 条件注释，例如<!--[if !IE]>-->我是注释<!--<![endif]-->。
 - 文本，例如msg。
 

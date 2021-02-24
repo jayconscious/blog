@@ -124,7 +124,7 @@ function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly)
 }
 ```
 ::: tip
-diff 的详细过程可以参考 [virtual DOM && Diff](https://jayconscious.github.io/blog/vue2/vue2/vueDiff.html)
+diff 的详细过程可以参考 [virtual DOM && Diff](https://jayconscious.github.io/blog/vue/vue2/vueDiff.html)
 :::
 
 

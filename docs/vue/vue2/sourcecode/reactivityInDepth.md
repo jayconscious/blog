@@ -173,7 +173,7 @@ get: function reactiveGetter() {
 
 这里有点抽象，我们来举个🌰：
 
-假如当前渲染的组件 `User` ,它的`template`模板 `{{ name }}`,依赖了自己的 `data` 中的 `name`。`User`组件渲染会产生的 `watcher`, 通过 `pushTarget` 方法，赋值在 `Dep.target` 上， 由 `name`实例化的订阅器在调用`dep.depend`，其实调用了  `watcher.addDep(dep) => dep.addSub(watcher)`，后面这一步，我们可以看到，`name`订阅器将 `User`依赖(`watcher`)添加到了自己的订阅者列表中，这样就完成了依赖收集的过程了。
+假如当前渲染的组件 `User` ,它的`template`模板 `name`,依赖了自己的 `data` 中的 `name`。`User`组件渲染会产生的 `watcher`, 通过 `pushTarget` 方法，赋值在 `Dep.target` 上， 由 `name`实例化的订阅器在调用`dep.depend`，其实调用了  `watcher.addDep(dep) => dep.addSub(watcher)`，后面这一步，我们可以看到，`name`订阅器将 `User`依赖(`watcher`)添加到了自己的订阅者列表中，这样就完成了依赖收集的过程了。
 
 ## Dep 订阅器
 

@@ -9,9 +9,9 @@ module.exports = [
     {
         text: 'Vue',
         items: [
-            { text: 'vue2.x', link: '/vue2/vue2/' },
+            { text: 'vue2.x', link: '/vue/vue2/' },
+            { text: 'vuex', link: '/vue/vuex/' },
             // { text: 'vueRouter', link: '/vue/vuerouter/' },
-            // { text: 'vueStore', link: '/vue/vuestore/' },
         ]
     },
     {

@@ -9,7 +9,7 @@
 > 例如，当你设置 `vm.someData = 'new value'`，该组件不会立即重新渲染。当刷新队列时，组件会在下一个事件循环`“tick”`中更新。多数情况我们不需要关心这个过程，但是如果你想基于更新后的 DOM 状态来做点什么，这就可能会有些棘手。虽然 `Vue.js` 通常鼓励开发人员使用“数据驱动”的方式思考，避免直接接触 DOM，但是有时我们必须要这么做。为了在数据变化之后等待 Vue 完成更新 DOM，可以在数据变化之后立即使用 `Vue.nextTick(callback)`。这样回调函数将在 DOM 更新完成后被调用
 
 ::: tip
-关于 `Vue.nextTick(callback)` 实现原理，我们已经在[怎么理解Vue中的$nextTick](https://jayconscious.github.io/blog/vue2/vue2/question/aboutNextTick.html)讲过了，这部分我们将重点关注 `异步渲染的策略`
+关于 `Vue.nextTick(callback)` 实现原理，我们已经在[怎么理解Vue中的$nextTick](https://jayconscious.github.io/blog/vue/vue2/question/aboutNextTick.html)讲过了，这部分我们将重点关注 `异步渲染的策略`
 :::
 
 ### 源码分析

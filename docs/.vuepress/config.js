@@ -15,7 +15,8 @@ module.exports = {
 		sidebar: {
 			'/javascript/basicjs/': [ 'promise'],
 			'/javascript/es6/': [ 'proxy' ],
-			'/vue2/vue2/': getBookSideBar(vue2),
+			'/vue/vue2/': getBookSideBar(vue2),
+			'/vue/vuex/': getVuexSidebar('vuex'),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),
@@ -65,4 +66,18 @@ function getBookSideBar (CfgList) {
 			))
 		}))
 	}
+}
+
+function getVuexSidebar (groupA) {
+	return [
+		{
+			title: groupA,
+			collapsable: false,
+			sidebarDepth: 2,
+			children: [
+				['', 'Outline'],
+				'what-is-vuex',
+			]
+		}
+	]
 }
