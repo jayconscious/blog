@@ -75,9 +75,11 @@ function getVuexSidebar (groupA) {
 			collapsable: false,
 			sidebarDepth: 2,
 			children: [
-				['', '目录'],
+				['', '介绍'],
 				'what-is-vuex',
 				'a-simple-demo',
+				['', '源码分析'],
+				'how-to-install',
 			]
 		}
 	]

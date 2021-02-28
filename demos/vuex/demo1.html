@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../lib/vue.js"></script>
+    <script src="../../lib/vuex.js"></script>
+</head>
+<body>
+    <script>
+        Vue.use(Vuex);
+        const store = new Vuex.Store({
+        state: {
+            count: 0
+        },
+        mutations: {
+                increment (state) {
+                    state.count++
+                }
+            }
+        })
+
+        store.commit('increment')
+
+        console.log(store.state.count) // -> 1
+
+    </script>
+</body>
+</html>

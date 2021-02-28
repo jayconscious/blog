@@ -12,6 +12,11 @@
 - [为什么列表组件不用 index 作为 key](https://jayconscious.github.io/blog/vue/vue2/question/checkDupKeys.html)
 - [怎么理解Vue中的$nextTick](https://jayconscious.github.io/blog/vue/vue2/question/aboutNextTick.html)
 
+### vuex
+
+- [Vuex 是什么？](https://jayconscious.github.io/blog/vue/vuex/what-is-vuex.html)
+
+
 ### JavaScript
 - [Promise 解析](https://jayconscious.github.io/blog/javascript/basicjs/promise.html)
 
