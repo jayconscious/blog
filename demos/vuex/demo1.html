@@ -11,19 +11,33 @@
     <script>
         Vue.use(Vuex);
         const store = new Vuex.Store({
-        state: {
-            count: 0
-        },
-        mutations: {
+            state: {
+                count: 0
+            },
+            mutations: {
                 increment (state) {
                     state.count++
+                }
+            },
+            actions: {
+                request (payload) {
+                    const commit = payload.commit
+                    setTimeout(function () {
+                        console.log('dispatch request')
+                        commit('increment')
+                    }, 0)
                 }
             }
         })
 
-        store.commit('increment')
-
+        // store.commit('increment')
+        console.log('store', store)
         console.log(store.state.count) // -> 1
+        store.dispatch('request').then(() => {
+            console.log(store.state.count) // -> 1
+        })
+        
+
 
     </script>
 </body>

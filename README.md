@@ -15,6 +15,8 @@
 ### vuex
 
 - [Vuex 是什么？](https://jayconscious.github.io/blog/vue/vuex/what-is-vuex.html)
+- [最简单的 Store](https://jayconscious.github.io/blog/vue/vuex/a-simple-demo.html)
+- [Store挂载实现](https://jayconscious.github.io/blog/vue/vuex/how-to-install.html)
 
 
 ### JavaScript

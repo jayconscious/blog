@@ -1,4 +1,4 @@
-# 挂载实现
+# Store挂载实现
 
 `vuex` 需要实现符合 `vue`插件的代码，才可以被 `vue` 使用或者相辅相成。
 
@@ -20,8 +20,9 @@ Vuex = {
 
 ## 分析 vuex 对象
 
-- store
-在上述的对象中，`store` 是我们熟悉的了，项目里面是我们所要实例化的数据 `store`，伪代码如下：
+- Store
+
+`Store`是我们比较熟悉的了，项目里面是我们所要实例化的数据 `Store`，伪代码如下：
 
 ```js
 const store = new Vuex.Store({
@@ -31,7 +32,7 @@ const store = new Vuex.Store({
 
 - install
 
-`install` 是一个 `function`，是作为 `vue plugin` 约定函数，后面会介绍它的具体实现。
+`install` 是一个 `function`，是作为 `vue plugin`机制的**约定函数**，后面会介绍它的具体实现。
 
 - mapState， mapMutations， mapGetters， mapActions
 
@@ -100,26 +101,4 @@ function applyMixin(Vue) {
 }
 ```
 
-对于 `vue2.x` 以上的版本，直接使用 `Vue.mixin` 方法，将 `store` 挂载到 `vm.$store`上，这样就实现了`this.$store`的调用。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+对于 `vue2.x` 以上的版本，直接使用 `Vue.mixin` 方法，将 `options.store` 挂载到 `vm.$store`上，这样就实现了`this.$store`的调用。
