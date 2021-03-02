@@ -20,7 +20,7 @@
 
 
 ### JavaScript
-- [Promise 解析](https://jayconscious.github.io/blog/javascript/basicjs/promise.html)
+- [Promise 解析](https://jayconscious.github.io/blog/javascript/js/promise.html)
 
 
 ### 读书
