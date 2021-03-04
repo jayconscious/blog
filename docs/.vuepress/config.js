@@ -16,7 +16,7 @@ module.exports = {
 			'/javascript/js/': [ 'promise'],
 			'/javascript/es6/': [ 'proxy' ],
 			'/vue/vue2/': getBookSideBar(vue2),
-			'/vue/vuex/': getVuexSidebar('vuex'),
+			'/vue/vuex/': getSingleSidebar('vuex'),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),
@@ -68,19 +68,20 @@ function getBookSideBar (CfgList) {
 	}
 }
 
-function getVuexSidebar (groupA) {
-	return [
-		{
-			title: groupA,
-			collapsable: false,
-			sidebarDepth: 2,
-			children: [
-				['', '介绍'],
-				'what-is-vuex',
-				'a-simple-demo',
-				['', '源码分析'],
-				'how-to-install',
-			]
-		}
-	]
+function getSingleSidebar (title) {
+	return [{
+		title,
+		collapsable: false,
+		sidebarDepth: 2,
+		children: [
+			['', '介绍'],
+			'what-is-vuex',
+			'a-simple-demo',
+			'store-install',
+			'store-init',
+			'dispatch',
+			'commit'
+		]
+	}]
 }
+

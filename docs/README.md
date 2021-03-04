@@ -14,8 +14,6 @@ features:
   details: 携书如历三千世 无书唯度一平生。
 footer: MIT Licensed | Copyright © 2020-2021 jayconscious
 ---
-<template>
-</template>
 
 <script>
   export default {
@@ -199,12 +197,11 @@ footer: MIT Licensed | Copyright © 2020-2021 jayconscious
                   requestAnimationFrame(animateDots);
               }
               
-              canvas.addEventListener('mousemove', function (e) {
+              window.addEventListener('mousemove', function (e) {
                   mousePosition.x = e.pageX;
                   mousePosition.y = e.pageY;
               }, false)
-
-              canvas.addEventListener('mouseleave', function (e) {
+              window.addEventListener('mouseleave', function (e) {
                   mousePosition.x = canvas.width / 2;
                   mousePosition.y = canvas.height / 2;
               }, false)

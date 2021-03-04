@@ -11,6 +11,7 @@
     <script>
         Vue.use(Vuex);
         const store = new Vuex.Store({
+            // strict: true,
             state: {
                 count: 0
             },
@@ -20,22 +21,32 @@
                 }
             },
             actions: {
-                request (payload) {
-                    const commit = payload.commit
+                request ( context, payload ) {
+                    const commit = context.commit
                     setTimeout(function () {
                         console.log('dispatch request')
                         commit('increment')
                     }, 0)
                 }
+            },
+            modules: {
+                user: {
+                    namespaced: true,
+                    state: {
+                        name: 'wade'
+                    }
+                }
             }
         })
 
         // store.commit('increment')
-        console.log('store', store)
-        console.log(store.state.count) // -> 1
-        store.dispatch('request').then(() => {
-            console.log(store.state.count) // -> 1
-        })
+        // console.log(store)
+        store._mutations['increment'][0]()
+        console.log('store', store.state.count)
+        // console.log(store.state.count) // -> 1
+        // store.dispatch('request', { name: 'test' }).then(() => {
+        //     console.log(store.state.count) // -> 1
+        // })
         
 
 
