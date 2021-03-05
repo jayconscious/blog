@@ -13,7 +13,7 @@ module.exports = {
 		// navbar: false   禁用所有页面的导航栏
 		nav: require('./nav/zh'),
 		sidebar: {
-			'/javascript/js/': [ 'promise'],
+			'/javascript/js/': [ 'extends', 'promise'],
 			'/javascript/es6/': [ 'proxy' ],
 			'/vue/vue2/': getBookSideBar(vue2),
 			'/vue/vuex/': getSingleSidebar('vuex'),

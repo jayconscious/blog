@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>extends</title>
+</head>
+<body>
+    <script>
+        // ## 1、原型链继承
+        function Person (name) {
+            this.name = 'haha'
+        }
+
+        Person.prototype.getName = function () {
+            console.log(this.name)
+        }
+
+        function My () { }
+
+        My.prototype = new Person()
+
+        var me = new My()
+        me.getName()  // 'haha'
+
+        var he = new  My()
+        he.getName()  // 'haha'
+
+
+    </script>
+</body>
+</html>
