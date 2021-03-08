@@ -8,23 +8,149 @@
 <body>
     <script>
         // ## 1、原型链继承
-        function Person (name) {
-            this.name = 'haha'
-        }
+        // function Person (name) {
+        //     this.name = 'haha'
+        // }
+        // Person.prototype.getName = function () {
+        //     console.log(this.name)
+        // }
+        // function My () { }
+        // My.prototype = new Person()
+        // var me = new My()
+        // me.getName()  // 'haha'
+        // var he = new  My()
+        // he.getName()  // 'haha'
 
-        Person.prototype.getName = function () {
+        // ## 2.借用构造函数(经典继承)
+        // function Person () {
+        //     this.name = ['zzy', 'ldd']
+        // }
+
+        // function Family() {
+        //     Person.call(this)
+        // }
+
+        // var f1 = new Family()
+        // f1.name.push('male or female')
+        // console.log(f1.name) // [ zzy,ldd,male or female ]
+
+        // var f2 = new Family()
+        // console.log(f2.name) // [ zzy,ldd ]
+
+        // ## 3.组合继承
+        // 原型链继承和经典继承双剑合璧。
+
+        // function Parent (name) {
+        //     this.name = name;
+        //     this.colors = ['red', 'blue', 'green'];
+        // }
+        // Parent.prototype.getName = function () {
+        //     console.log(this.name)
+        // }
+        // function Child (name, age) {
+        //     Parent.call(this, name)
+        //     this.age = age
+        // }
+        // Child.prototype = new Parent()
+        // // Child.prototype.constructor = Child;
+        // var child1 = new Child('kevin', '18')
+        // console.log(child1)
+        // child1.colors.push('black')
+        // console.log(child1.name);       // kevin
+        // console.log(child1.age);        // 18
+        // console.log(child1.colors);     // ["red", "blue", "green", "black"]
+
+        // var child2 = new Child('daisy', '20');
+        // console.log(child2.name);       // daisy
+        // console.log(child2.age);        // 20
+        // console.log(child2.colors);     // ["red", "blue", "green"]
+
+
+        // ## 4.原型式继承
+
+        // function createObj(o) {
+        //     function F(){}
+        //     F.prototype = o;
+        //     return new F();
+        // }
+        // var person = {
+        //     name: 'kevin',
+        //     friends: ['daisy', 'kelly']
+        // }
+
+        // var person1 = createObj(person);
+        // var person2 = createObj(person);
+        
+        // person1.name = 'person1';
+        // person2.name = person2.name + 'person2'
+        // console.log(person2.name); // kevinperson2
+
+        // person1.friends.push('taylor');
+        // console.log(person2.friends); // ["daisy", "kelly", "taylor"]
+
+
+        // ## 5.寄生式继承
+        
+        // 创建一个仅用于封装继承过程的函数，该函数在内部以某种形式来做增强对象，最后返回对象。
+
+        // function createObj (o) {
+        //     var clone = Object.create(o);
+        //     clone.sayName = function () {
+        //         console.log('hi');
+        //     }
+        //     return clone;
+        // }
+
+        // 缺点：跟借用构造函数模式一样，每次创建对象都会创建一遍方法。比如 这里的 `sayName`
+
+        function Parent (name) {
+            this.name = name;
+            this.colors = ['red', 'blue', 'green'];
+        }
+        Parent.prototype.getName = function () {
             console.log(this.name)
         }
 
-        function My () { }
+        function Child (name, age) {
+            Parent.call(this, name);
+            this.age = age;
+        }
+        Child.prototype = new Parent()
+        // Child.prototype.constructor = Child
 
-        My.prototype = new Person()
+        var child1 = new Child('kevin', '18')
 
-        var me = new My()
-        me.getName()  // 'haha'
+        console.log(child1) // age: "18"，colors: (3) ["red", "blue", "green"]，name: "kevin"
+        // console.log(child1.__proto__)  => Parent 
+        // Object.getPrototypeOf(child1)  => Parent
 
-        var he = new  My()
-        he.getName()  // 'haha'
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+        
+
+
 
 
     </script>
