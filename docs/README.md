@@ -197,14 +197,14 @@ footer: MIT Licensed | Copyright © 2020-2021 jayconscious
                   requestAnimationFrame(animateDots);
               }
               
-              window.addEventListener('mousemove', function (e) {
-                  mousePosition.x = e.pageX;
-                  mousePosition.y = e.pageY;
-              }, false)
-              window.addEventListener('mouseleave', function (e) {
-                  mousePosition.x = canvas.width / 2;
-                  mousePosition.y = canvas.height / 2;
-              }, false)
+            //   window.addEventListener('mousemove', function (e) {
+            //       mousePosition.x = e.pageX;
+            //       mousePosition.y = e.pageY;
+            //   }, false)
+            //   window.addEventListener('mouseleave', function (e) {
+            //       mousePosition.x = canvas.width / 2;
+            //       mousePosition.y = canvas.height / 2;
+            //   }, false)
 
               createDots();
               requestAnimationFrame(animateDots);

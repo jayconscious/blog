@@ -7,7 +7,7 @@ module.exports = {
     },{
         title: '问题解答',
         path: '/vue/vue2/question/',
-        children: [ 'dataIsFn', 'checkDupKeys', 'aboutNextTick' ]
+        children: [ 'dataIsFn', 'checkDupKeys', 'aboutNextTick', 'directive' ]
     }],
     // 《你不知道的JavaScript》(上卷)
     dontknowjs1: [{
