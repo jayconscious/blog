@@ -107,7 +107,7 @@ vnode keys: tag, data, children, text, elm, ns, context, fnContext, fnOptions, f
 
 通过上面官网的例子和我们平时的coding，我们基本上了解了 vue 的指令是如何使用的了，接下来我们从**源码**的视角来解析其实现的原理。
 
-`Vue.directive` 的定义：
+### Vue.directive 的定义：
 
 ```js
 function initAssetRegisters(Vue) {
@@ -139,6 +139,14 @@ function initAssetRegisters(Vue) {
 }
 ```
 其实这个方法比较简单，就是在 `vm.options.directives` 挂载了一个映射，比如 `vm.$options.directives.demo = { xxx }`。我们要看看这个指令是如何生效的。
+
+
+
+
+
+
+
+
 
 
 

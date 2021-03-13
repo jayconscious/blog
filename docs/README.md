@@ -219,8 +219,8 @@ footer: MIT Licensed | Copyright © 2020-2021 jayconscious
         margin: 0;
         padding: 0;
     }
-    .navbar, .sidebar {
-        background-color: transparent;
+    .links, .navbar, .sidebar, .search-box input {
+        background-color: transparent!important;
     }
 </style>
 
