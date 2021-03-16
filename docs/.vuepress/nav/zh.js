@@ -1,26 +1,6 @@
 module.exports = [
-    // {
-    //     text: 'javascript',
-    //     items: [
-    //         { text: '深入理解JS', link: '/javascript/js/' },
-    //         { text: '深入理解ES6', link: '/javascript/es6/' }
-    //     ]
-    // },
-    // {
-    //     text: 'Vue',
-    //     items: [
-    //         { text: 'vue2.x', link: '/vue/vue2/' },
-    //         { text: 'vuex', link: '/vue/vuex/' },
-    //         // { text: 'vueRouter', link: '/vue/vuerouter/' },
-    //     ]
-    // },
-    // {
-    //     text: 'Node.js',
-    //     items: [
-    //         { text: 'Egg', link: '/node/egg/' },
-    //         { text: 'Koa', link: '/node/koa/' }
-    //     ]
-    // },
+    { text: 'Home', link: '/', icon: 'reco-home' },
+    { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' },
     {
         text: '阅读',
         items: [
@@ -30,13 +10,5 @@ module.exports = [
             { text: '《深入浅出Node.js》', link: '/book/explainindepthnodejs/' }
         ]
     },
-    // {
-    //     text: '其他',
-    //     items: [
-    //         { text: '服务器相关', link: '/others/server/cdn' },
-    //         { text: 'Redis', link: '/others/redis/start' },
-    //     ]
-    // },
-    { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' },
     { text: 'Github', link: 'https://github.com/jayconscious' }
 ]

@@ -10,13 +10,15 @@ module.exports = {
 	title: 'Jayconscious',
 	description: 'Just playing around',
 	themeConfig: {
-		logo: '/assets/img/log.png',
+		type: 'blog',
+		authorAvatar: '/assets/img/avatar.png',
 		// navbar: false   禁用所有页面的导航栏
 		nav: require('./nav/zh'),
+		author: 'jayconscious',
 		sidebar: {
 			'/javascript/js/': [ 'extends', 'promise'],
 			'/javascript/es6/': [ 'proxy' ],
-			'/node/egg/': ['framework'],
+			'/node/egg/': [ 'framework' ],
 			'/vue/vue2/': getBookSideBar(vue2),
 			'/vue/vuex/': getSingleSidebar('vuex'),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
@@ -43,6 +45,7 @@ module.exports = {
 		activeHeaderLinks: false, // 禁止页面连接hash更新
 		// sidebar: 'auto'  // 自动生成一个侧边栏
 		lastUpdated: '上次更新', // string | boolean
+		startYear: '2020',
 	},
 	markdown: {
 		lineNumbers: true

@@ -1,20 +1,6 @@
 ---
 home: true
-herodontknowjs1: 
 heroText: Welcome To My Channel~
-tagline: 
-actionText: Let's Go ~
-actionLink: ./guide/index.md
-features:
-- title: JavaScript
-  details: 构建JavaScript知识体系
-- title: Vue
-  details: 作为前端三大框架之一，让我们深入了解其生态和内部的运行原理
-- title: Node
-  details: 前端全栈的最快路线，包含node.js，框架和服务
-- title: 读书
-  details: 携书如历三千世 无书唯度一平生。
-footer: MIT Licensed | Copyright © 2020-2021 jayconscious
 ---
 
 <!-- <script>
