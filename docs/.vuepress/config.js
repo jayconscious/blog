@@ -2,6 +2,7 @@ const moment = require('moment');
 const { vue2, dontknowjs1, dontknowjs2, tstutorial } = require('./sidebarCfg')
 
 module.exports = {
+	theme: 'reco',
 	head: [
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
 	],
@@ -15,6 +16,7 @@ module.exports = {
 		sidebar: {
 			'/javascript/js/': [ 'extends', 'promise'],
 			'/javascript/es6/': [ 'proxy' ],
+			'/node/egg/': ['framework'],
 			'/vue/vue2/': getBookSideBar(vue2),
 			'/vue/vuex/': getSingleSidebar('vuex'),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
@@ -25,6 +27,16 @@ module.exports = {
 			],
 			'/others/server/': [ 'cdn' ],
 			'/others/redis/': [ 'start' ],
+		},
+		blogConfig: {
+			category: {
+			  	location: 2, // 在导航栏菜单中所占的位置，默认2
+			  	text: 'Category' // 默认 “分类”
+			},
+			tag: {
+			  	location: 3, // 在导航栏菜单中所占的位置，默认3
+			  	text: 'Tag' // 默认 “标签”
+			}
 		},
 		sidebarDepth: 0,  // 获取页面的h3标签作为连接锚点
 		displayAllHeaders: false, // 显示所有页面的标题链接

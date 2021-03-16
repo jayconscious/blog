@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "gh-pages": "^2.1.1",
-    "vuepress": "^1.2.0"
+    "vuepress": "^1.2.0",
+    "vuepress-theme-reco": "^1.6.6"
   },
   "scripts": {
     "dev": "vuepress dev docs",
