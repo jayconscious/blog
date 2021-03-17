@@ -6,7 +6,8 @@ module.exports = {
 	head: [
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
 	],
-	base: '/blog/',
+	// base: '/blog/',
+	base: '/',
 	title: 'Jayconscious',
 	description: 'Just playing around',
 	themeConfig: {

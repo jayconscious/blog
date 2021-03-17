@@ -433,21 +433,31 @@
         // }
 
         // MyPromise
-        new Promise(function (resolve, reject) {
-            setTimeout(function() {
-                resolve('异步1')
-            }, 1000) 
-        }).then(res => {
-            let data = '未执行'
-            setTimeout(function() {
-                data = 'test'
-            }, 1000)
-            return data
-        }).then(res => {
-            console.log(res)
-        })
+        // new Promise(function (resolve, reject) {
+        //     setTimeout(function() {
+        //         resolve('异步1')
+        //     }, 1000) 
+        // }).then(res => {
+        //     let data = '未执行'
+        //     setTimeout(function() {
+        //         data = 'test'
+        //     }, 1000)
+        //     return data
+        // }).then(res => {
+        //     console.log(res)
+        // })
 
         // https://juejin.cn/post/6845166891061739528#heading-12
+
+        var a=0, b=0;
+        function A(a){
+            A = function(b){
+                alert(a+b++);
+            }
+            alert(a++);
+        }
+        A(1);  // 1
+        A(2);  // 4
 
 
 
