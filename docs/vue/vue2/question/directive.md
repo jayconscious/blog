@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - Vue
 categories:
- - Vue
+ - Vue2.x
 ---
 
 ## 如何自定义指令？

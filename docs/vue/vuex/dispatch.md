@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - Vuex
 categories:
- - Vue
+ - Vuex
 ---
 
 `Action` 通过 `store.dispatch` 方法触发：

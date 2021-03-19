@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - Vuex
 categories:
- - Vue
+ - Vuex
 ---
 
 `vuex` 需要实现符合 `vue`插件的代码，才可以被 `vue` 使用或者相辅相成。

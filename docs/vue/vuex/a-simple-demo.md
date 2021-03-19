@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - Vuex
 categories:
- - Vue
+ - Vuex
 ---
 
 每一个 `Vuex` 应用的核心就是 `store（仓库）` 。`“store”`基本上就是一个容器，它包含着你的应用中大部分的状态 (state)。 `Vuex` 和单纯的全局对象有以下两点不同：

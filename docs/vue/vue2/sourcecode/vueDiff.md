@@ -5,7 +5,8 @@ sidebar: auto
 tags: 
  - Vue
 categories:
- - Vue
+ - Vue2.x
+sticky: 3
 ---
 
 ## 背景

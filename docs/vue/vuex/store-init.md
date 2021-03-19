@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - Vuex
 categories:
- - Vue
+ - Vuex
 ---
 
 ## 看看 Store 整个构造函数的声明

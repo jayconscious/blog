@@ -5,7 +5,8 @@ sidebar: auto
 tags: 
  - Vue
 categories:
- - Vue
+ - Vue2.x
+sticky: 2
 ---
 
 ## 什么是数据响应式

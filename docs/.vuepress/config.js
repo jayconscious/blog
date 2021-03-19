@@ -47,6 +47,15 @@ module.exports = {
 		// sidebar: 'auto'  // 自动生成一个侧边栏
 		lastUpdated: '上次更新', // string | boolean
 		startYear: '2020',
+		valineConfig: {
+			appId: '35MDGfOk3PtL6D4gtOStzE0c-gzGzoHsz',// your appId
+			appKey: 'h9XmKI1NHaLVKlhdwVNRD1QO', // your appKey
+			showComment: false,					// 关闭评论
+			placeholder: '是时候展现真正的技术了',
+			avatar: 'wavatar',
+			requiredFields: ['nick','mail'],
+			// serverUrl: 'https://leanserver.smallsunnyfox.com'
+		  }
 	},
 	markdown: {
 		lineNumbers: true
