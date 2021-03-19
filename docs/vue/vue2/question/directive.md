@@ -1,4 +1,12 @@
-# vue 中如何自定义指令及其原理
+---
+title: vue 中如何自定义指令及其原理
+date: 2021-03-15
+sidebar: auto
+tags: 
+ - Vue
+categories:
+ - Vue
+---
 
 ## 如何自定义指令？
 

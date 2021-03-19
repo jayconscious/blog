@@ -1,4 +1,12 @@
-# 深入响应式原理
+---
+title: 深入响应式原理
+date: 2021-02-25
+sidebar: auto
+tags: 
+ - Vue
+categories:
+ - Vue
+---
 
 ## 什么是数据响应式
 

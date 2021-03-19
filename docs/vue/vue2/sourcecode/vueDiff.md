@@ -1,4 +1,12 @@
-# virtual DOM && Diff
+---
+title: virtual DOM && Diff
+date: 2021-02-24
+sidebar: auto
+tags: 
+ - Vue
+categories:
+ - Vue
+---
 
 ## 背景
 

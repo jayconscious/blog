@@ -1,4 +1,12 @@
-# vue组件里的data为什么是函数返回一个对象
+---
+title: vue组件里的data为什么是函数返回一个对象
+date: 2021-02-18
+sidebar: auto
+tags: 
+ - Vue
+categories:
+ - Vue
+---
 
 事实上如果组件里 `data` 直接写了一个对象的话，那么如果你在模板中多次声明这个组件，组件中的 `data` 会指向同一个引用。
 

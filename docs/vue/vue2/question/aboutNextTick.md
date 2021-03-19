@@ -1,4 +1,12 @@
-# 怎么理解Vue中的$nextTick
+---
+title: 怎么理解Vue中的$nextTick
+date: 2021-02-20
+sidebar: auto
+tags: 
+ - Vue
+categories:
+ - Vue
+---
 
 ### NextTick是什么
 

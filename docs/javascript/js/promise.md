@@ -1,4 +1,12 @@
-# Promise 解析
+---
+title: Promise 解析
+date: 2021-03-03
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ## 前言
 

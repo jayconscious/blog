@@ -1,4 +1,12 @@
-# dispatch 源码解析
+---
+title: dispatch 源码解析
+date: 2021-03-05
+sidebar: auto
+tags: 
+ - Vuex
+categories:
+ - Vue
+---
 
 `Action` 通过 `store.dispatch` 方法触发：
 

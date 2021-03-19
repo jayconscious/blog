@@ -1,4 +1,12 @@
-# 为什么列表组件不用 index 作为 key
+---
+title: 为什么列表组件不用 index 作为 key
+date: 2021-02-19
+sidebar: auto
+tags: 
+ - Vue
+categories:
+ - Vue
+---
 
 ### 背景
 

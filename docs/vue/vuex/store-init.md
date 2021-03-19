@@ -1,4 +1,12 @@
-# 解析 vuex.Store
+---
+title: 解析 vuex.Store
+date: 2021-02-28
+sidebar: auto
+tags: 
+ - Vuex
+categories:
+ - Vue
+---
 
 ## 看看 Store 整个构造函数的声明
 <!-- 待深入 -->

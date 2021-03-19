@@ -1,4 +1,13 @@
-# 继承的几种方式以及优缺点
+---
+title: 继承的几种方式以及优缺点
+date: 2021-03-09
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
+
 
 ## 前言
 
