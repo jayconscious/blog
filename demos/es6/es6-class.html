@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6-class</title>
+</head>
+<body>
+    <script>
+        // class Bar {
+        //     doStuff() {
+        //         console.log('stuff');
+        //     }
+        // }
+        // const b = new Bar();
+        // b.doStuff() // "stuff"
+
+        // class Point {
+        //     constructor(){
+        //         // ...
+        //     }
+        // }
+        // Object.assign(Point.prototype, {
+        //     toString(){
+        //         console.log('toString')
+        //     },
+        //     toValue(){}
+        // });
+        // new Point().toString()  // toString
+
+
+        // class Point {
+        //     constructor(x, y) {
+        //         // ...
+        //     }
+        //     toString() {
+        //         // ...
+        //     }
+        // }
+        // console.log(Object.keys(Point.prototype))
+        // console.log(Object.getOwnPropertyNames(Point.prototype))
+
+        // class Point {
+        //     say () {
+        //     }
+        // }
+
+        // var p1 = new Point(2,3);
+        // var p2 = new Point(3,2);
+        // console.log(p1.__proto__ === p2.__proto__)// true
+        // console.log(Object.getPrototypeOf(p1))
+
+        // class Point { }
+        // var p1 = new Point(2,3);
+        // var p2 = new Point(3,2);
+
+        // p1.__proto__.printName = function () { console.log('Oops') };
+
+        // p1.printName() // "Oops"
+        // p2.printName() // "Oops"
+
+        // var p3 = new Point(4,2);
+        // p3.printName() // "Oops"
+
+        // class MyClass {
+        //     constructor() {
+        //         // ...
+        //     }
+        //     get prop() {
+        //         return 'getter';
+        //     }
+        //     set prop(value) {
+        //         // console.log('setter: '+value);
+        //     }
+        // }
+
+        // let inst = new MyClass();
+
+        // inst.prop = 123
+
+        // console.log(inst.prop)
+        // console.log()
+
+        // class CustomHTMLElement {
+        //     constructor(element) {
+        //         this.element = element;
+        //     }
+
+        //     get html() {
+        //         return this.element.innerHTML;
+        //     }
+
+        //     set html(value) {
+        //         this.element.innerHTML = value;
+        //     }
+        // }
+        // var descriptor = Object.getOwnPropertyDescriptor(
+        //     CustomHTMLElement.prototype, "html"
+        // )
+        // console.log(descriptor)
+        // "get" in descriptor  // true
+        // "set" in descriptor  // true
+
+        // new Foo(); // ReferenceError
+        // class Foo {}
+
+        class Point {}
+        console.log(Point.name) // "Point"
+         
+
+
+
+
+
+         
+
+
+
+    </script>
+</body>
+</html>
