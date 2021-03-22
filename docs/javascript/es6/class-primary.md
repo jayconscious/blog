@@ -1,6 +1,6 @@
 ---
 title: Class 的基本语法
-date: 2021-03-22
+date: 2021-03-23
 sidebar: auto
 tags: 
  - ES6
@@ -182,7 +182,7 @@ class Square {
 为了避免属性名冲突，可以使用 `Symbol` 来声明。
 :::
 
-## Class 表达式 
+## Class 表达式
 
 与函数一样，类也可以使用表达式的形式定义。
 
@@ -209,52 +209,249 @@ class Foo {}
 class Point {}
 console.log(Point.name) // "Point"
 ```
-3. **name 属性**
+4. **Generator 方法**
+如果某个方法之前加上**星号（*）**，就表示该方法是一个 `Generator` 函数。
 
+```js
+class Foo {
+    constructor(...args) {
+        this.args = args;
+    }
+    * [Symbol.iterator]() {
+        for (let arg of this.args) {
+            yield arg;
+        }
+    }
+}
+for (let x of new Foo('hello', 'world')) {
+    console.log(x)
+}
+// hello
+// world
+```
+上面代码中，Foo类的 `Symbol.iterator` 方法前有一个星号，表示该方法是一个 `Generator` 函数。`Symbol.iterator`方法返回一个Foo类的默认遍历器，for...of循环会自动调用这个遍历器。
 
+5. **this 的指向**
 
+类的方法内部如果含有 `this` ，它默认指向类的**实例**。但是，必须非常小心，一旦单独使用该方法，很可能报错。
+```js
+class Logger {
+    printName(name = 'there') {
+        this.print(`Hello ${name}`);
+    }
 
+    print(text) {
+        console.log(text);
+    }
+}
+const logger = new Logger();
+const { printName } = logger;
+printName(); // Cannot read property 'print' of undefined
+```
+可以使用 `bind` 或者是箭头函数来指定 `this`。
 
+## 静态方法
 
+类相当于实例的原型，所有在类中定义的方法，都会被实例继承。如果在一个方法前，加上 `static` 关键字，就表示该方法**不会被实例继承**，而是直接通过类来调用，这就称为`“静态方法”`。
 
+```js
+class Person {
+    static say () {
+        console.log('haha')
+    }
+}
+const p1 = new Person()
+Person.say() // haha
+p1.say()     // Uncaught TypeError: p1.say is not a function
+```
 
+::: tip
+注意，如果静态方法包含 `this` 关键字，这个 `this` 指的是类，而不是实例。
+:::
 
+```js
+class Foo {
+    static bar() {
+        this.baz()
+    }
+    static baz() {
+        console.log('hello')
+    }
+    baz() {
+        console.log('world')
+    }
+}
+Foo.bar() // hello
+```
+上面代码中，静态方法 bar 调用了 this.baz，这里的this指的是Foo类，而不是Foo的实例，等同于调用Foo.baz。另外，从这个例子还可以看出，**静态方法可以与非静态方法重名**。
 
+父类的静态方法，可以被子类继承。
 
+```js
+class Foo {
+    static classMethod() {
+        console.log('hello');
+    }
+}
+class Bar extends Foo { }
+Bar.classMethod() // 'hello'
+```
 
+静态方法也是可以从 `super` 对象上调用的。
 
+```js
+class Foo {
+    static classMethod() {
+        return 'hello';
+    }
+}
+class Bar extends Foo {
+    static classMethod() {
+        return super.classMethod() + ', too';
+    }
+}
+console.log(Bar.classMethod()) // hello, too
+```
 
+## 实例属性的新写法
 
+实例属性除了定义在 `constructor()` 方法里面的 `this` 上面，也可以定义在类的最顶层。
 
+```js
+class IncreasingCounter {
+    constructor() {
+        this._count = 0;
+    }
+    get value() {
+        console.log('Getting the current value!');
+        return this._count;
+    }
+    increment() {
+        this._count++;
+    }
+}
+```
+上面代码中，实例属性 `this._count` 定义在 `constructor()` 方法里面。另一种写法是，这个属性也可以定义在类的最顶层，其他都不变。
+```js
+class foo {
+    bar = 'hello';
+    baz = 'world';
 
+    constructor() {
+        // ...
+    }
+}
+```
+上面的代码，一眼就能看出，foo类有两个实例属性，一目了然。另外，写起来也比较简洁。
 
+## 静态属性
 
+静态属性指的是 `Class` 本身的属性，即 `Class.propName` ，而**不是定义**在实例对象（this）上的属性。
 
+```js
+class Foo {
+}
+Foo.prop = 1;
+Foo.prop // 1
+```
 
+目前，只有这种写法可行，因为 `ES6` 明确规定， `Class` 内部只有**静态方法**，没有静态属性。
 
+## 私有方法和私有属性
 
+**私有方法** 和 **私有属性**，是只能在类的内部访问的方法和属性，外部不能访问。这是常见需求，**有利于代码的封装**，但 ES6 不提供，只能通过变通方法模拟实现。
 
+一种做法是在命名上加以区别。
 
+```js
+class Widget {
+    // 公有方法
+    foo (baz) {
+        this._bar(baz);
+    }
+    // 私有方法
+    _bar(baz) {
+        return this.snaf = baz;
+    }
+    // ...
+}
+```
+还有一种方法是利用 `Symbol` 值的唯一性，将私有方法的名字命名为一个 `Symbol` 值。
 
+```js
+const bar = Symbol('bar');
+const snaf = Symbol('snaf');
+export default class myClass{
+    // 公有方法
+    foo(baz) {
+        this[bar](baz)
+    }
+    // 私有方法
+    [bar](baz) {
+        return this[snaf] = baz
+    }
+    // ...
+}
+```
 
+## new.target 属性
 
+`new` 是从构造函数生成实例对象的命令。ES6 为 `new` 命令引入了一个 `new.target` 属性，该属性一般用在构造函数之中，返回 `new` 命令作用于的那个构造函数。
 
+如果构造函数**不是**通过new命令或 `Reflect.construct()` 调用的， `new.target` 会返回 `undefined`。
 
+```js
+function Person(name) {
+    if (new.target !== undefined) {
+        this.name = name;
+    } else {
+        throw new Error('必须使用 new 命令生成实例');
+    }
+}
+// 另一种写法
+function Person(name) {
+    if (new.target === Person) {
+        this.name = name;
+    } else {
+        throw new Error('必须使用 new 命令生成实例');
+    }
+}
+```
 
+需要注意的是，子类继承父类时，`new.target`会返回子类。
 
+```js
+class Rectangle {
+    constructor(length, width) {
+        console.log(new.target === Rectangle);
+        // ...
+    }
+}
+class Square extends Rectangle {
+    constructor(length, width) {
+        super(length, width);
+    }
+}
+var obj = new Square(3); // 输出 false
+```
 
+利用这个特点，可以写出**不能独立使用、必须继承**后才能使用的类。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+```js
+class Shape {
+    constructor() {
+        if (new.target === Shape) {
+            throw new Error('本类不能实例化');
+        }
+    }
+}
+class Rectangle extends Shape {
+    constructor(length, width) {
+        super();
+        // ...
+    }
+}
+var x = new Shape();  // 报错
+var y = new Rectangle(3, 4);  // 正确
+```
 

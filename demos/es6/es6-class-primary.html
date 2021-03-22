@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>es6-class</title>
+    <title>es6-class-primary</title>
 </head>
+
 <body>
     <script>
         // class Bar {
@@ -104,18 +106,84 @@
         // new Foo(); // ReferenceError
         // class Foo {}
 
-        class Point {}
-        console.log(Point.name) // "Point"
-         
+        // class Point {}
+        // console.log(Point.name) // "Point"
+
+        // class Foo {
+        //     constructor(...args) {
+        //         this.args = args;
+        //     }
+        //     * [Symbol.iterator]() {
+        //         for (let arg of this.args) {
+        //             yield arg;
+        //         }
+        //     }
+        // }
+        // for (let x of new Foo('hello', 'world')) {
+        //     console.log(x)
+        // }
+        // // hello
+        // // world
+
+        // class Logger {
+        //     printName(name = 'there') {
+        //         this.print(`Hello ${name}`);
+        //     }
+
+        //     print(text) {
+        //         console.log(text);
+        //     }
+        // }
+        // const logger = new Logger();
+        // const { printName } = logger;
+        // printName();
+
+        // class Person {
+        //     static say () {
+        //         console.log('haha')
+        //     }
+        // }
+        // const p1 = new Person()
+        // Person.say()
+        // p1.say()
+
+        // class Foo {
+        //     static bar() {
+        //         this.baz();
+        //     }
+        //     static baz() {
+        //         console.log('hello');
+        //     }
+        //     baz() {
+        //         console.log('world');
+        //     }
+        // }
+        // Foo.bar() // hello
+
+        // class Foo {
+        //     static classMethod() {
+        //         console.log('hello');
+        //     }
+        // }
+        // class Bar extends Foo { }
+        // Bar.classMethod() // 'hello'
 
 
+        // class Foo {
+        //     static classMethod() {
+        //         return 'hello';
+        //     }
+        // }
+        // class Bar extends Foo {
+        //     static classMethod() {
+        //         return super.classMethod() + ', too';
+        //     }
+        // }
+        // console.log(Bar.classMethod()) // hello, too
 
 
-
-         
-
-
-
+        
     </script>
 </body>
+
 </html>
