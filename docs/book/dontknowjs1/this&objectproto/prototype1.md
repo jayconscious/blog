@@ -1,4 +1,12 @@
-# 原型(上)
+---
+title: 原型(上)
+date: 2020-08-23
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ## [[Prototype]]
 

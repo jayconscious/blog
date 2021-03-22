@@ -1,4 +1,12 @@
-# 行为委托(下)
+---
+title: 行为委托(下)
+date: 2020-09-02
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ## 更简洁的设计
 

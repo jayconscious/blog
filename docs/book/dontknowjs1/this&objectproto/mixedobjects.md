@@ -1,4 +1,13 @@
-# 混合对象“类”
+---
+title: 混合对象“类”
+date: 2020-08-20
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
+
 
 在研究类的具体机制之前，我们首先会介绍面向类的设计模式:**实例化(instantiation)**、**继承(inheritance)** 和 **(相对)多态(polymorphism)**。
 

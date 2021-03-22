@@ -1,4 +1,12 @@
-# 关于this
+---
+title: 关于this
+date: 2020-07-30
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 > this 关键字是 JavaScript 中最复杂的机制之一。它是一个很特别的关键字，被自动定义在 所有函数的作用域中。但是即使是非常有经验的 JavaScript 开发者也很难说清它到底指向什么(任何足够先进的技术都和魔法无异。)
 

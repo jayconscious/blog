@@ -1,4 +1,12 @@
-# 原型(下)
+---
+title: 原型(下)
+date: 2020-08-26
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ## (原型)继承
 

@@ -1,4 +1,12 @@
-# 对象(上)
+---
+title: 对象(上)
+date: 2020-08-13
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 对象可以通过两种形式定义:声明(文字)形式和构造形式。
 

@@ -1,4 +1,12 @@
-# 行为委托(上)
+---
+title: 行为委托(上)
+date: 2020-08-28
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 首先简单回顾一下的结论:[[Prototype]] 机制就是指对象中的一个内部链接引用另一个对象。
 

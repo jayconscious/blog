@@ -61,17 +61,17 @@ module.exports = {
 		lineNumbers: true
 	},
 	plugins: [
-		['@vuepress/last-updated',
-			{
-				transformer: (timestamp, lang) => {
-					lang = 'zh-CN'
-					const moment = require('moment')
-					moment.locale(lang)
-					timestamp = timestamp + 8 * 60 * 60 * 1000
-					return moment(timestamp).format('llll');
-				}
-			}
-		],
+		// ['@vuepress/last-updated',
+		// 	{
+		// 		transformer: (timestamp, lang) => {
+		// 			lang = 'zh-CN'
+		// 			const moment = require('moment')
+		// 			moment.locale(lang)
+		// 			timestamp = timestamp + 8 * 60 * 60 * 1000
+		// 			return moment(timestamp).format('llll');
+		// 		}
+		// 	}
+		// ],
 		['@vuepress/back-to-top', true]
 	]
 }

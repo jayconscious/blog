@@ -1,4 +1,12 @@
-# 对象(中)
+---
+title: 对象(中)
+date: 2020-08-17
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ### 5.属性描述符
 

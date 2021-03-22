@@ -1,4 +1,12 @@
-# 提升
+---
+title: 提升
+date: 2020-07-22
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ## 先有鸡还是先有蛋
 

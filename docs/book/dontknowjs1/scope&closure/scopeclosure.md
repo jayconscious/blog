@@ -1,4 +1,12 @@
-# 作用域闭包
+---
+title: 作用域闭包
+date: 2020-07-27
+sidebar: auto
+tags: 
+ - js
+categories:
+ - Javascript
+---
 
 ## 启示
 
