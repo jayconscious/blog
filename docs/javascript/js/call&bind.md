@@ -36,7 +36,42 @@ say.call(person) // jay
 
 ## call 的模拟实现
 
-想想我们高如何实现 `call` 函数。
+### 第一阶段
+
+想想我们高如何实现 `call` 函数。其实我们看 `say.call(person)`所达到的效果，就好像如下的代码，
+
+```js
+var person = {
+    name: 'jay',
+    say: function () {
+        console.log(this.name)
+    }
+}
+```
+但是我们要给 `person` 这个对象添加一个属性方法显然是不合理的，但是我们可以 `借鸡生蛋`，使用完了，就删除掉这个属性方法就可以了。所以步骤就变成了，
+1. 给对象添加属性方法
+2. 调用这个属性方法
+3. 然后删除这个属性方法
+
+```js
+Function.prototype.call2 = function(context) {
+    context.fn = this
+    context.fn()
+    delete context.fn
+}
+say.call2(person) // jay
+```
+
+### 第二阶段
+
+上面我们已经模拟 `.call` 的基础实现了，加下来我们将支持传参。
+
+
+
+
+
+
+
 
 
 

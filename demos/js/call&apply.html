@@ -13,7 +13,17 @@
         function say() {
             console.log(this.name)
         }
-        say.call(person)
+        // say.call(person)
+
+        Function.prototype.call2 = function(context) {
+            // const args = [].slice.call(arguments)
+            // const ctx = arguments.slice(0, 1)
+            // const args = arguments.slice(1)
+            context.fn = this
+            context.fn()
+            delete context.fn
+        }
+        say.call2(person)
     </script>
 </body>
 </html>
