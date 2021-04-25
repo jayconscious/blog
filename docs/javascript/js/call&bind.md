@@ -66,15 +66,58 @@ say.call2(person) // jay
 
 上面我们已经模拟 `.call` 的基础实现了，加下来我们将支持传参。
 
+```js
+Function.prototype.call2 = function() {
+    let ctx, args = []
+    for (let i = 0; i < arguments.length; i++) {
+        if (i == 0) {
+            ctx = arguments[i]
+        } else {
+            args.push(arguments[i])
+        }
+    }
+    ctx.fn = this
+    ctx.fn(...args)
+    delete ctx.fn
+}
+```
+
+因为 `arguments` 是类数组对象，所以可以使用 `for` 遍历。如果这里不使用 `ES6的 ...` 该如何实现呢？我们的目标是要将不定长参数注入到函数执行的参数位上。
+
+```js
+Function.prototype.call2 = function(ctx) {
+    let args = []
+    for (let i = 1; i < arguments.length; i++) {
+        args.push('arguments[' + i + ']')
+    }
+    ctx.fn = this
+    eval('ctx.fn('+ args +')')
+    // eval('ctx.fn('+ args.join(',') +')')
+    delete ctx.fn
+}
+```
+这里我们可以使用 `eval` 来执行这个函数，`args` 会自动调用 `Array.toString()` 这个方法。
 
 
+### 第三阶段
+
+以上的代码实现，我们并没有考虑到 `this` 是 `null` 的情况，而且函数是有返回值的，让我们来解决这两个问题：
 
 
+```js
+Function.prototype.call2 = function(ctx) {
+    ctx = ctx || window
+    ctx.fn = this
+    let args = []
+    for (let i = 1; i < arguments.length; i++) {
+        args.push('arguments[' + i + ']')
+    }
+    const res = eval('ctx.fn('+ args +')')
+    delete ctx.fn
+    return res
+}
+```
 
-
-
-
-
-
+这样我们就完成对 `call` 函数的模拟实现了，`apply` 实现同样如此，感兴趣的同学自己去试试看吧~
 
 

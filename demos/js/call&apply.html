@@ -7,23 +7,69 @@
 </head>
 <body>
     <script>
-        var person = {
-            name: 'jay'
-        }
-        function say() {
-            console.log(this.name)
-        }
+        // var person = {
+        //     name: 'jay'
+        // }
+        // function say() {
+        //     console.log(this.name)
+        // }
         // say.call(person)
 
-        Function.prototype.call2 = function(context) {
-            // const args = [].slice.call(arguments)
-            // const ctx = arguments.slice(0, 1)
-            // const args = arguments.slice(1)
-            context.fn = this
-            context.fn()
-            delete context.fn
+        // Function.prototype.call2 = function(context) {
+        //     // const args = [].slice.call(arguments)
+        //     // const ctx = arguments.slice(0, 1)
+        //     // const args = arguments.slice(1)
+        //     context.fn = this
+        //     context.fn()
+        //     delete context.fn
+        // }
+        // say.call2(person)
+
+        // Function.prototype.call2 = function() {
+        //     let ctx, args = []
+        //     for (let i = 0; i < arguments.length; i++) {
+        //         if (i == 0) {
+        //             ctx = arguments[i]
+        //         } else {
+        //             args.push(arguments[i])
+        //         }
+        //     }
+        //     ctx.fn = this
+        //     ctx.fn(...args)
+        //     delete ctx.fn
+        // }
+        // var person = {
+        //     name: 'jay'
+        // }
+        // function say(hello) {
+        //     console.log(hello, this.name)
+        // }
+        // Function.prototype.call2 = function(ctx) {
+        //     let args = []
+        //     for (let i = 1; i < arguments.length; i++) {
+        //         args.push('arguments[' + i + ']')
+        //     }
+        //     ctx.fn = this
+        //     eval('ctx.fn('+ args.join(',') +')')
+        //     delete ctx.fn
+        // }
+        // say.call2(person, 'hello, ')
+        
+        Function.prototype.call2 = function(ctx) {
+            ctx = ctx || window
+            ctx.fn = this
+            let args = []
+            for (let i = 1; i < arguments.length; i++) {
+                args.push('arguments[' + i + ']')
+            }
+            const res = eval('ctx.fn('+ args +')')
+            delete ctx.fn
+            return res
         }
-        say.call2(person)
+
+
+
+
     </script>
 </body>
 </html>
