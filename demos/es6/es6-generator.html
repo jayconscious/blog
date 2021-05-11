@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6-generator</title>
+</head>
+<body>
+    <script>
+        // function* helloWorldGenerator() {
+        //     yield 'hello';
+        //     yield 'world';
+        //     return 'ending';
+        // }
+        // var hw = helloWorldGenerator();
+        // console.log(hw)
+        // console.log(hw.next())
+        // console.log(hw.next())
+        // console.log(hw.next())
+        // console.log(hw.next())
+
+        var myIterable = {};
+        myIterable[Symbol.iterator] = function* () {
+            yield 1;
+            yield 2;
+            yield 3;
+        };
+        console.log([...myIterable])
+    </script>
+</body>
+</html>
