@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>es6-generator</title>
 </head>
+
 <body>
     <script>
         // function* helloWorldGenerator() {
@@ -19,13 +21,131 @@
         // console.log(hw.next())
         // console.log(hw.next())
 
-        var myIterable = {};
-        myIterable[Symbol.iterator] = function* () {
-            yield 1;
-            yield 2;
-            yield 3;
-        };
-        console.log([...myIterable])
+        // var myIterable = {};
+        // myIterable[Symbol.iterator] = function* () {
+        //     yield 1;
+        //     yield 2;
+        //     yield 3;
+        // };
+        // console.log([...myIterable])
+
+
+        // function* foo(x) {
+        //     var y = 2 * (yield (x + 1));
+        //     var z = yield (y / 3);
+        //     return (x + y + z);
+        // }
+
+        // var a = foo(5);
+        // console.log(a.next()) // Object{value:6, done:false}
+        // console.log(a.next()) // Object{value:NaN, done:false}
+        // console.log(a.next()) // Object{value:NaN, done:true}
+
+        // var b = foo(5);
+        // b.next() // { value:6, done:false }
+        // b.next(12) // { value:8, done:false }
+        // b.next(13) // { value:42, done:true }
+
+        // function* foo() {
+        //     yield 1;
+        //     yield 2;
+        //     yield 3;
+        //     yield 4;
+        //     yield 5;
+        //     return 6;
+        // }
+        // for (let v of foo()) {
+        //     console.log(v);
+        // }
+
+        // var g = function* () {
+        //     try {
+        //         yield;
+        //     } catch (e) {
+        //         console.log('内部捕获', e);
+        //     }
+        // };
+        // var i = g();
+        // i.next();
+        // try {
+        //     i.throw('a');
+        //     i.throw('b');
+        // } catch (e) {
+        //     console.log('外部捕获', e);
+        // }
+
+
+        // function* gen() {
+        //     yield 1;
+        //     yield 2;
+        //     yield 3;
+        // }
+        // var g = gen();
+        // console.log(g.next())
+        // // { value: 1, done: false }
+        // console.log(g.return('foo'))
+        // // { value: "foo", done: true }
+        // console.log(g.next() )
+        // // { value: undefined, done: true }
+
+        // function* g() {}
+
+        // g.prototype.hello = function () {
+        //     return 'hi!';
+        // };
+
+        // let obj = g();
+        // obj instanceof g // true
+        // obj.hello() // 'hi!'
+
+
+        // var ticking = true;
+        // var clock = function() {
+        //     if (ticking) {
+        //         console.log('Tick!')
+        //     } else {
+        //         console.log('Tock!')
+        //     }
+        //     ticking = !ticking
+        // }
+        // function parent () {
+        //     var clock = function* () {
+        //         while (true) {
+        //             console.log('Tick!');
+        //             yield;
+        //             console.log('Tock!');
+        //             yield;
+        //         }
+        //     };
+        //     const g = clock()
+        //     g.next()
+        //     console.log('111');
+        //     console.log('222');
+        //     console.log('333');
+        //     g.next()
+        // }
+        // parent()
+
+        function asyncApi() {
+            return new Promise(function(ressolve, reject) {
+                setTimeout(function() {
+                    console.log('haha')
+                    ressolve()
+                }, 5000)
+            })
+        }
+        
+        function* getTest() {
+            console.log('1');
+            yield asyncApi();
+            console.log('222');
+        }
+        // getTest()
+        const g = getTest()
+        g.next()
+        g.next()
+
     </script>
 </body>
+
 </html>
