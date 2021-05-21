@@ -127,22 +127,18 @@
         // parent()
 
         function asyncApi() {
-            return new Promise(function(ressolve, reject) {
-                setTimeout(function() {
-                    console.log('haha')
-                    ressolve()
-                }, 5000)
-            })
+            setTimeout(function() {
+                g.next('haha')
+            }, 2000)
         }
         
         function* getTest() {
-            console.log('1');
-            yield asyncApi();
-            console.log('222');
+            console.log('strat')
+            const res = yield asyncApi();
+            console.log(res);
+            console.log('end')
         }
-        // getTest()
         const g = getTest()
-        g.next()
         g.next()
 
     </script>

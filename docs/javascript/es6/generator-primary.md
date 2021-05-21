@@ -266,15 +266,42 @@ parent()
 
 ## 应用
 
-### 1.异步操作的同步化表达
+### 异步操作的同步化表达
 
+Generator 函数的暂停执行的效果，意味着可以把异步操作写在yield表达式里面，等到调用next方法时再往后执行。这实际上等同于不需要写回调函数了，因为异步操作的后续操作可以放在yield表达式下面，反正要等到调用next方法时再执行。所以，Generator 函数的一个重要实际意义就是用来处理异步操作，改写回调函数。
 
+```js
+function* loadUI() {
+    showLoadingScreen();
+    yield loadUIDataAsynchronously();
+    hideLoadingScreen();
+}
+var loader = loadUI();
+// 加载UI
+loader.next()
+// 卸载UI
+loader.next()
+```
 
+```js
+function asyncApi() {
+    setTimeout(function() {
+        g.next('haha')
+    }, 2000)
+}
 
+function* getTest() {
+    console.log('strat')
+    const res = yield asyncApi();
+    console.log(res);
+    console.log('end')
+}
+const g = getTest()
+g.next()
+```
 
-
-
-
-
+::: tip
+在异步的回调中执行 `g.next`，感觉怪怪的，虽然它保证了代码执行的顺序，但是在写法上依然有点难受。所以在 `js` 中异步回调是没法正真意义上解决的，只是使用的各种障眼法来让我们书写的代码看上去是顺序结构的。
+:::
 
 
