@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class-middle</title>
+</head>
+
+<body>
+    <script>
+        // class Point {
+        //     constructor (x, y) {
+        //         this.x = x
+        //         this.y = y
+        //         console.log('point', this)
+        //     }
+
+        //     talk () {
+        //         console.log('x is %s', this.x)
+        //     }
+        // }
+
+        // class ColorPoint extends Point {
+        //     constructor(x, y, color) {
+        //         // super(x, y); // 调用父类的constructor(x, y)
+        //         this.color = color;
+        //         console.log('ColorPoint', this)
+        //         // super.talk()
+        //     }
+
+        //     toString() {
+        //         return this.color + ' ' + super.toString(); // 调用父类的toString()
+        //     }
+        // }
+
+        // new Point(1, 2)
+        // new ColorPoint(3, 4, 'red')
+
+        // console.log(Object.getPrototypeOf(ColorPoint) === Point)
+
+        // class A {
+        //     constructor() {
+        //         console.log(new.target.name);
+        //     }
+        // }
+        // class B extends A {
+        //     constructor() {
+        //         super();
+        //     }
+        // }
+        // new A() // A
+        // new B() // B
+
+
+        // class A {
+        //     p() {
+        //         return 2;
+        //     }
+        // }
+
+        // class B extends A {
+        //     constructor() {
+        //         super();
+        //         console.log(super.p()); // 2
+        //     }
+        // }
+
+        // let b = new B();
+
+        class A {
+            constructor() {
+                this.p = 2;
+            }
+        }
+
+        class B extends A {
+            get m() {
+                return super.p;
+            }
+        }
+
+        let b = new B();
+        b.m // undefined
+
+
+    </script>
+</body>
+
+</html>
