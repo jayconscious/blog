@@ -69,20 +69,83 @@
 
         // let b = new B();
 
-        class A {
-            constructor() {
-                this.p = 2;
-            }
-        }
+        // class A {
+        //     constructor() {
+        //         this.p = 2;
+        //     }
+        // }
 
-        class B extends A {
-            get m() {
-                return super.p;
-            }
-        }
+        // class B extends A {
+        //     get m() {
+        //         return super.p;
+        //     }
+        // }
 
-        let b = new B();
-        b.m // undefined
+        // let b = new B();
+        // b.m // undefined
+
+        // class A {}
+        // A.prototype.x = 2;
+
+        // class B extends A {
+        //     constructor() {
+        //         super();
+        //         console.log(super.x) // 2
+        //     }
+        // }
+        // let b = new B();
+
+
+        // class A {
+        //     constructor() {
+        //         this.x = 1;
+        //     }
+        //     print() {
+        //         console.log(this.x);
+        //     }
+        // }
+        // class B extends A {
+        //     constructor() {
+        //         super();
+        //         this.x = 2;
+        //     }
+        //     m() {
+        //         super.print();
+        //     }
+        // }
+        // let b = new B();
+        // b.m() // 2
+        // console.log(b)
+
+        // class A { }
+
+        // class B extends A { }
+
+        // console.log(B.__proto__ === A) // true
+        // console.log(B.prototype.__proto__ === A.prototype) // true
+
+        // console.log((new B()).__proto__)
+
+        // class A extends Object {
+        // }
+
+        // const a = new A()
+        // console.log( a instanceof A )
+        // console.log( a instanceof Object )
+
+        class Point {
+
+        }
+        class ColorPoint extends Point {}
+        var p1 = new Point(2, 3);
+        var p2 = new ColorPoint(2, 3, 'red');
+
+        console.log(p2.__proto__ === p1.__proto__)
+
+        console.log(p2.__proto__.__proto__ === p1.__proto__)
+
+
+
 
 
     </script>

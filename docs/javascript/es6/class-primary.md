@@ -455,3 +455,4 @@ var x = new Shape();  // 报错
 var y = new Rectangle(3, 4);  // 正确
 ```
 
+> 重点理解 `super` 关键字的定义，以及 es6 与 es5 相比较而言，继承的实现方式是不一样的。
