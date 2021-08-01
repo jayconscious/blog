@@ -25,9 +25,8 @@ module.exports = {
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),
-			'/book/explainindepthnodejs/': [
-				''
-			],
+			'/book/explainindepthnodejs/': [ '' ],
+			'/engineering/webpack/': ['hotModuleReplace'],
 			'/others/server/': [ 'cdn' ],
 			'/others/redis/': [ 'start' ],
 		},
