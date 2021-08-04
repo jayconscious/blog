@@ -81,6 +81,11 @@ module.exports = function (source) {
   return code + `\nexport { render, staticRenderFns }`
 }
 
+
+// module.exports.pitch = function (remainingRequest) {
+//   console.log('template loader pitch')
+// }
+
 function pad (source) {
   return source
     .split(/\r?\n/)

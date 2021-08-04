@@ -14,8 +14,8 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        use: ['vue-loader', 'simple-loader']
-        // loader: 'vue-loader'
+        use: ['vue-loader']
+        // loader: 'vue-loader' 'simple-loader'
       },
       // {
       //   resourceQuery: /blockType=foo/,
@@ -66,17 +66,17 @@ module.exports = {
           'sass-loader'
         ]
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      }
+      // {
+      //   test: /\.css$/,
+      //   use: ['style-loader', 'css-loader']
+      // }
     ]
   },
   resolveLoader: {
     alias: {
       'vue-loader': require.resolve('./lib/vue-loader'),
       'simple-loader': require.resolve('./lib/simple-loader'),
-      'style-loader': require.resolve('./lib/style-loader'),
+      // 'style-loader': require.resolve('./lib/style-loader'),
     }
   },
   plugins: [

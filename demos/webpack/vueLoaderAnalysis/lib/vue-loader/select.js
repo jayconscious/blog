@@ -9,6 +9,7 @@ module.exports = function selectBlock (
     if (appendExtension) {
       loaderContext.resourcePath += '.' + (descriptor.template.lang || 'html')
     }
+    // Tip: 传递给下一个loader
     loaderContext.callback(
       null,
       descriptor.template.content,

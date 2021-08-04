@@ -44,10 +44,17 @@ const shouldIgnoreCustomBlock = loaders => {
   return actualLoaders.length === 0
 }
 // 注入了一个全局的loader,但是什么也没有干，但是这个loader上挂载了一个pitch，所有vue先关的文件都会先走这个pitch，如果没有那就继续后续的loader
-module.exports = code => code
+// module.exports = code => code
+module.exports = code => {
+  console.log('global loader xxxxxxxxxx', +new Date())
+  return code
+}
 
 // This pitching loader is responsible for intercepting all vue block requests
 // and transform it into appropriate requests.
+// 这个pitching loader负责拦截所有vue块请求，并将其转换为适当的请求
+// 怎么作用的？
+
 module.exports.pitch = function (remainingRequest) {
   const options = loaderUtils.getOptions(this)
   const { cacheDirectory, cacheIdentifier } = options
@@ -143,9 +150,14 @@ module.exports.pitch = function (remainingRequest) {
       })}`]
       : []
 
+    // pitch阶段 后置(post)、行内(inline)、普通(normal)、前置(pre)
+    // Normal 阶段: loader 上的 常规方法，按照 前置(pre)、普通(normal)、行内(inline)、后置(post) 的顺序调用。
+    // preloaders
     const preLoaders = loaders.filter(isPreLoader)
+    // postloaders  pitchExecuted: true
     const postLoaders = loaders.filter(isPostLoader)
 
+    
     // Todo: 生成的链接要如何去解析
     const request = genRequest([
       ...cacheLoader,
@@ -153,7 +165,7 @@ module.exports.pitch = function (remainingRequest) {
       templateLoaderPath + `??vue-loader-options`,
       ...preLoaders
     ])
-    console.log('pitcher template', request)
+    // console.log('pitcher template', request)
     // the template compiler uses esm exports
     return `export * from ${request}`
   }

@@ -32,7 +32,7 @@ function loadTemplateCompiler (loaderContext) {
 
 var count = 0
 module.exports = function (source) {
-  
+  // source 就是读取到的 test.vue 的源文件
   const loaderContext = this
 
   if (!errorEmitted && !loaderContext['thread-loader'] && !loaderContext[NS]) {
@@ -43,6 +43,7 @@ module.exports = function (source) {
     errorEmitted = true
   }
 
+  // 把绝对路径转为相对路径
   const stringifyRequest = r => loaderUtils.stringifyRequest(loaderContext, r)
 
   const {
@@ -67,6 +68,8 @@ module.exports = function (source) {
   const context = rootContext || process.cwd()
   const sourceRoot = path.dirname(path.relative(context, resourcePath))
 
+  // 通过 @vue/component-compiler-utils 的 parse 解析器，将 test.vue 文件转换为文件描述符
+  // compiler 参数就是 vue-template-compiler 模板解析器
   const descriptor = parse({
     source,
     compiler: options.compiler || loadTemplateCompiler(loaderContext),
@@ -78,6 +81,9 @@ module.exports = function (source) {
   // if the query has a type field, this is a language block request
   // e.g. foo.vue?type=template&id=xxxxx
   // and we will return early
+  // 如果查询有一个类型字段，这是一个块请求
+  // 例如foo.vue?type=template&id=xxxxx 尽早return
+  // 我们需要注意 loader 中的return语句，因为多个loader是链式作用的，这个出口的逻辑在第三阶段会有使用，在第一阶段我们暂不讨论
   if (incomingQuery.type) {
     return selectBlock(
       descriptor,
@@ -92,7 +98,7 @@ module.exports = function (source) {
     .replace(/^(\.\.[\/\\])+/, '')
 
   const shortFilePath = rawShortFilePath.replace(/\\/g, '/') + resourceQuery
-
+  // 生成模块标识id
   const id = hash(
     isProduction
       ? (shortFilePath + '\n' + source.replace(/\r\n/g, '\n'))
@@ -113,13 +119,14 @@ module.exports = function (source) {
   let templateImport = `var render, staticRenderFns`
   let templateRequest
   if (descriptor.template) {
-    const src = descriptor.template.src || resourcePath
-    const idQuery = `&id=${id}`
-    const scopedQuery = hasScoped ? `&scoped=true` : ``
+    const src = descriptor.template.src || resourcePath // '/Users/didi/Works/didi/my-site/blog/demos/webpack/vueLoaderAnalysis/test.vue'
+    const idQuery = `&id=${id}` // '&id=13429420'
+    const scopedQuery = hasScoped ? `&scoped=true` : `` //'&scoped=true'
     const attrsQuery = attrsToQuery(descriptor.template.attrs)
-    const query = `?vue&type=template${idQuery}${scopedQuery}${attrsQuery}${inheritQuery}`
+    const query = `?vue&type=template${idQuery}${scopedQuery}${attrsQuery}${inheritQuery}`   // '?vue&type=template&id=13429420&scoped=true&'
     const request = templateRequest = stringifyRequest(src + query)
     templateImport = `import { render, staticRenderFns } from ${request}`
+    // 'import { render, staticRenderFns } from "./test.vue?vue&type=template&id=13429420&scoped=true&"'
   }
 
   // script
@@ -169,6 +176,7 @@ var component = normalizer(
   `.trim() + `\n`
 
   if (descriptor.customBlocks && descriptor.customBlocks.length) {
+    // 解析自定义的 block
     code += genCustomBlocksCode(
       descriptor.customBlocks,
       resourcePath,
@@ -194,7 +202,12 @@ var component = normalizer(
   }
 
   code += `\nexport default component.exports`
+  // Todo: console.log('code', code)
   return code
+}
+
+module.exports.pitch = function (remainingRequest) {
+  console.log('vue loader pitch')
 }
 
 module.exports.VueLoaderPlugin = plugin
