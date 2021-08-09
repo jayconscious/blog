@@ -67,12 +67,14 @@ module.exports.pitch = function (remainingRequest) {
   if (query.type) {
     // if this is an inline block, since the whole file itself is being linted,
     // remove eslint-loader to avoid duplicate linting.
+    // 如果这是一个内联块，因为整个文件本身正在被 linting，请删除 eslint-loader 以避免重复的 linting。
     // resourcePath: '/Users/didi/Works/didi/my-site/blog/demos/webpack/vueLoaderAnalysis/test.vue'
     if (/\.vue$/.test(this.resourcePath)) {
       loaders = loaders.filter(l => !isESLintLoader(l))
     } else {
       // This is a src import. Just make sure there's not more than 1 instance
       // of eslint present.
+      // 这是一个 src 导入。只要确保不超过 1 个实例eslint 目前。
       loaders = dedupeESLintLoader(loaders)
     }
   }
@@ -85,6 +87,7 @@ module.exports.pitch = function (remainingRequest) {
     return
   }
 
+  // 通过 loaders 生成 内联方式来处理 模块
   const genRequest = loaders => {
     // Important: dedupe since both the original rule
     // and the cloned rule would match a source import request.
@@ -101,6 +104,7 @@ module.exports.pitch = function (remainingRequest) {
       const identifier = typeof loader === 'string'
         ? loader
         : (loader.path + loader.query)
+        
       const request = typeof loader === 'string' ? loader : loader.request
       if (!seen.has(identifier)) {
         seen.set(identifier, true)
@@ -136,6 +140,8 @@ module.exports.pitch = function (remainingRequest) {
   }
 
   // for templates: inject the template compiler & optional cache
+  // 对于模板：注入模板编译器和可选缓存
+  // 缓存标识符
   if (query.type === `template`) {
     const path = require('path')
     const cacheLoader = cacheDirectory && cacheIdentifier
@@ -153,6 +159,7 @@ module.exports.pitch = function (remainingRequest) {
     // pitch阶段 后置(post)、行内(inline)、普通(normal)、前置(pre)
     // Normal 阶段: loader 上的 常规方法，按照 前置(pre)、普通(normal)、行内(inline)、后置(post) 的顺序调用。
     // preloaders
+    // path:'/Users/didi/Works/didi/my-site/blog/demos/webpack/vueLoaderAnalysis/lib/vue-loader/index.js'
     const preLoaders = loaders.filter(isPreLoader)
     // postloaders  pitchExecuted: true
     const postLoaders = loaders.filter(isPostLoader)

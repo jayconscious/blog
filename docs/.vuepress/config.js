@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { vue2, dontknowjs1, dontknowjs2, tstutorial } = require('./sidebarCfg')
+const { vue2, dontknowjs1, dontknowjs2, tstutorial, webpack } = require('./sidebarCfg')
 
 module.exports = {
 	theme: 'reco',
@@ -25,8 +25,8 @@ module.exports = {
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),
+			'/engineering/webpack/': getBookSideBar(webpack),
 			'/book/explainindepthnodejs/': [ '' ],
-			'/engineering/webpack/': ['hotModuleReplace'],
 			'/others/server/': [ 'cdn' ],
 			'/others/redis/': [ 'start' ],
 		},

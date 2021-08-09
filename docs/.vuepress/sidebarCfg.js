@@ -32,4 +32,14 @@ module.exports = {
             children: [ 'home' ]
         },
     ],
+     // 《你不知道的JavaScript》(上卷)
+     webpack: [{
+        title: 'Loaders',
+        path: '/engineering/webpack/loaders/',
+        children: ['vueLoader']
+    },{
+        title: 'Plugins',
+        path: '/engineering/webpack/plugins/',
+        children: [ 'hotModuleReplace' ]
+    }],
 }
