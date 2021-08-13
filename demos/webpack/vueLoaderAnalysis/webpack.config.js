@@ -1,6 +1,8 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('./lib/vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+console.log('env', process.env.NODE_ENV)
+console.log('env', typeof process.env.NODE_ENV)
 
 module.exports = {
   devtool: 'source-map',
@@ -9,6 +11,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
+  },
+  devServer: process.env.NODE_ENV == 'production' ? {}:{
+    contentBase: path.join(__dirname, 'dist'),
+    hot: true,
   },
   module: {
     rules: [

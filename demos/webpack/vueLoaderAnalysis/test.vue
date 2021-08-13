@@ -12,7 +12,7 @@ export default {
   components: {},
   data() {
     return {
-      msg: "haha",
+      msg: "乘碗汤",
     };
   },
   computed: {},
