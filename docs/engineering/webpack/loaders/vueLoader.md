@@ -115,7 +115,7 @@ render._withStripped = true
 ### 第一阶段
 
 如图所示，
-![image](/assets/img/wepack/loader/vue-loader1.png)
+![image](/assets/img/webpack/loader/vue-loader1.png)
 
 对 `.vue` 文件在目前所有已配置的规则中，只有 `vue-loader`可以命中，我们来看看 `vue-loader`做了哪些事情。(/lib/index.js)[https://github.com/vuejs/vue-loader/blob/master/lib/index.js]。
 
@@ -166,7 +166,7 @@ var component = normalizer(
 ### 第二阶段
 
 如图所示，
-![image](/assets/img/wepack/loader/vue-loader2.png)
+![image](/assets/img/webpack/loader/vue-loader2.png)
 
 通过 `pitcher-loader`(这个`loader`是通过 `vueloaderplugin`注入到`webpack`中的) 将第一阶段中间产物转化为另一阶段产物。
 就以 `import { render, staticRenderFns } from "./test.vue?vue&type=template&id=13429420&scoped=true&"` 为例，会被转化为
@@ -231,7 +231,7 @@ module.exports.pitch = function (remainingRequest) {
 ### 第三阶段
 
 如图所示，
-![image](/assets/img/wepack/loader/vue-loader3.png)
+![image](/assets/img/webpack/loader/vue-loader3.png)
 在得到上述的`request` 之后，`webpack`会先使用`vue-loader`处理，然后再使用`template-loader`来处理，然后得到最后模块。下面我们通过代码看看他们分别做了什么？
 
 ```js

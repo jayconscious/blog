@@ -1,35 +1,14 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Blog deploy
-
-on:
+name: Docker Image CI # Actions名称
+on: 
   push:
     branches:
     - master
-
+    
 jobs:
-  build-deploy:
-    runs-on: ubuntu-18.04
-    steps:
-    - uses: actions/checkout@v2
-      env:
-        GIT_TRACE: 1
-        GIT_CURL_VERBOSE: 1
-
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-
-    - run: npm i
-
-    - run: npm run build
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2.5.0
-      env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACCESS_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: docs/.vuepress/dist
-
+  - name: ssh docker login # 使用appleboy/ssh-action@master登录服务器执行拉取镜像脚本，服务器ip、用户名、密码配置方式同容器镜像服务配置方式一样
+  uses: appleboy/ssh-action@master
+  with:
+    host: ${{ secrets.SSH_HOST }} 
+    username: ${{ secrets.SSH_USERNAME }}
+    password: ${{ secrets.SSH_PASSWORD }}
+    script: cd ~ && sh test.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
