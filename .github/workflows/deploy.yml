@@ -1,4 +1,4 @@
-name: Aliyun test
+name: Blog deploy
 on:
   push:
     branches:
