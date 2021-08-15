@@ -1,4 +1,3 @@
-name: Blog deploy
 on:
   push:
     branches:
@@ -8,5 +7,23 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-    uses: actions/checkout@master
+    - uses: actions/checkout@v2
+      env:
+        GIT_TRACE: 1
+        GIT_CURL_VERBOSE: 1
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - run: npm i
+
+    - run: npm run build
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.5.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACCESS_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: docs/.vuepress/dist
