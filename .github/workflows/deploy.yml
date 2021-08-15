@@ -21,9 +21,9 @@ jobs:
 
     - run: npm run build
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2.5.0
-      env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACCESS_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: docs/.vuepress/dist
+    - name: Build the Docker image
+    run: |
+      docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+      docker build -t blog:latest .
+      docker tag blog:latest jaywade/frst_lib:latest
+      docker push jaywade/frst_lib:latest # 推送
