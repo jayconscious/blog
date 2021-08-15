@@ -8,7 +8,7 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: ssh aliyun login
+    - name: ssh aliyun login
     uses: appleboy/ssh-action@master
     with: 
       host: ${{ secrets.SSH_HOST }} 
