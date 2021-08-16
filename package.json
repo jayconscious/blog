@@ -16,10 +16,13 @@
     "build": "vuepress build docs"
   },
   "keywords": [],
-  "author": "",
+  "author": "https://github.com/jayconscious/",
   "license": "ISC",
   "dependencies": {
     "@vuepress/plugin-back-to-top": "^1.7.1",
     "moment": "^2.27.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
