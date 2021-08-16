@@ -6,8 +6,7 @@ module.exports = {
 	head: [
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
 	],
-	// base: '/blog/',
-	base: '/',
+	base: 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist',
 	title: 'Jayconscious',
 	description: 'Just playing around',
 	themeConfig: {
