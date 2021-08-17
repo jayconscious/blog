@@ -26,7 +26,7 @@ module.exports = {
 			'/book/tstutorial/': getBookSideBar(tstutorial),
 			'/engineering/webpack/': getBookSideBar(webpack),
 			'/book/explainindepthnodejs/': [ '' ],
-			'/others/server/': [ 'cdn' ],
+			'/others/server/': [ 'blogBuild', 'cdn' ],
 			'/others/redis/': [ 'start' ],
 		},
 		blogConfig: {
