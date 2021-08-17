@@ -1,8 +1,8 @@
 {
   "name": "jayconscious-blog",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "docs/.vuepress/dist",
   "directories": {
     "doc": "docs"
   },
@@ -15,8 +15,16 @@
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayconscious/blog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jayconscious/blog/issues"
+  },
+  "homepage": "https://github.com/jayconscious/blog#readme",
   "keywords": [],
-  "author": "https://github.com/jayconscious/",
+  "author": "https://github.com/jayconscious",
   "license": "ISC",
   "dependencies": {
     "@vuepress/plugin-back-to-top": "^1.7.1",
