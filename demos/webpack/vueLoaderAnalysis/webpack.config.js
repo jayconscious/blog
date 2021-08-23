@@ -15,6 +15,7 @@ module.exports = {
   devServer: process.env.NODE_ENV == 'production' ? {}:{
     contentBase: path.join(__dirname, 'dist'),
     hot: true,
+    writeToDisk: true,
   },
   module: {
     rules: [

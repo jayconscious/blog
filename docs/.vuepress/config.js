@@ -71,7 +71,27 @@ module.exports = {
 		// 	}
 		// ],
 		['@vuepress/back-to-top', true]
-	]
+	],
+	configureWebpack: (config, isServer) => {
+    if (!isServer) {
+      // 修改客户端的 webpack 配置
+			if (config.optimization) {
+				config.optimization = {
+					splitChunks: {
+						minSize: 3, // 引入的模块的大小，设置为0 有引入就会打包成模块
+						cacheGroups: {
+							commons: {
+								minChunks: 1, // 最少引入的次数
+								name: 'commons',  // 命名chunks_name
+								chunks: 'all',
+							}
+						}
+					}
+				}
+			}
+			console.log('config', config)
+    }
+  }
 }
 
 /**
