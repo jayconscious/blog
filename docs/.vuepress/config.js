@@ -6,7 +6,8 @@ module.exports = {
 	head: [
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
 	],
-	base: 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/',
+	// base: 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/',
+	base: '/',
 	title: 'Jayconscious',
 	description: 'Just playing around',
 	themeConfig: {
@@ -78,6 +79,9 @@ module.exports = {
 						}
 					}
 				}
+			}
+			if (config.output && config.output.publicPath) {
+				config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
 			}
 			console.log('config', config)
     }
