@@ -59,17 +59,6 @@ module.exports = {
 		lineNumbers: true
 	},
 	plugins: [
-		// ['@vuepress/last-updated',
-		// 	{
-		// 		transformer: (timestamp, lang) => {
-		// 			lang = 'zh-CN'
-		// 			const moment = require('moment')
-		// 			moment.locale(lang)
-		// 			timestamp = timestamp + 8 * 60 * 60 * 1000
-		// 			return moment(timestamp).format('llll');
-		// 		}
-		// 	}
-		// ],
 		['@vuepress/back-to-top', true]
 	],
 	configureWebpack: (config, isServer) => {
@@ -78,10 +67,11 @@ module.exports = {
 			if (config.optimization) {
 				config.optimization = {
 					splitChunks: {
-						minSize: 3, // 引入的模块的大小，设置为0 有引入就会打包成模块
+						chunks: 'all',
+						maxAsyncRequests: 5,
+						maxSize: 500000,   // 500kb 
 						cacheGroups: {
 							commons: {
-								minChunks: 1, // 最少引入的次数
 								name: 'commons',  // 命名chunks_name
 								chunks: 'all',
 							}
