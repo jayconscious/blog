@@ -1,6 +1,6 @@
 {
   "name": "jayconscious-blog",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "",
   "main": "docs/.vuepress/dist",
   "directories": {
@@ -15,6 +15,9 @@
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"
   },
+  "files": [
+    "docs/.vuepress/dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jayconscious/blog.git"
