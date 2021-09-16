@@ -2,7 +2,8 @@
 import Vue from 'vue'
 import Test from './test.vue'
 
-new Vue({
+const haha = new Vue({
   el: '#app',
   render: h => h(Test)
 })
+console.log(haha)
