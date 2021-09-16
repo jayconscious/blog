@@ -81,9 +81,9 @@ module.exports = {
 				}
 			}
 			// Todo: 判断环境
-			// if (config.output && config.output.publicPath) {
-			// 	config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
-			// }
+			if (config.output && config.output.publicPath) {
+				config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
+			}
 			console.log('config', config)
     }
   }
