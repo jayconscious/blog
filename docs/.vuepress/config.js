@@ -17,8 +17,8 @@ module.exports = {
 		nav: require('./nav/zh'),
 		author: 'jayconscious',
 		sidebar: {
-			'/javascript/js/': [ 'extends', 'promise'],
-			'/javascript/es6/': [ 'proxy' ],
+			'/javascript/js/': [ 'extends' ],
+			'/javascript/es6/': [ 'generator-primary', 'promise', 'proxy', 'co' ],
 			'/node/egg/': [ 'framework' ],
 			'/vue/vue2/': getBookSideBar(vue2),
 			'/vue/vuex/': getSingleSidebar('vuex'),
