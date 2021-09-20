@@ -17,22 +17,25 @@
         }, 2000);
       })
     }
-    
     function* test() {
-      var msg = '11'
+      console.log('start')
       yield asyncFn('hello')
-      // console.log(msg)
       yield asyncFn('world')
-      // console.log(msg)
-      return msg
+      console.log('end')
     }
-    // const t = test()
-    // t.next()
-    // t.next()
-    // // t.next()
-    co(test).then(() => {
-      console.log('test')
-    })
+    // co(test).then(() => {
+    //   console.log('test')
+    // })
+
+    function isPromise(p) {
+      return p instanceof Promise
+    }
+
+    function co () {
+      
+    }
+
+
   </script>
 </body>
 </html>
