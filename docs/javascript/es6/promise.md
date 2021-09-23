@@ -6,6 +6,7 @@ tags:
  - js
 categories:
  - Javascript
+ - asyncProgramming
 ---
 
 ## 前言

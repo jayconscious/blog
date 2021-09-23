@@ -6,6 +6,7 @@ tags:
  - ES6
 categories:
  - Javascript
+ - asyncProgramming
 ---
 
 ## 简介

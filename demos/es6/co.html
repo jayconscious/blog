@@ -13,14 +13,14 @@
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           console.log(msg)
-          resolve()
+          resolve('world')
         }, 2000);
       })
     }
     function* test() {
       console.log('start')
-      yield asyncFn('hello')
-      yield asyncFn('world')
+      const res = yield asyncFn('hello')
+      yield asyncFn(res)
       console.log('end')
     }
     // co(test).then(() => {
@@ -31,9 +31,23 @@
       return p instanceof Promise
     }
 
-    function co () {
-      
+    // how to 实现
+    function run (genFn) {
+      const gen = genFn()
+      function next(data) {
+        const t = gen.next(data)
+        if(!t.done) {
+          t.value.then((res) => {
+            next(res)
+          })
+        } else {
+          return t.value
+        }
+      }
+      next()
     }
+    // run(test)
+
 
 
   </script>
