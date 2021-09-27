@@ -7,6 +7,7 @@ tags:
 categories:
  - Javascript
  - asyncProgramming
+sticky: 1
 ---
 
 ## 前言
@@ -151,7 +152,7 @@ function next(ret) {
 }
 ```
 
-这个 `next` 函数的实现大体功能上和我们上述的简易实现差不多。如果`generator`内部执行已完成，即`ret.done`为`true`,直接`resolve()`；使用`toPromise`包裹`ret.value`使其`promise`化，`value.then(onFulfilled, onRejected)`，继续上述的循环。
+这个 `next` 函数的实现大体功能上和我们上述的简易实现差不多。如果`generator`内部执行已完成，即`ret.done`为`true`,直接`resolve()`；否则使用`toPromise`包裹`ret.value`使其`promise`化，`value.then(onFulfilled, onRejected)`，继续上述的循环。
 
 上述的代码已经很好的解决了 `generator` 函数的自执行的问题了，除此之外，还有一些不错的工具函数，我们来看看：
 
@@ -169,14 +170,5 @@ function toPromise(obj) {
 }
 ```
 1. `ret.value` 返回值必须是 `function, promise, generator, array, or object`中的一种，不然就报错了。
-2. 
 
-
-
-
-
-
-
-
-
-
+Todo: https://github.com/tj/co/issues/180
