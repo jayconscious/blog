@@ -3,7 +3,7 @@ title: Promise 解析
 date: 2021-03-03
 sidebar: auto
 tags: 
- - js
+ - ES6
 categories:
  - Javascript
  - asyncProgramming
