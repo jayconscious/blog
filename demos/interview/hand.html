@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手写系列</title>
+</head>
+<body>
+  <script>
+    // Tip: 手写 bind 实现
+    // bind 实现的是什么呢？this 指向以及参数合并问题
+    // 转化问题: hello.bind(me) => me.hello
+    // arguments 处理最佳实践
+    Function.prototype.myBind = function() {
+      const argsArr = Array.from(arguments)
+      const context = argsArr.slice(0, 1).shift()
+      const args = argsArr.slice(1)
+      const fn = this
+      const result = function() {
+        let argsList = args.concat(Array.from(arguments).slice())
+        context.fn = fn
+        context.fn(...argsList)
+        delete context.fn
+      }
+      result.prototype = Object.create(this.prototype);
+      return result;
+    }
+    var name = 'hello'
+    var person = {
+      name: 'world'
+    }
+    function ha() {
+      console.log(this.name)
+    }
+    // ha()
+    // ha.myBind(person)()
+    // 完整版
+    // 手动 promise all 和 race 实现
+    // 构建一个 promise
+    // function MyPromise(executor) {
+    //   this.status = 'pending'
+    //   this.successList = []
+    //   this.failedList = []
+    //   this.res = ''
+    //   this.error = ''
+    //   const resolve = res => {
+    //     if (this.status === 'pending') {
+    //       this.status = 'fulfilled'
+    //       this.res = res
+    //       this.successList.forEach(onFulfilled => {
+    //         onFulfilled()
+    //       });
+    //     }
+    //   }
+    //   const reject = error => {
+    //     if (this.status === 'pending') {
+    //       this.status = 'rejected'
+    //       this.error = error
+    //       this.failedList.forEach(onRejected => {
+    //         onRejected()
+    //       });
+    //     }
+    //   }
+    //   executor(resolve, reject)
+    // }
+    // MyPromise.prototype.then = function(onFulfilled, onRejected) {
+    //   if (this.status == 'fulfilled') {
+    //     this.successList.push(() => onFulfilled(this.res))
+    //   }
+    //   if (this.status == 'rejected') {
+    //     this.failedList.push(() => onRejected(this.error))
+    //   }
+    //   if (this.status == 'pending') {
+    //     onFulfilled && this.successList.push(() => onFulfilled(this.res))
+    //     onRejected && this.failedList.push(() => onRejected(this.error))
+    //   }
+    // }
+    // 支持异步调用
+    // 测试
+    // new MyPromise(function(resolve, reject) {
+    //   setTimeout(function() {
+    //     resolve('hello world~')
+    //   }, 2000)
+    // }).then(res => {  
+    //   console.log(res)
+    //   return 'asdas'
+    // })
+
+    // 链式调用时怎么实现
+    // new Promise(function(resolve, reject) {
+    //   setTimeout(function() {
+    //     resolve('hello')
+    //   }, 2000)
+    // }).then(res => {
+    //   console.log(res)
+    //   // return new Promise(function(resolve, reject){
+    //   //   setTimeout(function() {
+    //   //     resolve('world')
+    //   //   }, 2000)
+    //   // })
+    //   return 'world'
+    // }).then(res => console.log(res))
+    // 1. 判断 then 执行的返回值（是否promise）
+    // 2. 如果是promise 选择要判断其状态
+
+    function MyPromise(executor) {
+      this.status = 'pending'
+      this.successList = []
+      this.failedList = []
+      this.value = ''
+      this.error = ''
+      const resolve = res => {
+        if (this.status === 'pending') {
+          this.status = 'fulfilled'
+          this.value = res
+          this.successList.forEach(onFulfilled => onFulfilled())
+        }
+      }
+      const reject = error => {
+        if (this.status === 'pending') {
+          this.status = 'rejected'
+          this.error = error
+          this.failedList.forEach(onRejected => onRejected())
+        }
+      }
+      executor(resolve, reject)
+    }
+    MyPromise.prototype.then = function(onFulfilled, onRejected) {
+      // 两种情况 同步和异步
+      let p = new MyPromise((resolve, reject) => {
+        if (this.status === 'fulfilled') {
+          setTimeout(function() {
+            let x = onFulfilled(this.value)
+            resolvePromise(p, x, resolve, reject)
+          }, 0)
+        }
+        if (this.status === 'rejected') {
+          setTimeout(function() {
+            let x = onRejected(this.value)
+            resolvePromise(p, x, resolve, reject)
+          }, 0)
+        }
+        if (this.status === 'pending') {
+          onFulfilled && this.successList.push(() => {
+            setTimeout(function() {
+              let x = onFulfilled(this.value)
+              resolvePromise(p, x, resolve, reject)
+            }, 0)
+          })
+          onRejected && this.failedList.push(() => {
+            setTimeout(function() {
+              let x = onRejected(this.value)
+              resolvePromise(p, x, resolve, reject)
+            }, 0)
+          })
+        }
+      })
+      return p
+    }
+    function resolvePromise(p, x, resolve, reject) {
+      // 排除循环引用
+      if (p === x) {
+        return reject(new Error('error'))
+      }
+      let called = false
+      // 返回的是一个对象或者函数
+      if (x != null && (typeof x == 'object' || typeof x == 'function')) {
+        const then = x.then
+        // 返回的是 promise
+        if (typeof then == 'function') {
+          // then 调用
+          then.call(x, y => {
+            if (!called) {
+              called = true
+              resolvePromise(p, y, resolve, reject)
+            }
+          }, error => {
+            if (!called) {
+              called = true
+              reject(error)
+            }
+          })
+        } else {
+          resolve(x)
+        }
+      } else {
+        resolve(x)
+      }
+    }
+    
+    // new MyPromise(function(resolve, reject) {
+    //   setTimeout(function() {
+    //     resolve('hello world~')
+    //   }, 2000)
+    // }).then(res => {  
+    //   console.log(res)
+    //   // return 'asdas'
+    // })
+
+    // Todo: 链式调用
+    // demo1
+    // new MyPromise(function(resolve, reject) {
+    //   setTimeout(function() {
+    //     resolve('hello')
+    //   }, 2000)
+    // }).then(res => {
+    //   console.log(res)
+    //   return 'world'
+    // }).then(res => console.log(res))
+
+
+    // Todo: 链式异步调用
+    // demo2
+    // new MyPromise(function(resolve, reject) {
+    //   setTimeout(function() {
+    //     resolve('hello')
+    //   }, 2000)
+    // }).then(res => {
+    //   console.log(res)
+    //   return new Promise(function(resolve, reject){
+    //     setTimeout(function() {
+    //       resolve('world')
+    //     }, 2000)
+    //   })
+    // }).then(res => console.log(res))
+
+    new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        resolve('hello')
+      }, 2000)
+    }).then(res => {
+      console.log(res)
+      setTimeout(function() {
+        // 支持异步调用 ？
+      }, 2000)
+    }).then(res => console.log(res))
+
+    // 这道题的突破点是什么？
+
+    MyPromise.all = function (promiseArray) {
+      let count = 0, resList = []
+      return new MyPromise(function(resolve, reject) {
+        for (let i = 0; i < promiseArray.length; i++) {
+          promiseArray[i].then(res => {
+            count++
+            resList.push(res)
+            if (count === promiseArray.length) {
+              resolve(resList)
+            }
+          })
+        }
+      }).catch(err => reject(err))
+    }
+
+
+    MyPromise.race = function(promiseArray) {
+      return new MyPromise(function(resolve, reject) {
+        for (let i = 0; i < promiseArray.length; i++) {
+          promiseArray[i].then(res => {
+            resolve(res)
+          }).catch(err => reject(err))
+        }
+      })
+    }
+
+    MyPromise.resolve = function(res) {
+      return new MyPromise(function(resolve, reject) {
+        resolve(res)
+      })
+    }
+
+    MyPromise.reject = function(err) {
+      return new MyPromise(function(resolve, reject) {
+        reject(err)
+      })
+    }
+
+    MyPromise.allSettled = function(promiseArray) {
+      let count = 0, result = []
+      return new MyPromise(function(resolve, reject) {
+        for (let i = 0; i < promiseArray.length; i++) {
+          promiseArray[i].then(res => {
+            count++
+            result[index] = {
+              status: 'fulfilled',
+              value
+            }
+            if (count === promiseArray.length) {
+              resolve(result)
+            }
+          }).catch(err => {
+            count++
+            result[index] = {
+              status: 'rejected',
+              err
+            }
+            if (count === promiseArray.length) {
+              resolve(result)
+            }
+          })
+        }
+      }).catch(err => reject(err))
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

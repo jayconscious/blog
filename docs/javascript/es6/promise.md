@@ -1,18 +1,18 @@
 ---
 title: Promise 解析
-date: 2021-03-03
+date: 2021-10-20
 sidebar: auto
 tags: 
  - ES6
 categories:
  - Javascript
  - asyncProgramming
+sticky: 1
 ---
 
 ## 前言
 
-看看promise是如何使用的
-
+我们先来看看promise是如何使用的
 
 ```js
 new Promise(function (resolve, reject) {
@@ -105,6 +105,8 @@ promise 初始化的时候状态会变为 pending
             //     }
             // }
             // 使用箭头函数可以不需要 bind， 内部的this指向的是 resolve 或者是 reject 函数
+            // Tip: 因为 resolve，reject 的执行域的上下文在没有指定的情况下是外部的(window)
+            // 使用箭头函数orbind的方式都是指定了上下文
             const reject = function (error) {
                 if (this.status = 'pending') {
                     this.status = 'rejected'
@@ -164,9 +166,9 @@ new MyPromise(function(resolve, reject) {
 
 ## 异步实现
 
-但是在 resolve 之前存在异步代码，比如 settimeout 等，所以状态还是 pending 的状态。我们就需要在 then 调用的时候，将成功和失败存到各自的数组，一旦 reject 或者 resolve，就调用它们。
+但是在 `resolve` 之前存在异步代码，比如 `settimeout` 等，所以状态还是 `pending` 的状态。我们就需要在 `then` 调用的时候，将成功和失败存到各自的数组，一旦 `reject` 或者 `resolve` ，就调用它们。
 
-类似于**分布订阅**，先将 then 内的两个函数存储，由于 promise 可以有多个 then，所以存在同一个数组内。当成功或失败的时候用 forEach 调用他们。
+类似于**分布订阅**，先将 `then` 内的两个函数存储，由于 `promise` 可以有多个 `then` ，所以存在同一个数组内。当成功或失败的时候用 `forEach` 调用他们。
 
 ```js
 class MyPromise {
@@ -225,7 +227,7 @@ class MyPromise {
 
 ## then 的链式调用
 
-有时候 `new Promise().then().then()` 的用法，这样的链式调用为了解决回调地狱（`callback hell`）问题。那么如何去实现呢？我们可以再第一个 then 函数内再返回一个 Promise，让这个新的 Promise 返回的值传递到下一个 then 中。
+有时候 `new Promise().then().then()` 的用法，这样的链式调用为了解决回调地狱（`callback hell`）问题。那么如何去实现呢？我们可以再第一个 `then` 函数内再返回一个 `Promise` ，让这个新的 `Promise` 返回的值传递到下一个 `then` 中。
 
 代码如下:
 
@@ -257,31 +259,27 @@ class MyPromise {
     then (onFulfilled, onRejected) {
         let promise2
         promise2 = new Promise((resolve, reject) => {
-            if (this.status === "fulfilled") {
-                // 前一个promise的状态已经改变就不需要 Push 了
-                let x = onFullfilled(this.value)
-                resolvePromise(promise2, x, resolve, reject)
-            }
-            if (this.status === "rejected") {
-                // 前一个promise的状态已经改变就不需要 Push 了
-                let x = onRejected(this.error)
-                resolvePromise(promise2, x, resolve, reject)
-            }
             if (this.status === 'pending') {
+                // 这个回调函数的这行有多种可能性, 还有在写 onFulfilled/onRejected 必须要 return 这个值x
+                // 1. x = 普通对象
+                // 2. x = promise对象
                 this.resolveQueue.push(() => {
-                    // 这个回调函数的这行有多种可能性, 还有在写onFulfilled 必须要 return 这个值x
-                    // 1. x = 普通对象
-                    // 2. x = promise对象
                     let x = onFulfilled(this.value)
                     resolvePromise(promise2, x, resolve, reject)
                 })
                 this.rejectQueue.push(() => {
-                    // 这个回调函数的这行有多种可能性, 还有在写onFulfilled 必须要 return 这个值x
-                    // 1. x = 普通对象
-                    // 2. x = promise对象
                     let x = onRejected(this.error)
                     resolvePromise(promise2, x, resolve, reject)
                 })
+            }
+            // 前一个promise的状态已经改变就不需要 Push 了
+            if (this.status === "fulfilled") {
+                let x = onFullfilled(this.value)
+                resolvePromise(promise2, x, resolve, reject)
+            }
+            if (this.status === "rejected") {
+                let x = onRejected(this.error)
+                resolvePromise(promise2, x, resolve, reject)
             }
         })
         return promise2
@@ -290,7 +288,7 @@ class MyPromise {
 ```
 
 ::: tip
-在resolvePromise 在这个函数中，data是作为第一个then的返回值 我们要去判断 data 是否为 promise,
+在 `resolvePromise` 在这个函数中， `data` 是作为第一个 `then` 的返回值 我们要去判断 `data` 是否为 `promise`,
 - Yes,则取他的结果，作为新的 promise2 成功的结果
 - No,直接作为新的 promise2 成功的结果
 :::
@@ -311,9 +309,12 @@ function resolvePromise (promise2, x, resolve, reject) {
         return reject(new TypeError('Chaining cycle detected for promise'));
     }
     let called = false
-    // x 即为 promise
+    // Why? called 锁的作用
+    // 因为在 onFulfilled 这个函数中，我们需要关注是它执行的返回值，而不是 `then` 的多次调用(如果是promise的话)
+    // x 可能为 promise
     if (x !== null && (typeof x == 'object' || typeof x == 'function') ) {
         try {
+            // 依据 promise A+ 规范，x 为 promise
             let then = x.then
             if (typeof then === 'function') {
                 then.call(x, y => {
@@ -341,46 +342,174 @@ function resolvePromise (promise2, x, resolve, reject) {
 
 ## onFulfilled 和 onRejected 的异步调用
 
-核心思路：
-
-> 用setTimeout解决异步问题
+规定 `onFulfilled` 或 `onRejected` 不能同步被调用，必须**异步调用**。我们就用 `setTimeout` 解决异步问题。
 
 代码如下：
+```js
+MyPromise.prototype.then = function(onFulfilled, onRejected) {
+    let p = new MyPromise((resolve, reject) => {
+        if (this.status === 'fulfilled') {
+            setTimeout(function() {
+                let x = onFulfilled(this.value)
+                resolvePromise(p, x, resolve, reject)
+            }, 0)
+        }
+        if (this.status === 'rejected') {
+            setTimeout(function() {
+                let x = onRejected(this.value)
+                resolvePromise(p, x, resolve, reject)
+            }, 0)
+        }
+        if (this.status === 'pending') {
+            onFulfilled && this.successList.push(() => {
+                setTimeout(function() {
+                    let x = onFulfilled(this.value)
+                    resolvePromise(p, x, resolve, reject)
+                }, 0)
+            })
+            onRejected && this.failedList.push(() => {
+                setTimeout(function() {
+                    let x = onRejected(this.value)
+                    resolvePromise(p, x, resolve, reject)
+                }, 0)
+            })
+        }
+    })
+    return p
+}
+```
+## 值穿透调用
+
+我们想要的效果
+```js
+new Promise(function(resolve, reject){
+    resolve('hello world~')
+}).then().then().......then(res => {
+    console.log(res)
+})
+// hello world~
+```
+其实解决的思路也很简单，在没有传递 `onFulfilled` 和 `onRejected`，我们需要添加一些默认值
 
 ```js
-
+MyPromise.prototype.then = function (onFulfilled, onRejected) {
+    onFulfilled = typeof onFulfilled != 'function ' ? onFulfilled : value => value
+    onRejected = typeof onFulfilled != 'function ' ? onRejected : error => throw error
+    // ...
+}
 ```
 
+## catch 方法
+
+```js
+MyPromise.prototype.catch = function (onRejected) {
+    return this.then(null, onRejected)
+    // ...
+}
+```
+
+## all 方法
+
+::: tip
+这是面试中一道非常经典的面试题
+:::
+```js
+MyPromise.all = function (promiseArray) {
+    let count = 0, resList = []
+    return new MyPromise(function(resolve, reject) {
+    for (let i = 0; i < promiseArray.length; i++) {
+        promiseArray[i].then(res => {
+            count++
+            resList.push(res)
+            if (count === promiseArray.length) {
+                resolve(resList)
+            }
+        })
+    }
+    }).catch(err => reject(err))
+}
+```
+
+## race 方法
+
+```js
+MyPromise.race = function(promiseArray) {
+    return new MyPromise(function(resolve, reject) {
+        for (let i = 0; i < promiseArray.length; i++) {
+          promiseArray[i].then(res => {
+            resolve(res)
+          }).catch(err => reject(err))
+        }
+    })
+}
+```
+
+## resolve 方法
+```js
+MyPromise.resolve = function(res) {
+    return new MyPromise(function(resolve, reject) {
+    resolve(res)
+    })
+}
+```
+
+## reject 方法
+```js
+MyPromise.reject = function(err) {
+    return new MyPromise(function(resolve, reject) {
+        reject(err)
+    })
+}
+```
+
+## allSettled 方法
+
+```js
+MyPromise.allSettled = function(promiseArray) {
+    let count = 0, result = []
+    return new MyPromise(function(resolve, reject) {
+        for (let i = 0; i < promiseArray.length; i++) {
+            promiseArray[i].then(res => {
+                count++
+                result[index] = {
+                    status: 'fulfilled',
+                    value
+                }
+                if (count === promiseArray.length) {
+                    resolve(result)
+                }
+            }).catch(err => {
+                count++
+                result[index] = {
+                    status: 'rejected',
+                    err
+                }
+                if (count === promiseArray.length) {
+                    resolve(result)
+                }
+            })
+        }
+    }).catch(err => reject(err))
+}
+```
+
+## 总结
+
+::: tip
+要点总结：
+1. `resolve` 和 `reject` 内部 `this` 指向问题
+2. `resolvePromise` 的实现，多写写，多消化几遍
+3. 为什么要使用 `setTimeout` 包裹，这由于 `promise A+` 所规范的
+4. 为什么要使用数组来维护 `onFulfilled和onRejected`，因为还可以这样调用`p1.then(x, x), p1.then(x, x), p1.then(x, x)...`，
+5. 在 `then` 的实现中还支持了其他的状态，我的理解是可以支持同步操作
+6. `all`，`race` 这些方法是面试题中常见的
+:::
+
+所有的异步解决方法都只是让回调函数这种编程方法变得更加`好看`，更加符合人的思维方式，但是这不能改变 `js` 单线程的运行方式。所以上层的改变都是障眼法。
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 参考文献
+- [Promise A+](https://promisesaplus.com/)
+- [BAT前端经典面试问题：史上最最最详细的手写Promise教程](https://juejin.cn/post/6844903625769091079#heading-8)
+- [手撕 Promise](https://juejin.cn/post/6845166891061739528#heading-1)
 
