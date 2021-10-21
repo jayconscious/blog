@@ -8,31 +8,32 @@
 </head>
 <body>
   <script>
-    // Tip: 手写 bind 实现
+    // Todo: 手写 bind 实现
     // bind 实现的是什么呢？this 指向以及参数合并问题
     // 转化问题: hello.bind(me) => me.hello
     // arguments 处理最佳实践
-    Function.prototype.myBind = function() {
-      const argsArr = Array.from(arguments)
-      const context = argsArr.slice(0, 1).shift()
-      const args = argsArr.slice(1)
-      const fn = this
-      const result = function() {
-        let argsList = args.concat(Array.from(arguments).slice())
-        context.fn = fn
-        context.fn(...argsList)
-        delete context.fn
-      }
-      result.prototype = Object.create(this.prototype);
-      return result;
-    }
-    var name = 'hello'
-    var person = {
-      name: 'world'
-    }
-    function ha() {
-      console.log(this.name)
-    }
+    // Function.prototype.myBind = function() {
+    //   const argsArr = Array.from(arguments)
+    //   const context = argsArr.slice(0, 1).shift()
+    //   const args = argsArr.slice(1)
+    //   const fn = this
+    //   const result = function() {
+    //     let argsList = args.concat(Array.from(arguments).slice())
+    //     context.fn = fn
+    //     context.fn(...argsList)
+    //     delete context.fn
+    //   }
+    //   result.prototype = Object.create(this.prototype);
+    //   return result;
+    // }
+    // var name = 'hello'
+    // var person = {
+    //   name: 'world'
+    // }
+    // function ha() {
+    //   console.log(this.name)
+    // }
+
     // ha()
     // ha.myBind(person)()
     // 完整版
@@ -104,90 +105,91 @@
     // 1. 判断 then 执行的返回值（是否promise）
     // 2. 如果是promise 选择要判断其状态
 
-    function MyPromise(executor) {
-      this.status = 'pending'
-      this.successList = []
-      this.failedList = []
-      this.value = ''
-      this.error = ''
-      const resolve = res => {
-        if (this.status === 'pending') {
-          this.status = 'fulfilled'
-          this.value = res
-          this.successList.forEach(onFulfilled => onFulfilled())
-        }
-      }
-      const reject = error => {
-        if (this.status === 'pending') {
-          this.status = 'rejected'
-          this.error = error
-          this.failedList.forEach(onRejected => onRejected())
-        }
-      }
-      executor(resolve, reject)
-    }
-    MyPromise.prototype.then = function(onFulfilled, onRejected) {
-      // 两种情况 同步和异步
-      let p = new MyPromise((resolve, reject) => {
-        if (this.status === 'fulfilled') {
-          setTimeout(function() {
-            let x = onFulfilled(this.value)
-            resolvePromise(p, x, resolve, reject)
-          }, 0)
-        }
-        if (this.status === 'rejected') {
-          setTimeout(function() {
-            let x = onRejected(this.value)
-            resolvePromise(p, x, resolve, reject)
-          }, 0)
-        }
-        if (this.status === 'pending') {
-          onFulfilled && this.successList.push(() => {
-            setTimeout(function() {
-              let x = onFulfilled(this.value)
-              resolvePromise(p, x, resolve, reject)
-            }, 0)
-          })
-          onRejected && this.failedList.push(() => {
-            setTimeout(function() {
-              let x = onRejected(this.value)
-              resolvePromise(p, x, resolve, reject)
-            }, 0)
-          })
-        }
-      })
-      return p
-    }
-    function resolvePromise(p, x, resolve, reject) {
-      // 排除循环引用
-      if (p === x) {
-        return reject(new Error('error'))
-      }
-      let called = false
-      // 返回的是一个对象或者函数
-      if (x != null && (typeof x == 'object' || typeof x == 'function')) {
-        const then = x.then
-        // 返回的是 promise
-        if (typeof then == 'function') {
-          // then 调用
-          then.call(x, y => {
-            if (!called) {
-              called = true
-              resolvePromise(p, y, resolve, reject)
-            }
-          }, error => {
-            if (!called) {
-              called = true
-              reject(error)
-            }
-          })
-        } else {
-          resolve(x)
-        }
-      } else {
-        resolve(x)
-      }
-    }
+    // Todo: MyPromise 实现
+    // function MyPromise(executor) {
+    //   this.status = 'pending'
+    //   this.successList = []
+    //   this.failedList = []
+    //   this.value = ''
+    //   this.error = ''
+    //   const resolve = res => {
+    //     if (this.status === 'pending') {
+    //       this.status = 'fulfilled'
+    //       this.value = res
+    //       this.successList.forEach(onFulfilled => onFulfilled())
+    //     }
+    //   }
+    //   const reject = error => {
+    //     if (this.status === 'pending') {
+    //       this.status = 'rejected'
+    //       this.error = error
+    //       this.failedList.forEach(onRejected => onRejected())
+    //     }
+    //   }
+    //   executor(resolve, reject)
+    // }
+    // MyPromise.prototype.then = function(onFulfilled, onRejected) {
+    //   // 两种情况 同步和异步
+    //   let p = new MyPromise((resolve, reject) => {
+    //     if (this.status === 'fulfilled') {
+    //       setTimeout(function() {
+    //         let x = onFulfilled(this.value)
+    //         resolvePromise(p, x, resolve, reject)
+    //       }, 0)
+    //     }
+    //     if (this.status === 'rejected') {
+    //       setTimeout(function() {
+    //         let x = onRejected(this.value)
+    //         resolvePromise(p, x, resolve, reject)
+    //       }, 0)
+    //     }
+    //     if (this.status === 'pending') {
+    //       onFulfilled && this.successList.push(() => {
+    //         setTimeout(function() {
+    //           let x = onFulfilled(this.value)
+    //           resolvePromise(p, x, resolve, reject)
+    //         }, 0)
+    //       })
+    //       onRejected && this.failedList.push(() => {
+    //         setTimeout(function() {
+    //           let x = onRejected(this.value)
+    //           resolvePromise(p, x, resolve, reject)
+    //         }, 0)
+    //       })
+    //     }
+    //   })
+    //   return p
+    // }
+    // function resolvePromise(p, x, resolve, reject) {
+    //   // 排除循环引用
+    //   if (p === x) {
+    //     return reject(new Error('error'))
+    //   }
+    //   let called = false
+    //   // 返回的是一个对象或者函数
+    //   if (x != null && (typeof x == 'object' || typeof x == 'function')) {
+    //     const then = x.then
+    //     // 返回的是 promise
+    //     if (typeof then == 'function') {
+    //       // then 调用
+    //       then.call(x, y => {
+    //         if (!called) {
+    //           called = true
+    //           resolvePromise(p, y, resolve, reject)
+    //         }
+    //       }, error => {
+    //         if (!called) {
+    //           called = true
+    //           reject(error)
+    //         }
+    //       })
+    //     } else {
+    //       resolve(x)
+    //     }
+    //   } else {
+    //     resolve(x)
+    //   }
+    // }
     
     // new MyPromise(function(resolve, reject) {
     //   setTimeout(function() {
@@ -225,91 +227,274 @@
     //   })
     // }).then(res => console.log(res))
 
-    new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        resolve('hello')
-      }, 2000)
-    }).then(res => {
-      console.log(res)
-      setTimeout(function() {
-        // 支持异步调用 ？
-      }, 2000)
-    }).then(res => console.log(res))
+    // new Promise(function(resolve, reject) {
+    //   setTimeout(function() {
+    //     resolve('hello')
+    //   }, 2000)
+    // }).then(res => {
+    //   console.log(res)
+    //   setTimeout(function() {
+    //     // 支持异步调用 ？
+    //   }, 2000)
+    // }).then(res => console.log(res))
 
-    // 这道题的突破点是什么？
+    // // 这道题的突破点是什么？
 
-    MyPromise.all = function (promiseArray) {
-      let count = 0, resList = []
-      return new MyPromise(function(resolve, reject) {
-        for (let i = 0; i < promiseArray.length; i++) {
-          promiseArray[i].then(res => {
-            count++
-            resList.push(res)
-            if (count === promiseArray.length) {
-              resolve(resList)
-            }
-          })
-        }
-      }).catch(err => reject(err))
+    // MyPromise.all = function (promiseArray) {
+    //   let count = 0, resList = []
+    //   return new MyPromise(function(resolve, reject) {
+    //     for (let i = 0; i < promiseArray.length; i++) {
+    //       promiseArray[i].then(res => {
+    //         count++
+    //         resList.push(res)
+    //         if (count === promiseArray.length) {
+    //           resolve(resList)
+    //         }
+    //       })
+    //     }
+    //   }).catch(err => reject(err))
+    // }
+
+
+    // MyPromise.race = function(promiseArray) {
+    //   return new MyPromise(function(resolve, reject) {
+    //     for (let i = 0; i < promiseArray.length; i++) {
+    //       promiseArray[i].then(res => {
+    //         resolve(res)
+    //       }).catch(err => reject(err))
+    //     }
+    //   })
+    // }
+
+    // MyPromise.resolve = function(res) {
+    //   return new MyPromise(function(resolve, reject) {
+    //     resolve(res)
+    //   })
+    // }
+
+    // MyPromise.reject = function(err) {
+    //   return new MyPromise(function(resolve, reject) {
+    //     reject(err)
+    //   })
+    // }
+
+    // MyPromise.allSettled = function(promiseArray) {
+    //   let count = 0, result = []
+    //   return new MyPromise(function(resolve, reject) {
+    //     for (let i = 0; i < promiseArray.length; i++) {
+    //       promiseArray[i].then(res => {
+    //         count++
+    //         result[index] = {
+    //           status: 'fulfilled',
+    //           value
+    //         }
+    //         if (count === promiseArray.length) {
+    //           resolve(result)
+    //         }
+    //       }).catch(err => {
+    //         count++
+    //         result[index] = {
+    //           status: 'rejected',
+    //           err
+    //         }
+    //         if (count === promiseArray.length) {
+    //           resolve(result)
+    //         }
+    //       })
+    //     }
+    //   }).catch(err => reject(err))
+    // }
+    
+    // Todo: 手写寄生虫组合 继承
+    // function Parent(name) {
+    //   this.name = name
+    //   this.say()
+    // }
+    // Parent.prototype.say = function() {
+    //   console.log('My name is ', this.name)
+    // }
+    // Parent.prototype.haha = function() {
+    //   console.log(this.name)
+    // }
+    // // new Parent('haha')
+    // Son.prototype = Object.create(Parent.prototype)
+    // // Object.setPrototypeOf(Son.prototype, Parent.prototype)
+    // function Son(name) {
+    //   Parent.call(this, name)
+    //   // this.name = name
+    // }
+    // const son = new Son('hello')
+    // son.haha()
+
+    // Todo: Why 手写 new 操作符
+    // 做了哪些事情
+    // 1. 新建一个对象，执行了 constructor
+    // 2. 将 prototype 关联上
+    // 3. this 指向了该对象
+    // 4. 返回这个对象
+    // 把自己逼到角落
+    // new Fn => newFn(Fn)
+    // function newFn(ClassFn, ...args) {
+    //   const obj = Object.create(ClassFn.prototype)
+    //   const res = ClassFn.call(obj, ...args)
+    //   if (res && (typeof res == 'function' || typeof res == 'object')) {
+    //     return res
+    //   }
+    //   return obj
+    // }
+    // const w = newFn(Parent, 'wade')
+    // w.haha()
+
+    // Todo: 手写 setTimeout 模拟实现 setinterval
+    // 1、 实现思路 setinterval 每隔一定的时间执行一个方法
+    // 2、 实现思路 setinterval 每隔一定的时间执行一个方法
+    // const mySetinterval = function(fn, time = 1000) {
+    //   let timer, isClear = false
+    //   function interval() {
+    //     if (isClear) {
+    //       isClear = false
+    //       clearTimeout(timer)
+    //       return
+    //     }
+    //     fn()
+    //     timer = setTimeout(interval, time);
+    //   }
+    //   timer = setTimeout(interval, time)
+    //   return () => {
+    //     isClear = true
+    //   }
+    // }
+    // mySetinterval(() => {
+    //   console.log('1')
+    // }, 1000)
+
+    // Todo: 手写-发布订阅模式 EventEmitter 实现
+    // class EventEmitter {
+    //   constructor() {
+    //     this.eventMap = Object.create(null)
+    //   }
+    //   // 添加
+    //   on(eventType, fn) {
+    //     // 已经存在的
+    //     if (!this.eventMap[eventType]) {
+    //       this.eventMap[eventType] = []
+    //     }
+    //     this.eventMap[eventType].push(fn)
+    //     // 去重
+    //   }
+    //   remove(eventType, fn) {
+    //     if(this.eventMap[eventType]) {
+    //       this.eventMap[eventType] = this.eventMap[eventType].filter(item => item !== fn)
+    //     }
+    //   }
+    //   // 一次
+    //   once(eventType, cb) {
+    //     const fn = function() {
+    //       cb()
+    //       this.remove(eventType, fn)
+    //     }
+    //     this.on(eventType, fn)
+    //   }
+    //   // 触发
+    //   emit(eventType, ...args) {
+    //     if(this.eventMap[eventType] && this.eventMap[eventType].length) {
+    //       this.eventMap[eventType].forEach(fn => {
+    //         fn.call(this, ...args)
+    //       })
+    //     }
+    //   }
+    // }
+    // const emit = new EventEmitter()
+    // emit.on('click', function(name) {
+    //   console.log(name)
+    // })
+    // emit.emit('click', 'name')
+
+    // Todo: 手写-防抖和节流  他们的背景
+    // 防抖 要实现什么？
+    // 返回一个函数，执行完成之后再去下次
+    // function debounce(cb, delay = 1000) {
+    //   let timer
+    //   return function(...args) {
+    //     if (timer) {
+    //       clearTimeout(timer)
+    //     }
+    //     timer = setTimeout(() => {
+    //       cb.call(this, ...args) // 改变this指向为调用debounce所指的对象
+    //     }, delay);
+    //   }
+    // }
+    // const print = function(i) {
+    //   console.log(i)
+    // }
+    // for (let i = 0; i < 5; i++) {
+    //   debounce(print)(i)
+    // }
+    // function throttle(fn, delay = 300) {
+    //   let flag = false, timer
+    //   return (...args) => {
+    //     if (flag) return;
+    //     flag = true;
+    //     timer = setTimeout(() => {
+    //       fn.call(this, ...args);
+    //       flag = false;
+    //     }, delay);
+    //   }
+    // }
+
+    // Todo: virtual Dom => real Dom
+    // 手写解析器
+    // const vNode = {
+    //   tag: 'div',
+    //   attrs: {
+    //     className: 'test'
+    //   },
+    //   children: [{
+    //     tag: 'div',
+    //     attrs: {
+    //       className: 'haha'
+    //     },
+    //     children: [{
+    //       tag: 'span',
+    //       attrs: {
+    //         className: 'haha'
+    //       }
+    //     }]
+    //   }]
+    // }
+    // function _render(vNode) {
+    //   const dom = document.createElement(vNode.tag)
+    //   if (vNode.children) {
+    //     vNode.children.forEach(child => {
+    //       dom.appendChild(_render(child))
+    //     });
+    //   }
+    //   return dom
+    // }
+    // const body = document.getElementsByTagName('body')[0]
+    // body.appendChild(_render(vNode))
+
+    // Todo: 对象 flatten 扁平化
+    const obj = {
+      a: {
+        b: 1,
+        c: 2,
+        d: {e: 5}
+      },
+      b: [1, 3, {a: 2, b: 3}],
+      c: 3
     }
-
-
-    MyPromise.race = function(promiseArray) {
-      return new MyPromise(function(resolve, reject) {
-        for (let i = 0; i < promiseArray.length; i++) {
-          promiseArray[i].then(res => {
-            resolve(res)
-          }).catch(err => reject(err))
-        }
-      })
-    }
-
-    MyPromise.resolve = function(res) {
-      return new MyPromise(function(resolve, reject) {
-        resolve(res)
-      })
-    }
-
-    MyPromise.reject = function(err) {
-      return new MyPromise(function(resolve, reject) {
-        reject(err)
-      })
-    }
-
-    MyPromise.allSettled = function(promiseArray) {
-      let count = 0, result = []
-      return new MyPromise(function(resolve, reject) {
-        for (let i = 0; i < promiseArray.length; i++) {
-          promiseArray[i].then(res => {
-            count++
-            result[index] = {
-              status: 'fulfilled',
-              value
-            }
-            if (count === promiseArray.length) {
-              resolve(result)
-            }
-          }).catch(err => {
-            count++
-            result[index] = {
-              status: 'rejected',
-              err
-            }
-            if (count === promiseArray.length) {
-              resolve(result)
-            }
-          })
-        }
-      }).catch(err => reject(err))
-    }
-
-
-
-
-
-
-
-
+    // flatten(obj) 结果返回如下
+    // {
+    //  'a.b': 1,
+    //  'a.c': 2,
+    //  'a.d.e': 5,
+    //  'b[0]': 1,
+    //  'b[1]': 3,
+    //  'b[2].a': 2,
+    //  'b[2].b': 3
+    //   c: 3
+    // }
 
 
 
