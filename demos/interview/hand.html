@@ -474,6 +474,9 @@
     // const body = document.getElementsByTagName('body')[0]
     // body.appendChild(_render(vNode))
 
+    function getTepy (target) {
+      return Object.prototype.toString.call(target).slice(8, -1)
+    }
     // Todo: 对象 flatten 扁平化
     const obj = {
       a: {
@@ -495,6 +498,73 @@
     //  'b[2].b': 3
     //   c: 3
     // }
+
+    function flatten (source) {
+      if (getTepy(source) != 'Object') {
+        return 
+      }
+      let output = {}
+      // DFS
+      // Recursion
+      function next(source, keyPath) {
+        if (getTepy(source) == 'Object') {
+          for (const key in source) {
+            if (Object.hasOwnProperty.call(source, key)) {
+              const element = source[key]
+              let objPath = keyPath ? `${keyPath}.${key}`:`${key}`
+              next(element, objPath)
+            }
+          }
+        } else if(getTepy(source) == 'Array'){
+          source.forEach((element, index) => {
+            let arrPath = `${keyPath}[${index}]`
+            next(element, arrPath)
+          });
+        } else {
+          output[keyPath] = source
+        }
+      }
+      next(source, '')
+      return output
+    }
+    console.log(JSON.stringify(flatten(obj))) //  结果返回如下
+    // Todo: 问题将 flatten 的对象还原
+    const input = {
+      "a.b": 1,
+      "a.c": 2,
+      "a.d.e": 5,
+      "b[0]": 1,
+      "b[1]": 3,
+      "b[2].a": 2,
+      "b[2].b": 3,
+      "c": 3
+    }
+    // 
+    function recovery(source) {
+      if (getTepy(source) != 'Object') {
+        return 
+      }
+      let result = {}
+      for (const key in source) {
+        if (Object.hasOwnProperty.call(source, key)) {
+          parseKey(key, source[key])
+        }
+      }
+      function parseKey(key, value) {
+        if (key.indeOf('.') > -1) {
+          let keyList = key.split('.')
+          // Todo
+          keyList.forEach((keyItem, index) => {
+            // if () {
+            // } else {
+            // }
+          })
+        } else {
+          result[key] = value
+        }
+      }
+      return result
+    }
 
 
 
