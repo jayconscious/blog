@@ -29,4 +29,118 @@ sticky: 1
 
 ## async函数实现原理
 
+```js
+function sapwn (genFn) {
+  return new Promise(function(resolve, reject) {
+    const gen = genFn()
+    function next (data) {
+      const t = gen.next(data)
+      if (!t.done) {
+        // Tip: resolve res
+        t.value.then((res) => next(res)).catch(err => reject(err))
+        // Promise.resolve(t.value).then((res) => next(res)).catch(err => reject(err))
+      } else {
+        resolve(t.value)
+      }
+    }
+    next()
+  })
+}
+```
+或者
 
+```js
+function sapwn (genFn) {
+  return new Promise(function(resolve, reject) {
+    const gen = genFn()
+    function next (fn) {
+      const t = fn()
+      if (!t.done) {
+        // Tip: resolve res
+        t.value.then((res) => next(
+          function() { return gen.next(res) }
+        )).catch(err => reject(err))
+      } else {
+        resolve(t.value)
+      }
+    }
+    next(function() { return gen.next() })
+  })
+}
+```
+
+阮一峰老师版本：
+
+```js
+
+function spawn(genF) {
+  return new Promise(function(resolve, reject) {
+    var gen = genF();
+    function step(nextF) {
+      try {
+        var next = nextF();
+      } catch(e) {
+        return reject(e); 
+      }
+      if (next.done) {
+        return resolve(next.value);
+      } 
+      Promise.resolve(next.value).then(function(v) {
+        step(function() { return gen.next(v); });      
+      }, function(e) {
+        step(function() { return gen.throw(e); });
+      });
+    }
+    step(function() { return gen.next(undefined); });
+  });
+}
+```
+
+## 注意点
+
+但是，如果将 `forEach` 方法的参数改成 `async` 函数，也有问题。
+
+```js
+async function dbFuc(db) {
+  let docs = [{}, {}, {}]
+
+  // 可能得到错误结果
+  docs.forEach(async function (doc) {
+    await db.post(doc);
+  });
+}
+```
+上面代码可能不会正常工作，原因是这时三个 `db.post` 操作将是**并发执行**，也就是同时执行，而**不是继发执行**。正确的写法是采用 **for** 循环。
+<!-- Why -->
+
+```js
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  for (let doc of docs) {
+    await db.post(doc);
+  }
+}
+```
+如果确实希望多个**请求并发执行**，可以使用 `Promise.all` 方法。
+
+```js
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  Promise.all(docs.map((doc) => db.post(doc))).then(
+    results => console.log(results)
+  )
+}
+// or
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  let promises = docs.map((doc) => db.post(doc));
+
+  let results = await Promise.all(promises);
+  console.log(results);
+}
+```
+
+## 总结 
+
+1. `async/await` 就是 `generator + promise` 的语法糖，并且上下使用 `await` 他一定是串行执行的。(疑问：可以使他们并行执行吗？在不是用 `Promise.all`)
+2. `Promise.all` 是可以进行请求并发的，但是浏览器对同一域名的最大请求数是有控制的，那门如何来实现最大请求数控制呢？

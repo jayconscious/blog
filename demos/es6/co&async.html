@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>co</title>
+  <script src="../../lib/co.js"></script>
+</head>
+<body>
+  <script>
+    // function asyncFn (msg) {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //       console.log(msg)
+    //       resolve('world')
+    //     }, 2000);
+    //   })
+    // }
+    // function* test() {
+    //   console.log('start')
+    //   const res = yield asyncFn('hello')
+    //   yield asyncFn(res)
+    //   console.log('end')
+    // }
+    // // co(test).then(() => {
+    // //   console.log('test')
+    // // })
+
+    // function isPromise(p) {
+    //   return p instanceof Promise
+    // }
+
+    // // how to 实现
+    // function run (genFn) {
+    //   const gen = genFn()
+    //   function next(data) {
+    //     const t = gen.next(data)
+    //     if(!t.done) {
+    //       t.value.then((res) => {
+    //         next(res)
+    //       })
+    //     } else {
+    //       return t.value
+    //     }
+    //   }
+    //   next()
+    // }
+    // run(test)
+
+    // async 函数解决
+    // async function asyncRun () {
+    // }
+    // 等价于
+    // function run () {
+    //   return sapwn(run)
+    // }
+
+    function sapwn (genFn) {
+      return new Promise(function(resolve, reject) {
+        const gen = genFn()
+        function next (data) {
+          const t = gen.next(data)
+          if (!t.done) {
+            // Tip: resolve res
+            t.value.then((res) => next(res)).catch(err => reject(err))
+          }
+          if (t.done) {
+            resolve(t.value)
+          }
+        }
+        next()
+      })
+    }
+
+    // function spawn(genF) {
+    //   return new Promise(function(resolve, reject) {
+    //     var gen = genF();
+    //     function step(nextF) {
+    //       try {
+    //         var next = nextF();
+    //       } catch(e) {
+    //         return reject(e); 
+    //       }
+    //       if(next.done) {
+    //         return resolve(next.value);
+    //       } 
+    //       Promise.resolve(next.value).then(function(v) {
+    //         step(function() { return gen.next(v); });      
+    //       }, function(e) {
+    //         step(function() { return gen.throw(e); });
+    //       });
+    //     }
+    //     step(function() { return gen.next(undefined); });
+    //   });
+    // }
+
+    
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>
