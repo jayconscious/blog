@@ -1,6 +1,8 @@
 const moment = require('moment');
 const { vue2, dontknowjs1, dontknowjs2, tstutorial, webpack } = require('./sidebarCfg')
 
+const isProduction = process.env.NODE_ENV === 'production' 
+
 module.exports = {
 	theme: 'reco',
 	head: [
@@ -29,6 +31,7 @@ module.exports = {
 			'/book/explainindepthnodejs/': [ '' ],
 			'/others/server/': [ 'blogBuild', 'cdn' ],
 			'/others/redis/': [ 'start' ],
+			'/algorithm/gc/': [ 'gc1' ],
 		},
 		blogConfig: {
 			category: {
@@ -63,30 +66,33 @@ module.exports = {
 		['@vuepress/back-to-top', true]
 	],
 	configureWebpack: (config, isServer) => {
-    if (!isServer) {
-      // 修改客户端的 webpack 配置
-			if (config.optimization) {
-				config.optimization = {
-					splitChunks: {
-						chunks: 'all',
-						maxAsyncRequests: 5,
-						maxSize: 500000,   // 500kb 
-						cacheGroups: {
-							commons: {
-								name: 'commons',  // 命名chunks_name
-								chunks: 'all',
+		if (isProduction) {
+			if (!isServer) {
+				// 修改客户端的 webpack 配置
+				if (config.optimization) {
+					config.optimization = {
+						splitChunks: {
+							chunks: 'all',
+							maxAsyncRequests: 5,
+							maxSize: 500000,   // 500kb 
+							cacheGroups: {
+								commons: {
+									name: 'commons',  // 命名chunks_name
+									chunks: 'all',
+								}
 							}
 						}
 					}
 				}
+				// console.log('env', process.env.NODE_ENV)
+				if (config.output && config.output.publicPath) {
+					config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
+				}
+				// console.log('config', config)
 			}
-			// Todo: 判断环境
-			if (config.output && config.output.publicPath) {
-				config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
-			}
-			console.log('config', config)
-    }
-  }
+		}
+	}
+    
 }
 
 /**
