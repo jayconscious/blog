@@ -189,17 +189,17 @@ b2.speak();
 
 首先，类风格代码的思维模型强调实体以及实体间的关系:
 
-![image](/blog/assets/img/prototype1.png)
+![image](/assets/img/prototype1.png)
 
 好，下面我们来看一张简化版的图，它更“清晰”一些——只展示了必要的对象和关系:
 
-![image](/blog/assets/img/prototype2.png)
+![image](/assets/img/prototype2.png)
 
 
 现在我们看看对象关联风格代码的思维模型:
 
 
-![image](/blog/assets/img/relationPrototype.png)
+![image](/assets/img/relationPrototype.png)
 
 通过比较可以看出，对象关联风格的代码显然更加简洁，因为这种代码只关注一件事: **对象之间的关联关系**。
 

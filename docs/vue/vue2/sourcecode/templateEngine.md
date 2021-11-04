@@ -165,7 +165,7 @@ HTML解析器在解析HTML时，是从前向后解析。每当遇到开始标签
 
 这样就可以保证每当触发钩子函数 `start` 时，栈的最后一个节点就是当前正在构建的节点的父节点。
 
-![image](/blog/assets/img/vue2/templateEngine/templateEngine1.png)
+![image](/assets/img/vue2/templateEngine/templateEngine1.png)
 
 ## HTML解析器
 
@@ -258,7 +258,7 @@ const startTagOpen = new RegExp(`^<${qnameCapture}`)
 
 事实上，开始标签被拆分成三个小部分，分别是标签名、属性和结尾。
 
-![image](/blog/assets/img/vue2/templateEngine/templateEngine2.png)
+![image](/assets/img/vue2/templateEngine/templateEngine2.png)
 
 通过“标签名”这一段字符，就可以分辨出模板是否以开始标签开头，此后要想得到属性和自闭合标识，则需要进一步解析。
 

@@ -20,15 +20,15 @@ module.exports = {
 		author: 'jayconscious',
 		sidebar: {
 			'/javascript/js/': [ 'extends', 'call&bind' ],
-			'/javascript/es6/': [ 'generator-primary', 'promise', 'proxy', 'co' ],
+			'/javascript/es6/': [ 'promise', 'generator-primary', 'co', 'async', 'proxy' ],
 			'/node/egg/': [ 'framework' ],
 			'/vue/vue2/': getBookSideBar(vue2),
 			'/vue/vuex/': getSingleSidebar('vuex'),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
 			'/book/dontknowjs2/': getBookSideBar(dontknowjs2),
 			'/book/tstutorial/': getBookSideBar(tstutorial),
+			// '/book/explainindepthnodejs/': [ '' ],
 			'/engineering/webpack/': getBookSideBar(webpack),
-			'/book/explainindepthnodejs/': [ '' ],
 			'/others/server/': [ 'blogBuild', 'cdn' ],
 			'/others/redis/': [ 'start' ],
 			'/algorithm/gc/': [ 'gc1' ],
@@ -92,7 +92,6 @@ module.exports = {
 			}
 		}
 	}
-    
 }
 
 /**

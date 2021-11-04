@@ -50,7 +50,7 @@ categories:
 
 如果不写 `key` 的话，在 `patch` 的时候，`sameVnode` 方法会返回 `true`，会执行 `patchVnode`，复用当前的节点，更新 `DOM` 数据，流程如下：
 
-![image](/blog/assets/img/vue2/question/checkDupKeys1.png)
+![image](/assets/img/vue2/question/checkDupKeys1.png)
 
 在没有设置 `key` 的情况下，流程如下：
 
@@ -132,7 +132,7 @@ function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly)
 }
 ```
 ::: tip
-diff 的详细过程可以参考 [virtual DOM && Diff](https://jayconscious.github.io/blog/vue/vue2/vueDiff.html)
+diff 的详细过程可以参考 [virtual DOM && Diff](https://jayconscious.github.io/vue/vue2/vueDiff.html)
 :::
 
 

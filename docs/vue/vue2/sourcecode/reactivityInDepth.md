@@ -17,7 +17,7 @@ sticky: 2
 
 这里我们借助官网的一张图，如下图：
 
-![image](/blog/assets/img/vue2/reactivity/reactivity.png)
+![image](/assets/img/vue2/reactivity/reactivity.png)
 
 在渲染时，`vm._update()`方法重新渲染，这个会 `touch` 到模板中的数据，会发响应数据的 `get` 函数，收集本次渲染的依赖。收集依赖和更新派发都是基于 `Watcher` 观察者。在我们给某些数据进行复制操作时，会触发响应数据的 `set` 函数，`set` 会调用 `dep.notify()`，通知依赖它的 `watcher`, 触发试图更新。
 
@@ -28,7 +28,7 @@ sticky: 2
 
 Vue 的数据响应式原理是 `ES5` 内置对象方法 `Object.defineProperty`(一些浏览器上不支持的，IE8: 大家都看我干吗？) 来实现的。[这个方法的作用是在一个对象上定义一个新属性，或者修改一个对象的现有属性。](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)，在新的vue3当前是使用了 `ES6` 的 `Proxy`代替了它。接下来我们理清整个响应式的初始化链路，如下图：
 
-![image](/blog/assets/img/vue2/reactivity/defineProperty.png)
+![image](/assets/img/vue2/reactivity/defineProperty.png)
 
 ### Vue的初始化
 
@@ -176,7 +176,7 @@ get: function reactiveGetter() {
 
 在触发 `get` 函数时，调用了 `dep.depend()`，这是依赖收集的过程，或者是说订阅者添加依赖订阅，流程如下图：
 
-![image](/blog/assets/img/vue2/reactivity/addDep.png)
+![image](/assets/img/vue2/reactivity/addDep.png)
 
 首先这里我们要搞清楚谁是依赖，谁是订阅，`watcher`类 就是依赖，因为它依赖于数据，`Dep`类就是订阅，会将依赖放在自己的订阅者`subs`列表中管理。
 
@@ -342,7 +342,7 @@ function popTarget() {
 
 ## 派发更新
 
-![image](/blog/assets/img/vue2/reactivity/dispatch.png)
+![image](/assets/img/vue2/reactivity/dispatch.png)
 
 当数据更新时，会触发数据的 `set` 函数，我们来看看 `set` 有哪些逻辑。
 

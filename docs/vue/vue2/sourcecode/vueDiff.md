@@ -98,7 +98,7 @@ function sameVnode(a, b) {
 
 所以这里就有了我们循环遍历的条件了，`oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx` 或者 `oldStartIdx > oldEndIdx || newStartIdx > newEndIdx`。
 
-![image](/blog/assets/img/vue2/diff/diff1.png)
+![image](/assets/img/vue2/diff/diff1.png)
 
 在遍历中，取出4索引对应的 Vnode节点：
 - oldStartIdx：oldStartVnode
@@ -118,38 +118,38 @@ diff 过程中，如果存在key，并且满足`sameVnode`，会将该 DOM 节�
 
 3. 第三种情况：先 `oldStartVnode` 和 `newStartVnode` 相似，`patch` 节点， `oldStartIdx` 与 `newStartIdx` 向后移动。
 
-![image](/blog/assets/img/vue2/diff/diff2.png)
+![image](/assets/img/vue2/diff/diff2.png)
 
 
 4. 第四种情况： `oldEndVnode` 和 `newEndVnode` 相似，`patch` 节点， `oldEndIdx` 与 `newEndIdx` 向前移动
 
-![image](/blog/assets/img/vue2/diff/diff3.png)
+![image](/assets/img/vue2/diff/diff3.png)
 
 5. 第五种情况：`oldStartVnode` 与 `newEndVnode` 相似，说明当前的这个节点已经向后移动了，`patch` 节点，还需要将 `oldStartVnode` 的真实 DOM 节点移动到 `oldEndVnode` 的后面，(`nodeOps.nextSibling(oldEndVnode.elm)`)，并且 `oldStartIdx` 前后移，`newEndIdx` 向前移
 
-![image](/blog/assets/img/vue2/diff/diff4.png)
+![image](/assets/img/vue2/diff/diff4.png)
 
 6. 第六种情况：`oldEndVnode` 与 `newStartVnode` 相似，说明当前的这个节点已经向前移动了，`patch` 节点，将 `oldEndVnode` 的真实 DOM 节点移动到`oldStartVnode` 的前面，并且 `oldEndIdx` 向前移，`newStartIdx` 前后移
 
-![image](/blog/assets/img/vue2/diff/diff5.png)
+![image](/assets/img/vue2/diff/diff5.png)
 
 当以上这些情况都不满足时，那么则在 `oldStartIdx` 与 `oldEndIdx` 之间查找与 `newStartVnode` 相似节点，若存在，`patch` 节点，则将匹配的节点真实 DOM 移动到 `oldStartVnode` 的前面。
 
-![image](/blog/assets/img/vue2/diff/diff6.png)
+![image](/assets/img/vue2/diff/diff6.png)
 
 若不存在，说明 `newStartVnode` 为新节点，创建新节点放在 `oldStartVnode` 前面即可。
 
-![image](/blog/assets/img/vue2/diff/diff7.png)
+![image](/assets/img/vue2/diff/diff7.png)
 
 当 `oldStartIdx > oldEndIdx` 或者 `newStartIdx > newEndIdx`，循环结束，这个时候我们需要处理那些未被遍历到的 VNode。
 
 当 `oldStartIdx > oldEndIdx` 时，说明老的节点已经遍历完，而新的节点没遍历完，这个时候需要将新的节点创建之后放在 `oldEndVnode` 后面。
 
-![image](/blog/assets/img/vue2/diff/diff8.png)
+![image](/assets/img/vue2/diff/diff8.png)
 
 当 `newStartIdx > newEndIdx` 时，说明新的节点已经遍历完，而老的节点没遍历完，这个时候要将没遍历的老的节点全都删除。
 
-![image](/blog/assets/img/vue2/diff/diff9.png)
+![image](/assets/img/vue2/diff/diff9.png)
 
 
 

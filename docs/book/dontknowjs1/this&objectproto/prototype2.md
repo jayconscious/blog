@@ -12,7 +12,7 @@ categories:
 
 我们已经了解了通常被称作原型继承的机制，a 可以“继承”Foo.prototype 并访 问 Foo.prototype 的 myName() 函数。但是之前我们只把继承看作是类和类之间的关系，并 没有把它看作是类和实例之间的关系:
 
-![image](/blog/assets/img/prototype.png)
+![image](/assets/img/prototype.png)
 
 它不仅展示出对象(实例)a1 到 Foo.prototype 的委托关系，还展示出 Bar.prototype 到 Foo.prototype 的委托关系，而后者和类继承很相似，只有箭头的方向不 同。图中由下到上的箭头表明这是委托关联，不是复制操作。
 

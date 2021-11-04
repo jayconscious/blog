@@ -1,32 +1,35 @@
-## <a href="https://jayconscious.github.io/blog/" target="_blank">Jayconscious Blog</a>
-> 记录个人学习和成长
+## <a href="http://www.jayconscious.com" target="_blank">Jayconscious Blog</a>
+> 记录总结个人学习和成长
+### JavaScript
+- [继承的几种方式以及优缺点](http://www.jayconscious.com/javascript/js/extends.html)
+- [call&bind](http://www.jayconscious.com/javascript/js/call&bind.html)
+### ES6
+- [Promise 解析](http://www.jayconscious.com/javascript/es6/promise.html)
+- [Generator 函数](http://www.jayconscious.com/javascript/es6/generator-primary.html)
+- [co函数库 源码解析](http://www.jayconscious.com/javascript/es6/co.html)
+- [async](http://www.jayconscious.com/javascript/es6/async.html)
 
 ### Vue2.x
-- [模板引擎](https://jayconscious.github.io/blog/vue/vue2/sourcecode/templateEngine.html)
-- [深入响应式原理](https://jayconscious.github.io/blog/vue/vue2/sourcecode/reactivityInDepth.html)
-- [virtual DOM && Diff](https://jayconscious.github.io/blog/vue/vue2/sourcecode/vueDiff.html)
-- [异步渲染](https://jayconscious.github.io/blog/vue/vue2/sourcecode/asyncRender.html)
-
-
-- [vue组件里的data为什么是函数返回一个对象](https://jayconscious.github.io/blog/vue/vue2/question/dataIsFn.html)
-- [为什么列表组件不用 index 作为 key](https://jayconscious.github.io/blog/vue/vue2/question/checkDupKeys.html)
-- [怎么理解Vue中的$nextTick](https://jayconscious.github.io/blog/vue/vue2/question/aboutNextTick.html)
-
+- [异步渲染](http://www.jayconscious.com/vue/vue2/sourcecode/asyncRender.html)
+- [Vue中的$nextTick](http://www.jayconscious.com/vue/vue2/question/aboutNextTick.html)
+- [模板引擎](http://www.jayconscious.com/vue/vue2/sourcecode/templateEngine.html)
+- [深入响应式原理](http://www.jayconscious.com/vue/vue2/sourcecode/reactivityInDepth.html)
+- [virtual DOM && Diff](http://www.jayconscious.com/vue/vue2/sourcecode/vueDiff.html)
 ### vuex
+- [Vuex 是什么？](http://www.jayconscious.com/vue/vuex/what-is-vuex.html)
+- [最简单的 Store](http://www.jayconscious.com/vue/vuex/a-simple-demo.html)
+- [Store挂载实现](http://www.jayconscious.com/vue/vuex/how-to-install.html)
+### Engineering
+- [深入 vue-loader 原理](http://www.jayconscious.com/engineering/webpack/loaders/vueLoader.html)
+- [深入Webpack的HMR机制](http://www.jayconscious.com/engineering/webpack/plugins/hotModuleReplace.html)
 
-- [Vuex 是什么？](https://jayconscious.github.io/blog/vue/vuex/what-is-vuex.html)
-- [最简单的 Store](https://jayconscious.github.io/blog/vue/vuex/a-simple-demo.html)
-- [Store挂载实现](https://jayconscious.github.io/blog/vue/vuex/how-to-install.html)
+### Algorithm
+- [浅析垃圾回收算法](http://www.jayconscious.com/algorithm/gc/gc1.html)
 
-
-### JavaScript
-- [Promise 解析](https://jayconscious.github.io/blog/javascript/js/promise.html)
-
+### Other
+- [Github actions重塑你的Blog Workflows](http://www.jayconscious.com/others/server/blogBuild.html)
 
 ### 读书
-- [《你不知道的JavaScript》(上卷)](https://jayconscious.github.io/blog/book/dontknowjs1/)
-- [《你不知道的JavaScript》(中卷)](https://jayconscious.github.io/blog/book/dontknowjs2/)
+- [《你不知道的JavaScript》(上卷)](http://www.jayconscious.com/book/dontknowjs1/)
+- [《你不知道的JavaScript》(中卷)](http://www.jayconscious.com/book/dontknowjs2/)
   
-
-
-

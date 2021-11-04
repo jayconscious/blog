@@ -43,7 +43,7 @@ function foo() {
 }
 baz(); // <-- baz 的调用位置
 ```
-![image](/blog/assets/img/callstack.png)
+![image](/assets/img/callstack.png)
 
 使用开 发者工具得到调用栈，**然后找到栈中第二个元素**（就是这里的bar），这就是真正的调用位置。
 

@@ -39,7 +39,7 @@ new Vue({
 
 以下是一个表示“单向数据流”理念的简单示意：
 
-![image](/blog/assets/img/vuex/vuex1.png)
+![image](/assets/img/vuex/vuex1.png)
 
 但是，当我们的应用遇到**多个组件共享状态**时，单向数据流的简洁性很容易被破坏：
 
@@ -56,7 +56,7 @@ new Vue({
 
 这就是 Vuex 背后的基本思想，借鉴了  `Flux` 、 `Redux` 和 `The Elm Architecture`。与其他模式不同的是，Vuex 是专门为 Vue.js 设计的状态管理库，以利用 Vue.js 的细粒度数据响应机制来进行高效的状态更新。
 
-![image](/blog/assets/img/vuex/vuex2.png)
+![image](/assets/img/vuex/vuex2.png)
 
 ## 什么情况下我应该使用 Vuex？
 
