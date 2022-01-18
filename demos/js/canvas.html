@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片裁剪</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const box = [1100, 0, 1200, 100]
+        // 裁剪图像
+        function clipImage(context, x1, y1, x2, y2) {
+            context.rect(x1, y1, x2, y2);
+            context.clip();
+        }
+        //获取canvas画布相应区域的图像信息，并返回其base64格式的图像
+        function getBase64Image(context, x1, y1, x2, y2) {
+            var dataImg = context.getImageData(x1, y1, x2, y2);
+            var canvas2 = document.createElement("canvas");
+            var context2 = canvas2.getContext("2d");
+            var width = Math.abs(x1 - x2);
+            var height = Math.abs(y1 - y2);
+            canvas2.width = width;
+            canvas2.height = height;
+            context2.putImageData(dataImg, 0, 0, 0, 0, width, height);
+            var res = canvas2.toDataURL('image/jpeg');
+            return res;
+        }
+        //首先确定裁剪区域，这样才能裁剪图像
+        //首先先向canvas画布中绘制一张图片
+        var img = new Image();
+        img.src = "https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF";
+        img.setAttribute('crossOrigin', '');
+        img.onload = function () {
+            // var canvas = document.createElement('canvas');
+            var canvas = document.getElementById('canvas')
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var context = canvas.getContext("2d");
+            clipImage(context, ...box);
+            //绘制图像
+            context.drawImage(img, 0, 0);
+            //获取base64格式图像信息
+            var imgBase64 = getBase64Image(context, ...box);
+            //现在我们来验证获取到的Base64格式图像
+            var imgElement = document.createElement('img');
+            imgElement.src = imgBase64;
+            var body = document.getElementsByTagName('body')[0];
+            body.appendChild(imgElement);
+        }
+    </script>
+</body>
+</html>
