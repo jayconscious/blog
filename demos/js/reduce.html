@@ -8,13 +8,78 @@
 </head>
 <body>
     <script>
-        const array1 = [1, 2, 3, 4];
-        const reducer = (previousValue, currentValue) => previousValue + currentValue;
+        // const array1 = [1, 2, 3, 4];
+        // const reducer = (previousValue, currentValue) => previousValue + currentValue;
+        // const res = Array.prototype.reduce.call(array1, reducer)
+        // console.log(res)
+        // var maxCallback = ( acc, cur ) => {
+        //     console.log('acc', acc)
+        //     console.log('cur', cur)
+        //     let max = Math.max( acc.x, cur.x )
+        //     // console.log('max', max)
+        //     return max
+        // }
+        // var maxCallback2 = ( max, cur ) => Math.max(max, cur)
+        // console.log('1', [{ x: 2 }, { x: 22 }, { x: 42 }].reduce(maxCallback)) // NaN
+        // console.log('2', [{ x: 2 }, { x: 22 }].reduce(maxCallback)) // 22
+        // console.log('3', [{ x: 2 }].reduce(maxCallback)) // { x: 2 }
+        // console.log('4', [].reduce(maxCallback, 1)) // TypeError
 
-        const res = Array.prototype.reduce.call(array1, reducer)
-        console.log(res)
+        // 二维数组转化为一维数组
+        // 多维数组抹平
+        // const arr = [[[0, 1], 2], [3, 4], [5, 6], [7, 8]]
+        // const reduceCb = (pre, curr) => {
+        //     return pre.concat(curr)
+        // }
+        // console.log('reduceCb', arr.reduce(reduceCb))
+
+        // 计算数组中每个元素出现的次数
+
+        // const arr = ['a', 'b', 'c', 'd', 'a', 'a', 'c', 'f', 'g', 'g', 'g', 'e']
+        // const countCb = function (accObj, val) {
+        //     if (accObj[val]) {
+        //         ++accObj[val]
+        //     } else {
+        //         accObj[val] = 1
+        //     }
+        //     return accObj
+        // }
+        // console.log(arr.reduce(countCb, {}))
+
+        // var names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
+        // const nameCountObj = names.reduce(function(nameObj, name) {
+        //     if (name in nameObj) {
+        //         nameObj[name]++
+        //     } else {
+        //         nameObj[name] = 1
+        //     }
+        //     return nameObj
+        // }, {})
+        // console.log('nameCountObj', nameCountObj)
+
+        // const arr = [
+        //     {
+        //         name: 'a', 
+        //         age: 20
+        //     },
+        //     {
+        //         name: 'b', 
+        //         age: 21
+        //     },
+        //     {
+        //         name: 'c', 
+        //         age: 21
+        //     }
+        // ]
+        // // 如何实现分组？
+        // // 分组要实现的是什么？
+        // function groupBy (list, porperty) {
+        // }
 
         
+
+
+
     </script>
 </body>
 </html>
