@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>href</title>
+</head>
+<body>
+    <button onclick="handleClick()">跳转百度</button>
+    <script>
+        function handleClick () {
+            console.log('这是原生')
+            window.location.href = 'http://www.baidu.com'
+        }
+
+        // 背景：群里的小伙伴提问，window.location.href 能否被拦截
+        // 1、第一想到的解决方案：使用 Object.getOwnPropertyDescriptor(window.location, 'href') 获取其对象属性描述符；然后再使用 Object.defineProperty 去重写 window.location.href
+        // 2、发现再使用 Object.defineProperty 劫持时，有报错。Object.defineProperty有生效的作用范围。
+        // 3、好奇 window.location.href 底层是如何实现的？
+        // 4、思路：1、从原因入手去分析解决。2、搜索
+        // 5、尝试使用其他的方式看看能否劫持 window.location.href
+        // 6、window.location 是一个只读的属性，js层面是不可以操作他的，想要拦截的话只能在浏览器层面去做
+        // 7、比如 chrome 浏览器，制作一个插件去解决这个问题
+        // 8、
+
+    </script>
+</body>
+</html>
