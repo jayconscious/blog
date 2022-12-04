@@ -9,14 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.18.6",
-    "@babel/core": "^7.18.6",
-    "@babel/plugin-transform-arrow-functions": "^7.18.6",
-    "@babel/preset-env": "^7.18.6"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "@babel/parser": "^7.18.11",
-    "@babel/traverse": "^7.18.11"
+    "@babel/parser": "^7.18.13",
+    "@babel/traverse": "^7.18.13"
   }
 }

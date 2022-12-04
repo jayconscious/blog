@@ -1,0 +1,16 @@
+{
+  // 使用 IntelliSense 了解相关属性。 
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug test.js",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/demos/babelDemos/src/test.js",
+      // "cwd": "${workspaceFolder}/node-addon-examples/1_hello_world/napi"
+      "runtimeExecutable": "/Users/admin/.nvm/versions/node/v12.22.8/bin/node"
+    },
+  ]
+}
