@@ -10,9 +10,15 @@ sticky: 1
 ---
 
 ## 前言
+`babel`是我们前端工程师日常工作经常接触的工具。那么它是什么，官网有这很好的解释。`Babel` 是一个工具链，主要用于将采用 `ECMAScript 2015+` 语法编写的代码转换为向后兼容的 `JavaScript` 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。下面列出的是 `Babel` 能为你做的事情：
+- 语法转换
+- 通过 `Polyfill` 方式在目标环境中添加缺失的功能（通过引入第三方 `polyfill` 模块，例如 `core-js`)
+- 源码转换（`codemods`）
+- 以及其他的能力
+`the-super-tiny-compiler`项目高屋建瓴地解释了 `Babel` 的工作方式，其大致流程如下图：
+![image](/assets/img/tstc.png)
 
-<!-- TODO: -->
-
+接下来让我们一起对其源码探究一番。
 ## 源码解析
 
 ### tokenizer
@@ -249,17 +255,58 @@ traverser(ast, {
         };
       }
       parent._context.push(expression);
-    }
+    },
   },
 });
 ```
+
 先创建一个 `expression`对象，包含描述一个函数`c ast`的基本要素，`node._context = expression.arguments` 这一步很重要，是否感觉似曾相识。在如上这个例子，此时当时`node`为 `add`这个函数时，它的`parent`即为根节点，`parent._context.push(expression)`，也就是将这个放入到了`newAst.body`中，所以`node._context = expression.arguments`也是如此。
 
 这样通过 `traverseArray`的循环和`traverseNode`的递归就将所有的节点转换完成了。
 
 ### codeGenerator
 
+这个阶段主要是将已经转换之后的 `ast` 生成代码。我们来看看是如何实现滴
 
+```js
+function codeGenerator(node) {
+  switch (node.type) {
+    case "Program":
+      return node.body.map(codeGenerator).join("\n");
+    case "ExpressionStatement":
+      return codeGenerator(node.expression) + ";";
+    case "CallExpression":
+      return (
+        codeGenerator(node.callee) +
+        "(" +
+        node.arguments.map(codeGenerator).join(", ") +
+        ")"
+      );
+    case "Identifier":
+      return node.name;
+    case "NumberLiteral":
+      return node.value;
+    case "StringLiteral":
+      return '"' + node.value + '"';
+    default:
+      throw new TypeError(node.type);
+  }
+}
+```
+主要是一个依据有限类型判断，生成对应字符串的递归函数，没有什么可说的。
 ### compiler
-
+```js
+function compiler(input) {
+  let tokens = tokenizer(input);
+  let ast = parser(tokens);
+  let newAst = transformer(ast);
+  let output = codeGenerator(newAst);
+  return output;
+}
+```
+`compiler`就是将如上的各个步骤穿了起来，可以整体对外暴露。
 ## 总结
+本文通过对 `the-super-tiny-compiler` 源码的解析，了解了 `babel`转换代码的几个功能模块，以及他们是如何协作的。仓库代码含有大量的注释，可以帮助我们很好的了解其原理。欢迎大家自行探究~
+
+## 参考文献
+- [the-super-tiny-compiler](https://github.com/jamiebuilds/the-super-tiny-compiler)
