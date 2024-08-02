@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>请求并发数量限制</title>
+</head>
+
+<body>
+  <script>
+
+    // 
+    function sendRequest(url) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log(url + ' start')
+          resolve(url)
+        }, Math.random() * 2000)
+      })
+    }
+
+    function RequestConcurrentControl(maxNumber) {
+      this.maxRequestNumber = maxNumber // 最大控制数
+      this.queue = []  // 用来存储请求队列
+      this.currentExcuting = 0
+    }
+
+    RequestConcurrentControl.prototype.enqueue = function (url) {
+      const that = this
+      return new Promise((resolve, reject) => {
+
+        const task = function () {
+          that.currentExcuting++
+          sendRequest(url).then(resolve).catch(reject).finally(() => {
+            that.currentExcuting--
+            // Tip: 为什么需要下面这行代码，异步代码的执行，在打到最大限制之后，
+            // 队列后面的请求没有执行，所以这里需要再有一个出口判断
+            that.dequeue();
+          })
+        }
+
+        that.queue.push(task)
+        that.dequeue()
+      })
+    }
+
+    RequestConcurrentControl.prototype.dequeue = function () {
+      console.log('currentExcuting', this.currentExcuting)
+      if ((this.currentExcuting < this.maxRequestNumber) && this.queue.length) {
+        const task = this.queue.shift()
+        task()
+      }
+    }
+
+    // 使用ø
+    let rcc = new RequestConcurrentControl(3)
+    const urlList = ['url1', 'url2', 'url3', 'url4', 'url5', 'url6', 'url7', 'url8']
+    urlList.forEach(url => {
+      // 实现效果 
+      rcc.enqueue(url).then(url => {
+        console.log(url + ' end')
+      })
+    })
+
+
+  </script>
+</body>
+
+</html>
