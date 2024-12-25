@@ -11,10 +11,10 @@
     // Todo: 手写 bind 实现
     // bind 实现的是什么呢？this 指向以及参数合并问题
     // 转化问题: hello.bind(me) => me.hello
-    // arguments 处理最佳实践
+    // arguments 处理最佳实践，不要去改变原来的的东西
     // Function.prototype.myBind = function() {
-    //   const argsArr = Array.from(arguments)
-    //   const context = argsArr.slice(0, 1).shift()
+    //   const argsArr = Array.from(arguments) // 将类数组对象变为数组
+    //   const context = argsArr.slice(0, 1).shift() // 拿到上下文
     //   const args = argsArr.slice(1)
     //   const fn = this
     //   const result = function() {
@@ -37,7 +37,7 @@
     // ha()
     // ha.myBind(person)()
     // 完整版
-    // 手动 promise all 和 race 实现
+    // Todo: 手动 promise all 和 race 实现
     // 构建一个 promise
     // function MyPromise(executor) {
     //   this.status = 'pending'

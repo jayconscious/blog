@@ -9,14 +9,14 @@
 
 <body>
     <script>
-        // function* helloWorldGenerator() {
-        //     yield 'hello';
-        //     yield 'world';
-        //     return 'ending';
-        // }
-        // var hw = helloWorldGenerator();
-        // console.log(hw)
-        // console.log(hw.next())
+        function* helloWorldGenerator() {
+            yield 'hello';
+            yield 'world';
+            return 'ending';
+        }
+        var hw = helloWorldGenerator();
+        console.log(hw)
+        console.log(hw.next())
         // console.log(hw.next())
         // console.log(hw.next())
         // console.log(hw.next())
@@ -126,20 +126,20 @@
         // }
         // parent()
 
-        function asyncApi() {
-            setTimeout(function() {
-                g.next('haha')
-            }, 2000)
-        }
+        // function asyncApi() {
+        //     setTimeout(function() {
+        //         g.next('haha')
+        //     }, 2000)
+        // }
         
-        function* getTest() {
-            console.log('strat')
-            const res = yield asyncApi();
-            console.log(res);
-            console.log('end')
-        }
-        const g = getTest()
-        g.next()
+        // function* getTest() {
+        //     console.log('strat')
+        //     const res = yield asyncApi();
+        //     console.log(res);
+        //     console.log('end')
+        // }
+        // const g = getTest()
+        // g.next()
 
     </script>
 </body>

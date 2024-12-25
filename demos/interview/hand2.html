@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写系列</title>
+</head>
+<body>
+    <script>
+        // Todo: 手写bind实现
+        // bind 实现的是什么呢？
+        // 改变
+
+        // this 指向以及参数合并问题
+        // 转化问题: hello.bind(me) => me.hello
+        function test (name) {
+            console.log(this)
+            console.log('name: ', name)
+        }
+        // console.log('haha')
+        // test.bind({age: 12}, '乘碗汤')()
+        Function.prototype.myBind = function () {
+            const argsArr = Array.from(arguments)
+            const context = argsArr.slice(0, 1).shift()
+            const args = argsArr.slice(1)
+            const fn = this // 获取函数
+            const result = function () {
+                const arrayList = args.concat(Array.from(arguments).slice()) // slice 拷贝一个数组
+                context.fn = fn
+                context.fn(...arrayList)
+                delete context.fn
+            }
+            result.prototype = Object.create(this.prototype); // 这一步是啥？
+            return result
+        }
+        test.myBind({age: 12}, '乘碗汤')()
+
+    </script>
+</body>
+</html>
