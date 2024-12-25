@@ -9,7 +9,8 @@ module.exports = {
 		['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
 	],
 	// base: 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/',
-	base: '/blog/',
+	// base: '/blog/',
+	base: '/',
 	title: 'Jayconscious',
 	description: 'Just playing around',
 	themeConfig: {
