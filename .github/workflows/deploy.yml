@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      # - master
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -14,24 +14,34 @@ jobs:
         run: |
           npm install
           npm run build
-          
-      - uses: actions/setup-node@v2
+       # 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        # 此actions的官方文档 https://github.com/JamesIves/github-pages-deploy-action
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          node-version: '12.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm install
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # 要部署的文件夹，必填
+          FOLDER: docs/.vuepress/dist
+          # 希望部署的分支，默认gh-pages
+          BRANCH: gh-pages
 
-      - name: Deploy to self-host server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          command_timeout: "20m"
-          source: "./docs/.vuepress/dist/"
-          strip_components: 4
-          target: "${{ secrets.DOCS_SERVER_DIR }}"
+      # 发布npm    
+      # - uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '12.x'
+      #     registry-url: 'https://registry.npmjs.org'
+      # - run: npm install
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # - name: Deploy to self-host server
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     password: ${{ secrets.SSH_PASSWORD }}
+      #     command_timeout: "20m"
+      #     source: "./docs/.vuepress/dist/"
+      #     strip_components: 4
+      #     target: "${{ secrets.DOCS_SERVER_DIR }}"
