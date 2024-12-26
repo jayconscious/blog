@@ -65,33 +65,34 @@ module.exports = {
 	plugins: [
 		['@vuepress/back-to-top', true]
 	],
-	configureWebpack: (config, isServer) => {
-		if (isProduction) {
-			if (!isServer) {
-				// 修改客户端的 webpack 配置
-				if (config.optimization) {
-					config.optimization = {
-						splitChunks: {
-							chunks: 'all',
-							maxAsyncRequests: 5,
-							maxSize: 500000,   // 500kb 
-							cacheGroups: {
-								commons: {
-									name: 'commons',  // 命名chunks_name
-									chunks: 'all',
-								}
-							}
-						}
-					}
-				}
-				// console.log('env', process.env.NODE_ENV)
-				if (config.output && config.output.publicPath) {
-					config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
-				}
-				// console.log('config', config)
-			}
-		}
-	}
+	// configureWebpack: (config, isServer) => {
+	// 	if (isProduction) {
+	// 		if (!isServer) {
+	// 			// 修改客户端的 webpack 配置
+	// 			if (config.optimization) {
+	// 				config.optimization = {
+	// 					splitChunks: {
+	// 						chunks: 'all',
+	// 						maxAsyncRequests: 5,
+	// 						maxSize: 500000,   // 500kb 
+	// 						cacheGroups: {
+	// 							commons: {
+	// 								name: 'commons',  // 命名chunks_name
+	// 								chunks: 'all',
+	// 							}
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 			// console.log('env', process.env.NODE_ENV)
+	// 			// npm 发布自定义域名是需要
+	// 			// if (config.output && config.output.publicPath) {
+	// 			// 	config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
+	// 			// }
+	// 			// console.log('config', config)
+	// 		}
+	// 	}
+	// }
 }
 
 /**
