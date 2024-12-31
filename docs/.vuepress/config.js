@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { vue2, dontknowjs1, dontknowjs2, tstutorial, webpack } = require('./sidebarCfg')
+const { react, vue2, dontknowjs1, dontknowjs2, tstutorial, webpack } = require('./sidebarCfg')
 
 const isProduction = process.env.NODE_ENV === 'production' 
 
@@ -19,6 +19,7 @@ module.exports = {
 		nav: require('./nav/zh'),
 		author: 'jayconscious',
 		sidebar: {
+			'/react/react18/': getBookSideBar(react),
 			'/javascript/js/': [ 'extends', 'call&bind' ],
 			'/javascript/es6/': [ 'promise', 'generator-primary', 'co', 'async', 'proxy' ],
 			'/node/egg/': [ 'framework' ],

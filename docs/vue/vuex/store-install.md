@@ -109,4 +109,4 @@ function applyMixin(Vue) {
 }
 ```
 
-对于 `vue2.x` 以上的版本，直接使用 `Vue.mixin` 方法，将 `options.store` 挂载到 `vm.$store`上，这样就实现了`this.$store`的调用。
+对于 `Vue2` 以上的版本，直接使用 `Vue.mixin` 方法，将 `options.store` 挂载到 `vm.$store`上，这样就实现了`this.$store`的调用。

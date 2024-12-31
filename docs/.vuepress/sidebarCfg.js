@@ -1,5 +1,15 @@
 module.exports = {
-    // vue2.x
+    // react
+    react: [{
+        title: '源码分析',
+        path: '/react/react18/sourcecode/',
+        children: [ 'reactOutline',]
+    },{
+        title: '问题解答',
+        path: '/react/react18/question/',
+        children: ['demo']
+    }],
+    // Vue2
     vue2: [{
         title: '源码分析',
         path: '/vue/vue2/sourcecode/',

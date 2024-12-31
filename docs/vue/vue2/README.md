@@ -1,6 +1,6 @@
 ## Outline
 
-> 记录学习 vue2.x 
+> 记录学习 Vue2 
 
 ### 源码相关
 1. [模板解析](https://jayconscious.github.io/blog/vue/vue2/sourcecode/templateEngine.html)

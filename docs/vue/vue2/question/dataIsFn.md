@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - Vue
 categories:
- - Vue2.x
+ - Vue2
 ---
 
 事实上如果组件里 `data` 直接写了一个对象的话，那么如果你在模板中多次声明这个组件，组件中的 `data` 会指向同一个引用。
