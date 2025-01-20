@@ -1,9 +1,9 @@
 module.exports = {
-    // react
+    // react18
     react: [{
         title: '源码分析',
         path: '/react/react18/sourcecode/',
-        children: [ 'reactOutline',]
+        children: [ 'reactOutline', 'reactRender', ]
     },{
         title: '问题解答',
         path: '/react/react18/question/',
