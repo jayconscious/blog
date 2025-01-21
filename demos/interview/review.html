@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
         // Todo: 手写 bind
@@ -13,70 +15,140 @@
         // 1、作用域内部的this，指向 bind第一个参数，
         // 2、返回的函数，实参可以衔接之前bind第一个之后的所有参数
         // 核心思路 => 是将 hello.bind(me) => me.hello()
-        var name = 'test',
-        me = {
-            name: 'zzy'
-        }
-        Function.prototype.myBind = function () {
-            const argsArr = Array.from(arguments)
-            const context = argsArr.slice(0, 1).shift()
-            const restArgs = argsArr.slice(1)
-            const fn = this
-            const result = function () {
-                const argsList = restArgs.concat(Array.from(arguments).slice())
-                context.fn = fn
-                context.fn(...argsList)
-                delete context.fn
+        // var name = 'test',
+        // me = {
+        //     name: 'zzy'
+        // }
+        // Function.prototype.myBind = function () {
+        //     const argsArr = Array.from(arguments)
+        //     const context = argsArr.slice(0, 1).shift()
+        //     const restArgs = argsArr.slice(1)
+        //     const fn = this
+        //     const result = function () {
+        //         const argsList = restArgs.concat(Array.from(arguments).slice())
+        //         context.fn = fn
+        //         context.fn(...argsList)
+        //         delete context.fn
+        //     }
+        //     // Todo: 继承原函数的原型链
+        //     result.prototype = Object.create(this.prototype)
+        //     return result
+        // }
+        // function hello () { 
+        //     console.log('my name is: ', this.name)
+        // }
+        // // hello()
+        // // hello.myBind(me)()
+
+        // // Todo: 手写 bind 实现
+        // // 返回一个函数，这个函数
+        // // this 指向问题，以弱绑定的方式去实现强绑定
+        // // 例如
+        // var name = 'wahaha'
+        // function helloName (age) {
+        //     console.log(this?.name, ' and age is ', age)
+        // }
+        // // helloName()
+        // const you = {
+        //     name: 'gpt-4'
+        // }
+        // helloName.bind(you)(18)
+        // 解题思路：将 helloName.bind(you)() => you.helloName() 执行
+        // 1：拿到 context
+        // 2：绑定
+        // 连接参数的能力
+        // 3：执行
+        // 4：删除
+        // Function.prototype.meBind = function () {
+        //     const argsArr = Array.from(arguments)
+        //     const context = argsArr.slice(0, 1).shift()
+        //     const remainingArgs = argsArr.slice(1)
+        //     const fn = this
+        //     const returnFn = function () {
+        //         context.fn = fn
+        //         const otherArgs = Array.from(arguments)
+        //         const allArgs = remingArgs.concat(otherArgs)
+        //         context.fn(...allArgs)
+        //         // Todo: 继承原函数的原型链
+        //         returnFn.prototype = Object.create(this.prototype)
+        //         delete context.fn
+        //     }
+        //     return returnFn
+        // }
+        // helloName.meBind(you)(11)
+
+
+        // Todo: 手写 Promise 实现，.then()方法，.all()方法
+
+        // const request = function () {
+        //     setTimeout(() => {
+        //         console.log('request end')
+        //     }, 2000);
+        // }
+        // request()
+
+        // const request = function () {
+        //     return new Promise(function(resolve, reject) {
+        //         setTimeout(() => {
+        //             console.log('request end')
+        //             resolve()
+        //         }, 2000);
+        //     })
+        // }
+        // request().then(() => console.log('111'))
+
+        function MyPromise(executor) {
+            this.status = 'pending'
+            this.successList = []
+            this.failedList = []
+            this.res = ''
+            this.error = ''
+
+            const resolve = value => {
+                if (this.status == 'pending') {
+                    this.status = 'fulfilled'
+                    this.res = value
+                    this.successList.forEach(fn => {
+                        fn()
+                    });
+                }
+
             }
-            // Todo: 继承原函数的原型链
-            result.prototype = Object.create(this.prototype)
-            return result
+
+            const reject = error => {
+                if (this.status == 'pending') {
+                    this.status = 'rejected'
+                    this.error = error
+                    this.failedList.forEach(fn => {
+                        fn()
+                    });
+
+                }
+            }
+            executor(resolve, reject)
         }
-        function hello () { 
-            console.log('my name is: ', this.name)
+
+        MyPromise.prototype.then = function () {
+            // if () {
+            // }
         }
-        // hello()
-        // hello.myBind(me)()
 
 
 
-//         name: Build and Deploy
-// on:
-//   push:
-//     branches:
-//       # - master
-// jobs:
-//   build-and-deploy:
-//     runs-on: ubuntu-latest
-//     steps:
-//       - name: Checkout  ️
-//         uses: actions/checkout@v2.3.1
 
-//       - name: Install and Build   
-//         run: |
-//           npm install
-//           npm run build
-          
-//       - uses: actions/setup-node@v2
-//         with:
-//           node-version: '12.x'
-//           registry-url: 'https://registry.npmjs.org'
-//       - run: npm install
-//       - run: npm publish
-//         env:
-//           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-//       - name: Deploy to self-host server
-//         uses: appleboy/scp-action@master
-//         with:
-//           host: ${{ secrets.SSH_HOST }}
-//           port: ${{ secrets.SSH_PORT }}
-//           username: ${{ secrets.SSH_USERNAME }}
-//           password: ${{ secrets.SSH_PASSWORD }}
-//           command_timeout: "20m"
-//           source: "./docs/.vuepress/dist/"
-//           strip_components: 4
-//           target: "${{ secrets.DOCS_SERVER_DIR }}"
+
+
+
+
+
+
+
+
+
+
+
     </script>
 </body>
+
 </html>
