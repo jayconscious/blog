@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[37],{484:function(n,t,s){"use strict";s.r(t);var e={props:{},components:{},data:()=>({}),computed:{},created(){},mounted(){},watch:{},methods:{}},o=s(2),c=Object(o.a)(e,(function(){return(0,this._self._c)("main",[this._v("\n    ssfsd\n")])}),[],!1,null,"5880b65c",null);t.default=c.exports}}]);
