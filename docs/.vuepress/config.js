@@ -1,7 +1,7 @@
 const moment = require('moment');
 const { react, vue2, dontknowjs1, dontknowjs2, tstutorial, webpack } = require('./sidebarCfg')
 
-const isProduction = process.env.NODE_ENV === 'production' 
+const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
 	theme: 'reco',
@@ -20,9 +20,9 @@ module.exports = {
 		author: 'jayconscious',
 		sidebar: {
 			'/react/react18/': getBookSideBar(react),
-			'/javascript/js/': [ 'extends', 'call&bind' ],
-			'/javascript/es6/': [ 'promise', 'generator-primary', 'co', 'async', 'proxy' ],
-			'/node/egg/': [ 'framework' ],
+			'/javascript/js/': ['extends', 'call&bind'],
+			'/javascript/es6/': ['promise', 'generator-primary', 'co', 'async', 'proxy'],
+			'/node/egg/': ['framework'],
 			'/vue/vue2/': getBookSideBar(vue2),
 			'/vue/vuex/': getSingleSidebar('vuex'),
 			'/book/dontknowjs1/': getBookSideBar(dontknowjs1),
@@ -30,18 +30,18 @@ module.exports = {
 			'/book/tstutorial/': getBookSideBar(tstutorial),
 			// '/book/explainindepthnodejs/': [ '' ],
 			'/engineering/webpack/': getBookSideBar(webpack),
-			'/others/server/': [ 'blogBuild', 'cdn' ],
-			'/others/redis/': [ 'start' ],
-			'/algorithm/gc/': [ 'gc1' ],
+			'/others/server/': ['blogBuild', 'cdn'],
+			'/others/redis/': ['start'],
+			'/algorithm/gc/': ['gc1'],
 		},
 		blogConfig: {
 			category: {
-			  	location: 2, // 在导航栏菜单中所占的位置，默认2
-			  	text: 'Category' // 默认 “分类”
+				location: 2, // 在导航栏菜单中所占的位置，默认2
+				text: 'Category' // 默认 “分类”
 			},
 			tag: {
-			  	location: 3, // 在导航栏菜单中所占的位置，默认3
-			  	text: 'Tag' // 默认 “标签”
+				location: 3, // 在导航栏菜单中所占的位置，默认3
+				text: 'Tag' // 默认 “标签”
 			}
 		},
 		sidebarDepth: 0,  // 获取页面的h3标签作为连接锚点
@@ -56,50 +56,68 @@ module.exports = {
 			showComment: false,					// 关闭评论
 			placeholder: '是时候展现真正的技术了',
 			avatar: 'wavatar',
-			requiredFields: ['nick','mail'],
+			requiredFields: ['nick', 'mail'],
 			// serverUrl: 'https://leanserver.smallsunnyfox.com'
-		  }
+		}
 	},
 	markdown: {
-		lineNumbers: true
+		lineNumbers: true,
+		linkify: true,
+		// assets: {
+		// 	// 设置为 true，表示在资源路径前加上 base 路径，2.0 以上生效
+		// 	absolutePathPrependBase: true
+		// }
 	},
 	plugins: [
 		['@vuepress/back-to-top', true]
 	],
-	// configureWebpack: (config, isServer) => {
-	// 	if (isProduction) {
-	// 		if (!isServer) {
-	// 			// 修改客户端的 webpack 配置
-	// 			if (config.optimization) {
-	// 				config.optimization = {
-	// 					splitChunks: {
-	// 						chunks: 'all',
-	// 						maxAsyncRequests: 5,
-	// 						maxSize: 500000,   // 500kb 
-	// 						cacheGroups: {
-	// 							commons: {
-	// 								name: 'commons',  // 命名chunks_name
-	// 								chunks: 'all',
-	// 							}
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 			// console.log('env', process.env.NODE_ENV)
-	// 			// npm 发布自定义域名是需要
-	// 			// if (config.output && config.output.publicPath) {
-	// 			// 	config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
-	// 			// }
-	// 			// console.log('config', config)
-	// 		}
-	// 	}
-	// }
+	configureWebpack: (config, isServer) => {
+		// config.module.rules.push({
+		// 	test: /\.(png|jpe?g|gif|svg|webp)$/,
+		// 	use: [
+		// 		{
+		// 			loader: 'file-loader',
+		// 			options: {
+		// 				name: '[name].[hash:8].[ext]',
+		// 				outputPath: 'assets/img/',     // 处理输出的图片目录
+		// 				publicPath: '/blog/assets/img/',   // 设置图片的公共路径
+		// 			}
+		// 		}
+		// 	]
+		// });
+		if (isProduction) {
+			if (!isServer) {
+				// 修改客户端的 webpack 配置
+				if (config.optimization) {
+					config.optimization = {
+						splitChunks: {
+							chunks: 'all',
+							maxAsyncRequests: 5,
+							maxSize: 500000,   // 500kb 
+							cacheGroups: {
+								commons: {
+									name: 'commons',  // 命名chunks_name
+									chunks: 'all',
+								}
+							}
+						}
+					}
+				}
+				// console.log('env', process.env.NODE_ENV)
+				// npm 发布自定义域名是需要
+				// if (config.output && config.output.publicPath) {
+				// 	config.output.publicPath = 'https://unpkg.com/jayconscious-blog@latest/docs/.vuepress/dist/'
+				// }
+				// console.log('config', config)
+			}
+		}
+	}
 }
 
 /**
  * CfgList []
  */
-function getBookSideBar (CfgList) {
+function getBookSideBar(CfgList) {
 	if (Array.isArray(CfgList) && CfgList.length > 0) {
 		return CfgList.map(item => ({
 			...item,
@@ -113,7 +131,7 @@ function getBookSideBar (CfgList) {
 	}
 }
 
-function getSingleSidebar (title) {
+function getSingleSidebar(title) {
 	return [{
 		title,
 		collapsable: false,
