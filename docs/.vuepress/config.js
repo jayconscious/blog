@@ -1,4 +1,6 @@
 const moment = require('moment');
+const markdownIt = require('markdown-it');
+const markdownItAttrs = require('markdown-it-attrs');
 const { react, vue2, dontknowjs1, dontknowjs2, tstutorial, webpack } = require('./sidebarCfg')
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -62,11 +64,21 @@ module.exports = {
 	},
 	markdown: {
 		lineNumbers: true,
-		linkify: true,
+		// linkify: true,
 		// assets: {
 		// 	// 设置为 true，表示在资源路径前加上 base 路径，2.0 以上生效
 		// 	absolutePathPrependBase: true
 		// }
+		extendMarkdown: md => {
+			md.use(markdownItAttrs);  // 启用 markdown-it-attrs 插件
+			md.renderer.rules.image = (tokens, idx) => {
+				const token = tokens[idx];
+				const src = token.attrs[0][1];
+				// 修改图片路径
+				const updatedSrc = `/blog${src}`;  // 这里可以根据需要修改路径
+				return `<img src="${updatedSrc}" alt="${token.content}" />`;
+			};
+		},
 	},
 	plugins: [
 		['@vuepress/back-to-top', true]
@@ -74,7 +86,7 @@ module.exports = {
 	configureWebpack: (config, isServer) => {
 		// config.module.rules.push({
 		// 	test: /\.(png|jpe?g|gif|svg|webp)$/,
-		// 	use: [
+		// 	use: [ya
 		// 		{
 		// 			loader: 'file-loader',
 		// 			options: {
