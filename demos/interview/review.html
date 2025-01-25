@@ -97,6 +97,68 @@
         // }
         // request().then(() => console.log('111'))
 
+        // function MyPromise(executor) {
+        //     this.status = 'pending'
+        //     this.successList = []
+        //     this.failedList = []
+        //     this.res = ''
+        //     this.error = ''
+
+        //     const resolve = value => {
+        //         if (this.status == 'pending') {
+        //             this.status = 'fulfilled'
+        //             this.res = value
+        //             this.successList.forEach(onFulfilled => {
+        //                 onFulfilled()
+        //             });
+        //         }
+        //     }
+
+        //     const reject = error => {
+        //         if (this.status == 'pending') {
+        //             this.status = 'rejected'
+        //             this.error = error
+        //             this.failedList.forEach(onRejected => {
+        //                 onRejected()
+        //             });
+        //         }
+        //     }
+        //     executor(resolve, reject)
+        // }
+
+        // MyPromise.prototype.then = function (onFulfilled, onRejected) {
+        //     // 异步执行的情况
+        //     if (this.status === 'pending') {
+        //         if (onFulfilled) {
+        //             this.successList.push(() => onFulfilled(this.res))
+        //         }
+        //         if (onRejected) {
+        //             this.failedList.push(() => onRejected(this.error))
+        //         }
+        //     }
+        //     // 同步的话呢?
+        //     if (this.status === 'fulfilled') {
+        //         onFulfilled && this.successList.push(() => onFulfilled(this.res))
+        //     }
+        //     if (this.status === 'rejected') {
+        //         onRejected && this.failedList.push(() => onRejected(this.error))
+        //     }
+        // }
+
+        // 问题是啥？能支持异步调用吗？
+        // 利用 eventLoop 就可以做到。将要执行的函数保存到 list 当中
+        // new MyPromise(function(resolve, reject) {
+        //   setTimeout(function() {
+        //     resolve('hello world~')
+        //   }, 2000)
+        // }).then(res => {  
+        //   console.log(res)
+        //   return 'asdas'
+        // })
+
+
+        // 链式调用？
+        // new Promise(fn).then().then()
         function MyPromise(executor) {
             this.status = 'pending'
             this.successList = []
@@ -108,30 +170,248 @@
                 if (this.status == 'pending') {
                     this.status = 'fulfilled'
                     this.res = value
-                    this.successList.forEach(fn => {
-                        fn()
+                    this.successList.forEach(onFulfilled => {
+                        onFulfilled()
                     });
                 }
-
             }
 
             const reject = error => {
                 if (this.status == 'pending') {
                     this.status = 'rejected'
                     this.error = error
-                    this.failedList.forEach(fn => {
-                        fn()
+                    this.failedList.forEach(onRejected => {
+                        onRejected()
                     });
-
                 }
             }
             executor(resolve, reject)
         }
 
-        MyPromise.prototype.then = function () {
-            // if () {
-            // }
+        MyPromise.prototype.then = function (onFulfilled, onRejected) {
+            const that = this
+            let p2 = new MyPromise(function (resolve, rejected) {
+                // 异步执行的情况
+                if (that.status === 'pending') {
+                    if (onFulfilled) {
+                        that.successList.push(() => {
+                            setTimeout(() => {
+                                console.log('that', that)
+                                let x = onFulfilled(that.res)
+                                // x 的返回值，
+                                // 可能是 promise, 
+                                // 也可能是普通对象
+                                // 需要判断循环引用吗？
+                                resolvePromise(p2, x, resolve, rejected)
+                            }, 0);
+                        })
+
+                    }
+                    if (onRejected) {
+                        that.failedList.push(() => {
+                            setTimeout(() => {
+                                onRejected(that.error)
+                            }, 0);
+                        })
+                    }
+                }
+                // 同步的话呢?
+                if (that.status === 'fulfilled') {
+                    onFulfilled && that.successList.push(() => {
+                        setTimeout(() => {
+                            onFulfilled(that.res)
+                        }, 0);
+                    })
+                }
+                if (that.status === 'rejected') {
+                    onRejected && that.failedList.push(() => {
+                        setTimeout(() => {
+                            onRejected(that.error)
+                        }, 0);
+                    })
+                }
+            })
+            return p2
         }
+
+        // 判断，第一个 then 中，onFulfilled 执行的返回结果是啥。
+        function resolvePromise(p2, x, resolve, reject) {
+            // 
+            if (p2 === x) {
+                return reject('erro')
+            }
+            if (x !== null && (typeof x == 'object' || typeof x == 'function')) {
+                let called = false
+                // 不用开关控制的结果是什么？
+                try {
+                    let then = x.then
+                    if (typeof then == 'function') {
+                        then.call(x, y => {
+                            if (called) return
+                            called = true
+                            resolvePromise(p2, y, resolve, reject)
+                        }, err => {
+                            if (called) return
+                            called = true
+                            reject(err)
+                        })
+                    } else {
+                        resolve(x)
+                    }
+                } catch (error) {
+                    if (called) return
+                    called = true
+                    reject(error)
+                }
+            } else {
+                resolve(x)
+            }
+        }
+
+        // class MyPromise {
+        //     constructor(executor) {
+        //         this.status = 'pending'
+        //         this.value = ''
+        //         this.error = ''
+        //         this.resolveQueue = []
+        //         this.rejectQueue = []
+        //         const resolve = res => {
+        //             if (this.status === 'pending') {
+        //                 this.status = 'fulfilled'
+        //                 this.value = res
+        //                 this.resolveQueue.forEach(fn => fn())
+        //             }
+        //         }
+        //         const reject = err => {
+        //             if (this.status === 'pending') {
+        //                 this.status = 'rejected'
+        //                 this.error = err
+        //                 this.rejectQueue.forEach(fn => fn())
+        //             }
+        //         }
+        //         executor(resolve, reject)
+        //     }
+        //     // 偶有的函数执行都是在resolve 这一步做的
+        //     then(onFulfilled, onRejected) {
+        //         let promise2
+        //         promise2 = new Promise((resolve, reject) => {
+        //             if (this.status === 'pending') {
+        //                 // 这个回调函数的这行有多种可能性, 还有在写 onFulfilled/onRejected 必须要 return 这个值x
+        //                 // 1. x = 普通对象
+        //                 // 2. x = promise对象
+        //                 this.resolveQueue.push(() => {
+        //                     setTimeout(() => {
+        //                         let x = onFulfilled(this.value)
+        //                         resolvePromise(promise2, x, resolve, reject)
+        //                     }, 0);
+        //                 })
+        //                 this.rejectQueue.push(() => {
+        //                     setTimeout(() => {
+        //                         let x = onRejected(this.error)
+        //                         resolvePromise(promise2, x, resolve, reject)
+        //                     }, 0);
+        //                 })
+
+        //             }
+        //             // 前一个promise的状态已经改变就不需要 Push 了
+        //             if (this.status === "fulfilled") {
+        //                 setTimeout(() => {
+        //                     let x = onFullfilled(this.value)
+        //                     resolvePromise(promise2, x, resolve, reject)
+        //                 }, 0);
+        //             }
+        //             if (this.status === "rejected") {
+        //                 setTimeout(() => {
+        //                     let x = onRejected(this.error)
+        //                     resolvePromise(promise2, x, resolve, reject)
+        //                 }, 0);
+        //             }
+        //         })
+        //         return promise2
+        //     }
+        // }
+
+        new MyPromise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('hello world~')
+            }, 2000)
+        }).then(res => {
+            console.log(res)
+            return 'asdas'
+        }).then(res => {
+            console.log(res)
+        })
+
+        // 链式调用
+
+        MyPromise.all = function (promiseList = []) {
+            let count = 0, len = promiseList.length, resultList = []
+            return new MyPromise(function (resolve, reject) {
+                for (let index = 0; index < len; index++) {
+                    const element = array[index];
+                    element.then(res => {
+                        count++
+                        resultList.push(res)
+                        if (resultList.len === count) {
+                            resolve(resultList)
+                        } else {
+                            reject()
+                        }
+                    })
+                }
+            })
+        }
+        // catch
+        MyPromise.prototype.catch = function (onRejected) {
+            return this.then(null, onRejected)
+            // ...
+        }
+        // resolve
+        MyPromise.resolve = function (res) {
+            return new MyPromise((resolve, reject) => {
+                resolve(res)
+            })
+        }
+
+        // x 是 onFulfilled 的返回
+        // 要去判断 x 到底是什么情况？
+        // function resolvePromise(p2, x, resolve, reject) {
+        //     if (p2 === x) {
+        //         return reject('error')
+        //     }
+        //     let called = false
+        //     if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+        //         try {
+        //              // 依据 promise A+ 规范，x 为 promise
+        //             let then = x.then
+        //             if (typeof then === 'function') {
+        //                 then.call(x, y => {
+        //                     if (called) return
+        //                     called = true
+        //                     resolvePromise(p2, y, resolve, reject)
+        //                 }, (err) => {
+        //                     if (called) return
+        //                     called = true
+        //                     reject(err)
+        //                 })
+        //             } else {
+        //                 resolve(x)
+        //             }
+        //         } catch (error) {
+        //             if (called) return
+        //             called = true
+        //             reject(error)
+        //         }
+        //     } else {
+        //         resolve(x)
+        //     }
+        // }
+
+
+        // Todo: 手写寄生虫组合 继承
+
+
+
 
 
 

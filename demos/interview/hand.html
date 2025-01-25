@@ -39,44 +39,45 @@
     // 完整版
     // Todo: 手动 promise all 和 race 实现
     // 构建一个 promise
-    // function MyPromise(executor) {
-    //   this.status = 'pending'
-    //   this.successList = []
-    //   this.failedList = []
-    //   this.res = ''
-    //   this.error = ''
-    //   const resolve = res => {
-    //     if (this.status === 'pending') {
-    //       this.status = 'fulfilled'
-    //       this.res = res
-    //       this.successList.forEach(onFulfilled => {
-    //         onFulfilled()
-    //       });
-    //     }
-    //   }
-    //   const reject = error => {
-    //     if (this.status === 'pending') {
-    //       this.status = 'rejected'
-    //       this.error = error
-    //       this.failedList.forEach(onRejected => {
-    //         onRejected()
-    //       });
-    //     }
-    //   }
-    //   executor(resolve, reject)
-    // }
-    // MyPromise.prototype.then = function(onFulfilled, onRejected) {
-    //   if (this.status == 'fulfilled') {
-    //     this.successList.push(() => onFulfilled(this.res))
-    //   }
-    //   if (this.status == 'rejected') {
-    //     this.failedList.push(() => onRejected(this.error))
-    //   }
-    //   if (this.status == 'pending') {
-    //     onFulfilled && this.successList.push(() => onFulfilled(this.res))
-    //     onRejected && this.failedList.push(() => onRejected(this.error))
-    //   }
-    // }
+    function MyPromise(executor) {
+      this.status = 'pending'
+      this.successList = []
+      this.failedList = []
+      this.res = ''
+      this.error = ''
+      const resolve = res => {
+        if (this.status === 'pending') {
+          this.status = 'fulfilled'
+          this.res = res
+          this.successList.forEach(onFulfilled => {
+            onFulfilled()
+          });
+        }
+      }
+      const reject = error => {
+        if (this.status === 'pending') {
+          this.status = 'rejected'
+          this.error = error
+          this.failedList.forEach(onRejected => {
+            onRejected()
+          });
+        }
+      }
+      executor(resolve, reject)
+    }
+    
+    MyPromise.prototype.then = function(onFulfilled, onRejected) {
+      if (this.status == 'fulfilled') {
+        this.successList.push(() => onFulfilled(this.res))
+      }
+      if (this.status == 'rejected') {
+        this.failedList.push(() => onRejected(this.error))
+      }
+      if (this.status == 'pending') {
+        onFulfilled && this.successList.push(() => onFulfilled(this.res))
+        onRejected && this.failedList.push(() => onRejected(this.error))
+      }
+    }
     
     // 支持异步调用
     // 测试
