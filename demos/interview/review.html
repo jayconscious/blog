@@ -331,16 +331,16 @@
         //     }
         // }
 
-        new MyPromise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('hello world~')
-            }, 2000)
-        }).then(res => {
-            console.log(res)
-            return 'asdas'
-        }).then(res => {
-            console.log(res)
-        })
+        // new MyPromise(function (resolve, reject) {
+        //     setTimeout(function () {
+        //         resolve('hello world~')
+        //     }, 2000)
+        // }).then(res => {
+        //     console.log(res)
+        //     return 'asdas'
+        // }).then(res => {
+        //     console.log(res)
+        // })
 
         // 链式调用
 
@@ -408,7 +408,171 @@
         // }
 
 
+        // 手写 Promise 实现
+        // Promise 解决了什么问题？
+        // 解决了，由于js单线程的异步回调特性-解决代码的结构的异步回调地狱的问题。
+        // 内部有三种状态， pending ， fulfilled ，rejected 。初始态是 pending，成功fulfilled，
+        // 失败 rejected，状态一旦发生切换，就是不可改变的。
+        function FakePromise(executor) {
+            this.status = 'pending'
+            this.value = ''
+            this.error = ''
+            this.failedList = []
+            this.successList = []
+            const resolve = (value) => {
+                if (this.status == 'pending') {
+                    this.status == 'fulfilled'
+                    this.value = value
+                    this.successList.forEach(cb => cb())
+                }
+            }
+            const reject = (err) => {
+                if (this.status == 'pending') {
+                    this.status == 'rejected'
+                    this.error = err
+                    this.failedList.forEach(cb => cb())
+                }
+            }
+
+            try {
+                executor(resolve, reject)
+            } catch (error) {
+
+            }
+        }
+        // FakePromise.prototype.then = function (onFulfilled, onRejected) {
+        //     if (this.status == 'fulfilled') {
+        //         onFulfilled && this.successList.push(() => onFulfilled(this.value))
+        //     }
+        //     if (this.status == 'rejected') {
+        //         onRejected && this.failedList.push(() => onRejected(this.value))
+        //     }
+        //     if (this.status == 'pending') {
+        //         onFulfilled && this.successList.push(() => onFulfilled(this.value))
+        //         onRejected && this.failedList.push(() => onRejected(this.value))
+        //     }
+        // }
+
+        // 简易实现
+        // new FakePromise(function (resolve, reject) {
+        //     setTimeout(() => {
+        //         console.log('request end')
+        //         resolve()
+        //     }, 2000);
+        // }).then(() => console.log('111'))
+
+        // 实现 then 的链式调用
+        // 
+        // FakePromise.prototype.then = function (onFulfilled, onRejected) {
+        //     const that = this
+        //     let p2 = new FakePromise(function (resolve, reject) {
+        //         if (that.status == 'fulfilled') {
+        //             onFulfilled && that.successList.push(() => {
+        //                 let x = onFulfilled(that.value)
+        //                 resolvePromise(p2, x, resolve, reject)
+        //             })
+        //         }
+        //         // 思考问题：then的链式调用取决于什么？
+        //         // 1、在第一个 then 之后返回一个promise 对象
+        //         // 2、resolve 之后 才可以持续调用是吧？那么什么时候才可以 resolve 呢？
+        //         // 3、这要去判断 第一个 then中 onFulfilled 值的返回情况
+        //         if (this.status == 'rejected') {
+        //             onRejected && that.failedList.push(() => {
+        //                 setTimeout(() => {
+        //                     let x = onRejected(that.value)
+        //                     resolvePromise(p2, x, resolve, reject)
+        //                 }, 0);
+        //             })
+        //         }
+        //         if (that.status == 'pending') {
+        //             onFulfilled && that.successList.push(() => {
+        //                 let x = onFulfilled(that.value)
+        //                 resolvePromise(p2, x, resolve, reject)
+        //             })
+        //             onRejected && that.failedList.push(() => {
+        //                 let x = onRejected(that.value)
+        //                 resolvePromise(p2, x, resolve, reject)
+        //             })
+        //         }
+        //     })
+        //     return p2
+        // }
+
+        // function resolvePromise(p2, x, resolve, reject) {
+        //     // 排除循环引用的 case
+        //     if (p2 === x) {
+        //         reject(new Error('exist cycle ...'))
+        //     }
+        //     if (x !== null && (typeof x === 'function' || typeof x === 'object')) {
+        //         let called = false
+        //         try {
+        //             let then = x.then
+        //             if (typeof then === 'function') {
+        //                 then.call(x, y => {
+        //                     if (called) {
+        //                         return
+        //                     }
+        //                     called = true
+        //                     resolvePromise(p2, y, resolve, reject)
+        //                 }
+        //                     , err => {
+        //                         if (called) {
+        //                             return
+        //                         }
+        //                         called = true
+        //                         reject(err)
+        //                     })
+        //             } else {
+        //                 resolve(x)
+        //             }
+        //         } catch (error) {
+        //             if (called) {
+        //                 return
+        //             }
+        //             called = true
+        //             reject(err)
+        //         }
+        //     } else {
+        //         resolve(x)
+        //     }
+        // }
+
+        // new FakePromise(function (resolve, reject) {
+        //     setTimeout(() => {
+        //         console.log('request end')
+        //         resolve('111')
+        //     }, 2000);
+        // }).then(res => {
+        //     console.log('then 1 res', res)
+        //     return 'second p2'
+        // }).then((res) => {
+        //     console.log('then 2 res', res)
+        // })
+
         // Todo: 手写寄生虫组合 继承
+        // 面向对象编程，解决的问题是啥？
+        // 封装，继承，多态
+
+        // function Parent (name) {
+        //     this.name = name
+        //     this.say()
+        // }
+
+        // Parent.prototype.say = function () {
+        //     console.log('My name is ', this.name)
+        // }
+        // new Parent('zgy')
+
+        // function Son(name) {
+        //     Parent.call(this, name)
+        // }
+        // Son.prototype = Object.create(Parent.prototype)
+        // new Son('zzy')
+
+
+
+
+
 
 
 
