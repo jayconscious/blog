@@ -308,16 +308,16 @@
     // }
     
     // Todo: 手写寄生虫组合 继承
-    // function Parent(name) {
-    //   this.name = name
-    //   this.say()
-    // }
-    // Parent.prototype.say = function() {
-    //   console.log('My name is ', this.name)
-    // }
-    // Parent.prototype.haha = function() {
-    //   console.log(this.name)
-    // }
+    function Parent(name) {
+      this.name = name
+      this.say()
+    }
+    Parent.prototype.say = function() {
+      console.log('My name is ', this.name)
+    }
+    Parent.prototype.haha = function() {
+      console.log(this.name)
+    }
     // // new Parent('haha')
     // Son.prototype = Object.create(Parent.prototype)
     // // Object.setPrototypeOf(Son.prototype, Parent.prototype)
@@ -334,6 +334,12 @@
     // 2. 将 prototype 关联上
     // 3. this 指向了该对象
     // 4. 返回这个对象
+
+    // 创建一个空的对象。
+    // 将该对象的 __proto__ 属性指向构造函数的 prototype。
+    // 执行构造函数，将 this 指向该对象。
+    // 如果构造函数没有显式返回对象，默认返回新创建的对象
+
     // 把自己逼到角落
     // new Fn => newFn(Fn)
     // function newFn(ClassFn, ...args) {
@@ -346,6 +352,7 @@
     // }
     // const w = newFn(Parent, 'wade')
     // w.haha()
+
 
     // Todo: 手写 setTimeout 模拟实现 setinterval
     // 1、 实现思路 setinterval 每隔一定的时间执行一个方法
