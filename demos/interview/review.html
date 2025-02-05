@@ -623,42 +623,39 @@
 
         // Todo: 手写-发布订阅模式 EventEmitter 实现
 
-        class EventEmitter {
-            constructor() {
-                this.eventMap = Object.create(null)
-            }
+        // class EventEmitter {
+        //     constructor() {
+        //         this.eventMap = Object.create(null)
+        //     }
+        //     on(eventType, fn) {
+        //         // 第一步：检测是否存在，不存在则初始化
+        //         if (!this.eventMap[eventType]) {
+        //             this.eventMap[eventType] = []
+        //         }
+        //         // 第一步：赋值
+        //         this.eventMap[eventType].push(fn)
+        //     }
+        //     remove(eventType, fn) {
+        //         if (this.eventMap[eventType].length) {
+        //             this.eventMap[eventType] = this.eventMap[eventType].filter(cb => cb != fn)
+        //         }
+        //     }
+        //     once(eventType, fn) {
+        //         const cb = () => {
+        //             fn()
+        //             this.remove(eventType)
+        //         }
+        //         this.on(eventType, cb)
+        //     }
 
-            on(eventType, fn) {
-                // 第一步：检测是否存在，不存在则初始化
-                if (!this.eventMap[eventType]) {
-                    this.eventMap[eventType] = []
-                }
-                // 第一步：赋值
-                this.eventMap[eventType].push(fn)
-            }
-
-            remove(eventType, fn) {
-                if (this.eventMap[eventType].length) {
-                    this.eventMap[eventType] = this.eventMap[eventType].filter(cb => cb != fn)
-                }
-            }
-
-            once(eventType, fn) {
-                const cb = () => {
-                    fn()
-                    this.remove(eventType)
-                }
-                this.on(eventType, cb)
-            }
-
-            emit(eventType, ...args) {
-                if (this.eventMap[eventType].length) {
-                    this.eventMap[eventType].forEach(cb => {
-                        cb.call(this, ...args)
-                    });
-                }
-            }
-        }
+        //     emit(eventType, ...args) {
+        //         if (this.eventMap[eventType].length) {
+        //             this.eventMap[eventType].forEach(cb => {
+        //                 cb.call(this, ...args)
+        //             });
+        //         }
+        //     }
+        // }
 
         // const emit = new EventEmitter()
         // emit.on('click', function (name) {
@@ -669,38 +666,223 @@
 
         // Todo: 手写-防抖和节流  他们的背景
         // 防抖：一段时间内执行一次
-        function debounce(cb, delay = 1000) {
-            let timer
-            return function (...args) {
-                if (timer) {
-                    clearTimeout(timer)
-                }
-                timer = setTimeout(() => {
-                    cb.call(this, ...args)
-                }, delay);
-            }
-        }
-        const print = function (i) {
-            console.log(i)
-        }
-        for (let i = 0; i < 5; i++) {
-            debounce(print)(i)
-        }
-        
+        // function debounce(cb, delay = 1000) {
+        //     let timer
+        //     return function (...args) {
+        //         if (timer) {
+        //             clearTimeout(timer)
+        //         }
+        //         timer = setTimeout(() => {
+        //             cb.call(this, ...args)
+        //         }, delay);
+        //     }
+        // }
+        // const print = function (i) {
+        //     console.log(i)
+        // }
+        // for (let i = 0; i < 5; i++) {
+        //     debounce(print)(i)
+        // }
+
         // 节流：每隔一段时间执行一次
-        function throttle(fn, delay = 300) {
-            let isRunning = false, timer
-            return (...args) => {
-                if (isRunning) {
-                    return
-                }
-                isRunning = true
-                timer = setTimeout(() => {
-                    fn.call(this, ...args)
-                    isRunning = false
-                }, delay);
-            }
+        // function throttle (fn, delay = 300) {
+        //     let isRunning = false, timer
+        //     return (...args) => {
+        //         if (isRunning) {
+        //             return 
+        //         }
+        //         isRunning = true
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args)
+        //             isRunning = false
+        //         }, delay);
+        //     }
+        // }
+
+        // Todo: virtual Dom => real Dom
+
+        // 手写解析器
+        // const vNode = {
+        //     tag: 'div',
+        //     attrs: {
+        //         className: 'test'
+        //     },
+        //     children: [{
+        //         tag: 'div',
+        //         attrs: {
+        //             className: 'haha'
+        //         },
+        //         children: [{
+        //             tag: 'span',
+        //             attrs: {
+        //                 className: 'haha'
+        //             }
+        //         }]
+        //     }]
+        // }
+        // // 目标结果是啥？
+        // function _render(vNode) {
+        //     const dom = document.createElement(vNode?.tag)
+        //     if (vNode?.children?.length) {
+        //         vNode.children.forEach(childNode => {
+        //             dom.appendChild(_render(childNode))
+        //         });
+        //     }
+        //     return dom
+        // }
+        // const body = document.getElementsByTagName('body')[0]
+        // body.appendChild(_render(vNode))
+
+
+        // Todo: 对象 flatten 扁平化
+        // const obj = 
+        // {
+        //     a: {
+        //         b: 1,
+        //         c: 2,
+        //         d: { e: 5 }
+        //     },
+        //     b: [1, 3, { a: 2, b: 3 }],
+        //     c: 3
+        // }
+        // // flatten(obj) 结果返回如下
+        // {
+        //  'a.b': 1,
+        //  'a.c': 2,
+        //  'a.d.e': 5,
+        //  'b[0]': 1,
+        //  'b[1]': 3,
+        //  'b[2].a': 2,
+        //  'b[2].b': 3,
+        //   c: 3
+        // }
+
+        function getTepy(ele) {
+            return Object.prototype.toString.call(ele).slice(8, -1)
         }
+        // function flatten(sourceObj) {
+        //     const targetObj = {}, currentKeyPath = ''
+
+        //     function inner(currentVal, currentKeyPath) {
+        //         if (getTepy(currentVal) == 'Array') {
+        //             currentVal.forEach((arrEle, index) => {
+        //                 inner(arrEle, `${currentKeyPath}[${index}]`)
+        //             })
+        //         } else if (getTepy(currentVal) == 'Object') {
+        //             Object.keys(currentVal).forEach(key => {
+        //                 const keyPath = currentKeyPath ? `${currentKeyPath}.${key}` : `${key}`
+        //                 inner(currentVal[key], `${keyPath}`)
+        //             })
+        //         } else {
+        //             targetObj[currentKeyPath] = currentVal
+        //         }
+        //     }
+        //     inner(sourceObj, currentKeyPath)
+        //     return targetObj
+        // }
+        // console.log(flatten(obj))
+
+
+        // // Todo: 问题将 flatten 的对象还原
+        // const input = {
+        //     "a.b": 1,
+        //     "a.c": 2,
+        //     "a.d.e": 5,
+        //     "b[0]": 1,
+        //     "b[1]": 3,
+        //     "b[2].a": 2,
+        //     "b[2].b": 3,
+        //     "c": 3
+        // }
+
+        // function recovery(sourceObj) {
+        //     let targetObj = {}
+        //     Object.keys(sourceObj).forEach(key => {
+        //         const keyList = key.split('.')
+        //         let currKeyStr = ''
+        //         keyList.forEach(item => {
+        //             currKeyStr += `[${item}]`
+        //         })
+        //         targetObj[currKeyStr] = sourceObj[key]
+        //     })
+        //     return targetObj
+        // }
+        // function recovery(source) {
+        //     if (getTepy(source) != 'Object') {
+        //         return
+        //     }
+        //     let result = {}
+        //     for (const key in source) {
+        //         if (Object.hasOwnProperty.call(source, key)) {
+        //             parseKey(key, source[key])
+        //         }
+        //     }
+        //     function parseKey(key, value) {
+        //         if (key.indexOf('.') > -1) {
+        //             let keyList = key.split('.')
+        //             // Todo
+        //             keyList.forEach((keyItem, index) => {
+        //                 // if () {
+        //                 // } else {
+        //                 // }
+        //             })
+        //         } else {
+        //             result[key] = value
+        //         }
+        //     }
+        //     return result
+        // }
+        // 测试
+        const input = {
+            'a.b': 1,
+            'a.c': 2,
+            'b[2].a': 2,
+            'a.d.e': 5,
+            'b[0]': 1,
+            'b[1]': 3,
+            'b[2].b': 3,
+            'c': 3
+        };
+        function transformObject(obj) {
+            const result = {};
+            // 遍历对象的每个键
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let value = obj[key];
+                    const keys = key.split(/[\.\[\]]+/).filter(Boolean);
+                    // 分割路径，并去除空值
+                    let current = result; // 引用操作
+                    // 遍历路径中的每个部分
+                    for (let i = 0; i < keys.length; i++) {
+                        const part = keys[i];
+                        // 如果是最后一个路径部分，直接赋值
+                        if (i === keys.length - 1) {
+                            if (current[part] === undefined) {
+                                current[part] = value;
+                            }
+                        } else {
+                            // 如果该部分不存在，就创建一个新的对象或数组
+                            if (current[part] === undefined) {
+                                // 如果下一个部分是数字索引，创建数组
+                                // 判断数字还是字母
+                                current[part] = isNaN(Number(keys[i + 1])) ? {} : [];
+                            }
+                        }
+                        // 进入下一个嵌套级别
+                        current = current[part];
+                        // 1. result.a = {}
+                        // 2. result.a.b = 1
+
+                    }
+                }
+            }
+            return result;
+        }
+
+        const output = transformObject(input);
+        // console.log(output)
+        console.log(JSON.stringify(output, null, 2));
+
 
 
 
