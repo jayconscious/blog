@@ -834,54 +834,77 @@
         // }
         // 测试
         const input = {
-            'a.b': 1,
-            'a.c': 2,
-            'b[2].a': 2,
-            'a.d.e': 5,
+            // 'a.b': 1,
+            // 'a.c': 2,
+            // 'b[2].a': 2,
+            // 'a.d.e': 5,
             'b[0]': 1,
             'b[1]': 3,
             'b[2].b': 3,
-            'c': 3
+            // 'c': 3
         };
-        function transformObject(obj) {
-            const result = {};
-            // 遍历对象的每个键
-            for (let key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    let value = obj[key];
-                    const keys = key.split(/[\.\[\]]+/).filter(Boolean);
-                    // 分割路径，并去除空值
-                    let current = result; // 引用操作
-                    // 遍历路径中的每个部分
-                    for (let i = 0; i < keys.length; i++) {
-                        const part = keys[i];
-                        // 如果是最后一个路径部分，直接赋值
-                        if (i === keys.length - 1) {
-                            if (current[part] === undefined) {
-                                current[part] = value;
-                            }
-                        } else {
-                            // 如果该部分不存在，就创建一个新的对象或数组
-                            if (current[part] === undefined) {
-                                // 如果下一个部分是数字索引，创建数组
-                                // 判断数字还是字母
-                                current[part] = isNaN(Number(keys[i + 1])) ? {} : [];
-                            }
-                        }
-                        // 进入下一个嵌套级别
-                        current = current[part];
-                        // 1. result.a = {}
-                        // 2. result.a.b = 1
 
-                    }
-                }
-            }
-            return result;
-        }
+        // const input = {
+        //     a: {
+        //         b: 1,
+        //         c: 2,
+        //         d: { e: 5 }
+        //     }
+        // }
 
-        const output = transformObject(input);
-        // console.log(output)
-        console.log(JSON.stringify(output, null, 2));
+        // const input = {
+        //     "a.b": 1,
+        //     "a.c": 2,
+        //     "a.d.e": 5
+        // }
+
+        // function transformObject(sourceObj) {
+        //     let result = {}
+        //     Object.keys(sourceObj).forEach(key => {
+        //         const keyList = key.split(/[\.\[\]]+/).filter(Boolean)
+        //         let currentLevel = result
+        //         const value = sourceObj[key]
+        //         for (let i = 0; i < keyList.length; i++) {
+        //             const path = keyList[i];
+        //             if (i < keyList.length - 1) {
+        //                 if (currentLevel[path] == undefined) {
+        //                     currentLevel[path] = Number.isNaN(Number((keyList[i + 1]))) ? {} : []
+        //                 }
+        //                 currentLevel = currentLevel[path]
+        //             } else if (i == keyList.length - 1) {
+        //                 currentLevel[path] = value
+        //             }
+        //         }
+        //     })
+        //     return result
+        // }
+
+        // function transformObject(obj) {
+        //     const result = {};
+        //     for (let key in obj) {
+        //         if (obj.hasOwnProperty(key)) {
+        //             let value = obj[key];
+        //             const keys = key.split(/[\.\[\]]+/).filter(Boolean);
+        //             let current = result;
+        //             for (let i = 0; i < keys.length; i++) {
+        //                 const part = keys[i];
+        //                 if (i === keys.length - 1) {
+        //                     current[part] = value; // 赋值
+        //                 } else {
+        //                     if (current[part] === undefined) {
+        //                         current[part] = isNaN(Number(keys[i + 1])) ? {} : [];
+        //                     }
+        //                 }
+        //                 current = current[part];
+        //             }
+        //         }
+        //     }
+        //     return result;
+        // }
+
+        console.log(JSON.stringify(transformObject(input), null, 2))
+
+        
 
 
 
