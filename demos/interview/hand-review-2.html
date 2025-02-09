@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hand-review-2</title>
+</head>
+
+<body>
+    <script>
+        // Todo: js反转链表
+        // let head = [1, 2, 3, 4, 5]
+        // class ListNode {
+        //     constructor(value, next) {
+        //         this.value = value
+        //         this.next = next
+        //     }
+        // }
+        // // 将数组转换为链表
+        // function arrayToList(arr) {
+        //     if (!arr.length) {
+        //         return
+        //     }
+        //     let head = new ListNode(arr[0])
+        //     let current = head
+        //     for (let i = 1; i < arr.length; i++) {
+        //         let item = arr[i]
+        //         current.next = new ListNode(arr[i])
+        //         current = current.next
+        //     }
+        //     return head
+        // }
+        // // let curr = arrayToList(head)
+        // // printList(curr)
+        // function reverseList(head) {
+        //     let pre = head, curr = null
+        //     while (pre) {
+        //         let t = pre.next
+        //         pre.next = curr
+        //         curr = pre
+        //         pre = t
+        //     }
+        //     return curr
+        // }
+        // let curr = arrayToList(head)
+        // printList(reverseList(curr))
+        // function ListNode(val, next) {
+        //     this.val = (val === undefined ? 0 : val)
+        //     this.next = (next === undefined ? null : next)
+        // }
+        // var reverseList = function (head) {
+        //     let temp = new ListNode();
+        //     let next = null;
+        //     while (head) {
+        //         next = head.next;//下一个节点
+        //         head.next = temp.next;
+        //         temp.next = head;//head接在temp的后面
+        //         head = next;//head向后移动一位
+        //     }
+        //     return temp.next;
+        // };
+        // let head = [1,2,3,4,5]
+        // console.log(reverseList(head))
+
+        // Todo: 数字之和是 N 数字之和的两倍
+        // 编写一个js函数 function solution (N);
+        // 给定一个整数 N，返回大于 N 的最小整数，其数字之和是 N 数字之和的两倍。
+        // 例子:
+        // 1.给定 N=14，函数应该返回 19。19 的数字和(1+9=10)是 14 的数字和(1+4=5)的两倍。
+        // 2.给定 N=10，该函数应该返回 11。
+        // 3.假设 N=99，该函数应该返回 9999。假设:
+        // ·N是[1..500]范围内的整数
+
+        // function numSum(num) {
+        //     return (num + '').split('').reduce(function name(sum, curr) {
+        //         return sum + Number(curr)
+        //     }, 0)
+        // }
+
+        // function solution(N) {
+        //     let result = void 0, isHas = false
+        //     for (let i = N; i < 9999; i++) {
+        //         if (isHas) return result
+        //         if (numSum(i) / numSum(N) == 2) {
+        //             result = i
+        //             isHas = true
+        //         }
+        //     }
+        //     return result
+        // }
+        // console.log(solution(14))
+
+        // function sumOfDigits(num) {
+        //     // 计算数字的各位数字之和
+        //     return num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        // }
+
+        // function solution(N) {
+        //     const targetSum = sumOfDigits(N) * 2;  // 目标数字之和是 N 数字之和的两倍
+        //     let candidate = N + 1;  // 从 N+1 开始查找
+
+        //     // 不断递增查找，直到找到满足条件的数字
+        //     while (sumOfDigits(candidate) !== targetSum) {
+        //         candidate++;
+        //     }
+
+        //     return candidate;  // 返回找到的数字
+        // }
+
+        // // 示例测试
+        // console.log(solution(14));  // 输出: 19
+        // console.log(solution(10));  // 输出: 11
+        // console.log(solution(99));  // 输出: 9999
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
