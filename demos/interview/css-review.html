@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS-REVIEW</title>
+</head>
+<style>
+    /* case 1: */
+    .case1-father {
+        /* 父级没有设置高度，子元素浮动，产生父元素高度塌陷 */
+        /* 解决方法：只需要把父元素变成一个BFC即可，常用的方法是给父元素设置overflow:hidden */
+        /* 设置父元素变成BFC后，遵循BFC布局规则第6条: 计算BFC的高度时，浮动元素也参与计算 */
+        width: 100px;
+        background-color: black;
+        overflow: hidden;
+    }
+
+    .case1-children {
+        float: left;
+        width: 50px;
+        height: 50px;
+        background-color: coral;
+    }
+
+    .case2-father {
+        width: 100px;
+        border: 3px solid rgb(83, 141, 230);
+    }
+
+    .case2-children1 {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+        background-color: coral;
+    }
+
+    .case2-children2 {
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+        background-color: coral;
+    }
+
+    .case2-box {
+        overflow: hidden;
+    }
+
+    .aside {
+        float: left;
+        width: 100px;
+        height: 150px;
+        background-color: coral;
+    }
+
+    .main {
+        height: 200px;
+        background-color: rgb(238, 190, 150);
+        /* 将其转换为BFC */
+        overflow: hidden;
+
+    }
+</style>
+
+<body>
+
+    <!-- 1. 清除内部浮动 -->
+    <!-- https://juejin.cn/post/7029622804739784717 -->
+    <div class="case1-father">
+        <div class="case1-children"></div>
+    </div>
+
+    <div style="height: 20px; "></div>
+
+    <!-- 2. 上下margin重合问题。（分属于不同的BFC时，可以阻止margin重叠） -->
+    <div class="case2-father">
+        <div class="case2-children1"></div>
+        <div class="case2-box">
+            <div class="case2-children2"></div>
+        </div>
+    </div>
+
+    <div style="height: 20px;"></div>
+    <!-- 3. 元素被浮动元素覆盖问题 -->
+
+    <div class="aside"></div>
+    <div class="main"></div>
+    <!-- 为什么会这样？因为BFC布局规则第3条规定：每个元素的margin box的左边，与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。因此，虽然存在浮动的元素`aside，但main的左边依然会与包含块的左边相接触。 -->
+    <!-- 解决方法：遵循BFC布局规则第4条：BFC的区域不会与float box重叠。通过触发main生成BFC，来实现。 -->
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

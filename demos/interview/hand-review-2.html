@@ -207,7 +207,24 @@
         // console.log(mapIter.next().value); // 1
         // console.log(mapIter.next().value); // {}
 
-        
+        // 使用 Fetch API 发起跨域请求
+        fetch('111', {
+            method: 'GET', // 或 'POST' 根据实际需要
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // 其他可选配置...
+        })
+            .then(response => response.json()) // 解析 JSON 响应
+            .then(data => {
+                console.log('数据:', data);
+            })
+            .catch(error => {
+                console.error('请求失败:', error);
+            });
+
+
+
 
 
 
