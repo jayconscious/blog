@@ -207,21 +207,24 @@
         // console.log(mapIter.next().value); // 1
         // console.log(mapIter.next().value); // {}
 
+        // Todo:  一个跨域不存在的404请求
+        // - [x] 解答：预检请求没有拿到 access-control-allow-origin 相关字段配置(服务器端)，
+        // 那么正确的请求会被浏览器 block 掉，并且会报 cors error
         // 使用 Fetch API 发起跨域请求
-        fetch('111', {
-            method: 'GET', // 或 'POST' 根据实际需要
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // 其他可选配置...
-        })
-            .then(response => response.json()) // 解析 JSON 响应
-            .then(data => {
-                console.log('数据:', data);
-            })
-            .catch(error => {
-                console.error('请求失败:', error);
-            });
+        // fetch('111', {
+        //     method: 'GET', // 或 'POST' 根据实际需要
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     // 其他可选配置...
+        // })
+        //     .then(response => response.json()) // 解析 JSON 响应
+        //     .then(data => {
+        //         console.log('数据:', data);
+        //     })
+        //     .catch(error => {
+        //         console.error('请求失败:', error);
+        //     });
 
 
 
