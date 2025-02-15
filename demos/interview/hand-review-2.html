@@ -227,6 +227,81 @@
         //     });
 
 
+          // Todo: 手写 - 如何找到数组中第一个没出现的最小正整数怎么优化（字节）
+    // 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
+    // 请你实现时间复杂度为 O(n) 并且只使用常数级别额外空间的解决方案。
+    // 示例 1：
+    // 输入：nums = [1,2,0]
+    // 输出：3
+
+    // 示例 2：
+    // 输入：nums = [3,4,-1,1]
+    // 输出：2
+
+    // 示例 3：
+    // 输入：nums = [7,8,9,11,12]
+    // 输出：1
+    // 算法题
+    
+    // 思路：前后差值是1说明连续，
+    // 1, 2, 4
+    // function getMinNumNoShow (arr) {
+    //   let minNum = null
+    //   let list = arr.filter(item => item > 0).sort()
+    //   for (let i = 0; i < list.length; i++) {
+    //     const current = list[i]
+    //     const next = list[i+1]
+    //     if (i == 0 && 1 != current) {
+    //       minNum = 1
+    //       break
+    //     }
+    //     if ((current && next && (next - current) > 1) || !next) {
+    //       minNum = current + 1
+    //       break
+    //     }
+    //   }
+    //   return minNum
+    // }
+    // const nums = [1,2,0]
+    // const nums = [7,8,9,11,12]
+    // const nums = [3,4,-1,1]
+    // console.log(getMinNumNoShow(nums))
+    // 算法复杂度如何计算 O(3n)
+    // 一次循环搞定
+    // Why O(n)
+
+
+    // Todo: 手写-怎么在指定数据源里面生成一个长度为 n 的不重复随机数组 能有几种方法 时间复杂度多少（字节）
+    // const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    // const n = 5
+    // // => [1, 2, 3, 4, 5, 6]
+    // function getArrByParams (arr, n) {
+    //   let result = []
+    //   for (let i = 0; i < arr.length; i++) {
+    //     const element = arr[i];
+    //     if (result.indexOf(element) == -1) {
+    //       result.push(element)
+    //       if (result.length == n) {
+    //         break;
+    //       }
+    //     }
+    //   }
+    //   return result
+    // }
+    // console.log(getArrByParams(testArray, n))
+    // 算法复杂度
+    // Why O(n)
+
+
+        // Todo: 数组中的第K个最大元素
+        // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
+        // 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+        // 你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。
+        // 如何使用大顶堆解决问题呢？
+
+
+
+
 
 
 
