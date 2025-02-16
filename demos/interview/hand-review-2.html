@@ -227,70 +227,70 @@
         //     });
 
 
-          // Todo: 手写 - 如何找到数组中第一个没出现的最小正整数怎么优化（字节）
-    // 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
-    // 请你实现时间复杂度为 O(n) 并且只使用常数级别额外空间的解决方案。
-    // 示例 1：
-    // 输入：nums = [1,2,0]
-    // 输出：3
+        // Todo: 手写 - 如何找到数组中第一个没出现的最小正整数怎么优化（字节）
+        // 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
+        // 请你实现时间复杂度为 O(n) 并且只使用常数级别额外空间的解决方案。
+        // 示例 1：
+        // 输入：nums = [1,2,0]
+        // 输出：3
 
-    // 示例 2：
-    // 输入：nums = [3,4,-1,1]
-    // 输出：2
+        // 示例 2：
+        // 输入：nums = [3,4,-1,1]
+        // 输出：2
 
-    // 示例 3：
-    // 输入：nums = [7,8,9,11,12]
-    // 输出：1
-    // 算法题
-    
-    // 思路：前后差值是1说明连续，
-    // 1, 2, 4
-    // function getMinNumNoShow (arr) {
-    //   let minNum = null
-    //   let list = arr.filter(item => item > 0).sort()
-    //   for (let i = 0; i < list.length; i++) {
-    //     const current = list[i]
-    //     const next = list[i+1]
-    //     if (i == 0 && 1 != current) {
-    //       minNum = 1
-    //       break
-    //     }
-    //     if ((current && next && (next - current) > 1) || !next) {
-    //       minNum = current + 1
-    //       break
-    //     }
-    //   }
-    //   return minNum
-    // }
-    // const nums = [1,2,0]
-    // const nums = [7,8,9,11,12]
-    // const nums = [3,4,-1,1]
-    // console.log(getMinNumNoShow(nums))
-    // 算法复杂度如何计算 O(3n)
-    // 一次循环搞定
-    // Why O(n)
+        // 示例 3：
+        // 输入：nums = [7,8,9,11,12]
+        // 输出：1
+        // 算法题
+
+        // 思路：前后差值是1说明连续，
+        // 1, 2, 4
+        // function getMinNumNoShow (arr) {
+        //   let minNum = null
+        //   let list = arr.filter(item => item > 0).sort()
+        //   for (let i = 0; i < list.length; i++) {
+        //     const current = list[i]
+        //     const next = list[i+1]
+        //     if (i == 0 && 1 != current) {
+        //       minNum = 1
+        //       break
+        //     }
+        //     if ((current && next && (next - current) > 1) || !next) {
+        //       minNum = current + 1
+        //       break
+        //     }
+        //   }
+        //   return minNum
+        // }
+        // const nums = [1,2,0]
+        // const nums = [7,8,9,11,12]
+        // const nums = [3,4,-1,1]
+        // console.log(getMinNumNoShow(nums))
+        // 算法复杂度如何计算 O(3n)
+        // 一次循环搞定
+        // Why O(n)
 
 
-    // Todo: 手写-怎么在指定数据源里面生成一个长度为 n 的不重复随机数组 能有几种方法 时间复杂度多少（字节）
-    // const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-    // const n = 5
-    // // => [1, 2, 3, 4, 5, 6]
-    // function getArrByParams (arr, n) {
-    //   let result = []
-    //   for (let i = 0; i < arr.length; i++) {
-    //     const element = arr[i];
-    //     if (result.indexOf(element) == -1) {
-    //       result.push(element)
-    //       if (result.length == n) {
-    //         break;
-    //       }
-    //     }
-    //   }
-    //   return result
-    // }
-    // console.log(getArrByParams(testArray, n))
-    // 算法复杂度
-    // Why O(n)
+        // Todo: 手写-怎么在指定数据源里面生成一个长度为 n 的不重复随机数组 能有几种方法 时间复杂度多少（字节）
+        // const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        // const n = 5
+        // // => [1, 2, 3, 4, 5, 6]
+        // function getArrByParams (arr, n) {
+        //   let result = []
+        //   for (let i = 0; i < arr.length; i++) {
+        //     const element = arr[i];
+        //     if (result.indexOf(element) == -1) {
+        //       result.push(element)
+        //       if (result.length == n) {
+        //         break;
+        //       }
+        //     }
+        //   }
+        //   return result
+        // }
+        // console.log(getArrByParams(testArray, n))
+        // 算法复杂度
+        // Why O(n)
 
 
         // Todo: 数组中的第K个最大元素
@@ -298,6 +298,129 @@
         // 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
         // 你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。
         // 如何使用大顶堆解决问题呢？
+
+
+
+        // Todo: 三数之和
+        // 给你一个整数数组 nums ，判断是否存在三元组[nums[i], nums[j], nums[k]] 
+        // 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。
+        // 请你返回所有和为 0 且不重复的三元组。
+        // 注意：答案中不可以包含重复的三元组。
+
+        // function threeSum(nums) {
+        //     const res = [];
+        //     const n = nums.length;
+        //     // 三层循环遍历
+        //     for (let i = 0; i < n - 2; i++) {
+        //         for (let j = i + 1; j < n - 1; j++) {
+        //             for (let k = j + 1; k < n; k++) {
+        //                 // 检查和是否为 0
+        //                 if (nums[i] + nums[j] + nums[k] === 0) {
+        //                     // 将三元组添加到结果中
+        //                     const triplet = [nums[i], nums[j], nums[k]];
+        //                     // 防止添加重复的三元组
+        //                     // Tip: 这个判断不能保证组合内部元素不重复，如果 nums 有重复的元素的话，有几率产生重复的组合。
+        //                     if (!res.some(item =>
+        //                         item[0] === triplet[0] && item[1] === triplet[1] && item[2] === triplet[2]
+        //                     )) {
+        //                         res.push(triplet);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return res;
+        // }
+        // // 示例
+        // console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+
+        // Todo: 第一种解法：三层 for 循环暴力破解
+        // function threeSum(nums) {
+        //     const result = [];
+        //     const n = nums.length;
+        //     // 先对数组排序，方便去重，从小到大排序
+        //     nums.sort((a, b) => a - b);
+        //     // 三层循环暴力枚举
+        //     for (let i = 0; i < n - 2; i++) {
+        //         // 跳过重复的 a
+        //         // 为什么这样就可以跳过呢？
+        //         if (i > 0 && nums[i] === nums[i - 1]) continue;
+        // 
+        //         for (let j = i + 1; j < n - 1; j++) {
+        //             // 关注起始位的索引参数
+        //             // 跳过重复的 b
+        //             if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+        //             // 保证索引大于前一个，并且两两不相同即可保证
+        //             for (let k = j + 1; k < n; k++) {
+        //                 // 跳过重复的 c
+        //                 if (k > j + 1 && nums[k] === nums[k - 1]) continue;
+        //                 // 检查是否满足 a + b + c = 0
+        //                 if (nums[i] + nums[j] + nums[k] === 0) {
+        //                     result.push([nums[i], nums[j], nums[k]]);
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return result;
+        // }
+        // // 示例
+        // const nums = [-1, 0, 1, 2, -1, -4];
+        // const result = threeSum(nums);
+        // console.log(result); // 输出: [[-1, -1, 2], [-1, 0, 1]]
+
+        // 第二种：双指针索引法
+        // 
+        function threeSum(nums) {
+            const result = [];
+            const n = nums.length;
+            // 先对数组排序
+            nums.sort((a, b) => a - b);
+
+            // 遍历数组，固定 a
+            for (let i = 0; i < n - 2; i++) {
+                // 跳过重复的 a
+                // 因为数组已经排序过了，所以只要判断相邻两两不相同，
+                // 即可保证，当前三元组的第一个元素是不重复的
+                if (i > 0 && nums[i] === nums[i - 1]) continue;
+                // 初始化双指针
+                let left = i + 1;
+                let right = n - 1;
+                // 双指针寻找 b 和 c
+                while (left < right) {
+                    const sum = nums[i] + nums[left] + nums[right];
+                    if (sum < 0) {
+                        left++; // 和太小，左指针右移
+                    } else if (sum > 0) {
+                        right--; // 和太大，右指针左移
+                    } else {
+                        // 找到满足条件的三元组
+                        result.push([nums[i], nums[left], nums[right]]);
+                        // 跳过重复的 b 和 c
+                        while (left < right && nums[left] === nums[left + 1]) {
+                            left++;
+                        }
+                        while (left < right && nums[right] === nums[right - 1]) {
+                            right--;
+                        }
+                        // 移动指针
+                        left++;
+                        right--;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        // 示例
+        const nums = [-1, 0, 1, 2, -1, -4];
+        const result = threeSum(nums);
+        console.log(result); // 输出: [[-1, -1, 2], [-1, 0, 1]]
+
+
+
+
+
 
 
 
