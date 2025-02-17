@@ -100,6 +100,36 @@
         // }
         // console.log(bubbleSort([5, 2, 9, 1, 5, 6]))
 
+        // Todo: 三数之和
+        // 给你一个整数数组 nums ，判断是否存在三元组[nums[i], nums[j], nums[k]] 
+        // 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。
+        // 请你返回所有和为 0 且不重复的三元组。
+        // 注意：答案中不可以包含重复的三元组。
+        // const nums = [-1, 0, 1, 2, -1, -4];
+
+        function solution(nums) {
+            let result = []
+            nums.sort((a, b) => a - b) // 从小到大排列
+            for (let i = 0; i < nums.length - 2; i++) {
+                // 第一个参数位，两两不相同，即可保证三元组不重复
+                if (i > 0 && nums[i] === nums[i - 1]) { continue }
+                for (let j = i + 1; j < nums.length - 1; j++) {
+                    if (j > i + 1 && nums[j] === nums[j - 1]) { continue }
+                    for (let k = j + 1; k < nums.length; k++) {
+                        if (nums[k] === nums[k - 1]) { continue }
+                        if (nums[i] + nums[j] + nums[k] == 0) {
+                            result.push([nums[i], nums[j], nums[k]])
+                        }
+                    }
+
+                }
+
+            }
+            return result
+        }
+
+        console.log(solution([-1, 0, 1, 2, -1, -4]))
+
 
 
 

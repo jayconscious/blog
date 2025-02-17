@@ -293,14 +293,6 @@
         // Why O(n)
 
 
-        // Todo: 数组中的第K个最大元素
-        // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
-        // 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
-        // 你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。
-        // 如何使用大顶堆解决问题呢？
-
-
-
         // Todo: 三数之和
         // 给你一个整数数组 nums ，判断是否存在三元组[nums[i], nums[j], nums[k]] 
         // 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。
@@ -370,52 +362,104 @@
 
         // 第二种：双指针索引法
         // 
-        function threeSum(nums) {
-            const result = [];
-            const n = nums.length;
-            // 先对数组排序
-            nums.sort((a, b) => a - b);
+        // function threeSum(nums) {
+        //     const result = [];
+        //     const n = nums.length;
+        //     // 先对数组排序
+        //     nums.sort((a, b) => a - b);
 
-            // 遍历数组，固定 a
-            for (let i = 0; i < n - 2; i++) {
-                // 跳过重复的 a
-                // 因为数组已经排序过了，所以只要判断相邻两两不相同，
-                // 即可保证，当前三元组的第一个元素是不重复的
-                if (i > 0 && nums[i] === nums[i - 1]) continue;
-                // 初始化双指针
-                let left = i + 1;
-                let right = n - 1;
-                // 双指针寻找 b 和 c
-                while (left < right) {
-                    const sum = nums[i] + nums[left] + nums[right];
-                    if (sum < 0) {
-                        left++; // 和太小，左指针右移
-                    } else if (sum > 0) {
-                        right--; // 和太大，右指针左移
-                    } else {
-                        // 找到满足条件的三元组
-                        result.push([nums[i], nums[left], nums[right]]);
-                        // 跳过重复的 b 和 c
-                        while (left < right && nums[left] === nums[left + 1]) {
-                            left++;
-                        }
-                        while (left < right && nums[right] === nums[right - 1]) {
-                            right--;
-                        }
-                        // 移动指针
-                        left++;
-                        right--;
+        //     // 遍历数组，固定 a
+        //     for (let i = 0; i < n - 2; i++) {
+        //         // 跳过重复的 a
+        //         // 因为数组已经排序过了，所以只要判断相邻两两不相同，
+        //         // 即可保证，当前三元组的第一个元素是不重复的
+        //         if (i > 0 && nums[i] === nums[i - 1]) continue;
+        //         // 初始化双指针
+        //         let left = i + 1;
+        //         let right = n - 1;
+        //         // 双指针寻找 b 和 c
+        //         while (left < right) {
+        //             const sum = nums[i] + nums[left] + nums[right];
+        //             if (sum < 0) {
+        //                 left++; // 和太小，左指针右移
+        //             } else if (sum > 0) {
+        //                 right--; // 和太大，右指针左移
+        //             } else {
+        //                 // 找到满足条件的三元组
+        //                 result.push([nums[i], nums[left], nums[right]]);
+        //                 // 跳过重复的 b 和 c
+        //                 while (left < right && nums[left] === nums[left + 1]) {
+        //                     left++;
+        //                 }
+        //                 while (left < right && nums[right] === nums[right - 1]) {
+        //                     right--;
+        //                 }
+        //                 // 移动指针
+        //                 left++;
+        //                 right--;
+        //             }
+        //         }
+        //     }
+
+        //     return result;
+        // }
+
+        // // 示例
+        // const nums = [-1, 0, 1, 2, -1, -4];
+        // const result = threeSum(nums);
+        // console.log(result); // 输出: [[-1, -1, 2], [-1, 0, 1]]
+
+
+        // Todo: 数组中的第K个最大元素
+        // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
+        // 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+        // 你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。
+        // 如何使用大顶堆解决问题呢？
+
+
+
+
+        // Todo: 最大子数组和
+        // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），
+        // 返回其最大和。子数组是数组中的一个连续部分。
+
+        var maxSubArray = function (nums) {
+            let len = nums.length, maxSum = 0
+                , begin = 0, end = 0;
+            for (let i = 0; i < len; i++) {
+                if (len == 1) {
+                    return nums[0]
+                }
+                for (let j = 1; j < len; j++) {
+                    if (j > i) {
+                        // debugger
+                        let vaildNums = nums.slice(i, j + 1)
+                        let sum = vaildNums.reduce(
+                            function (sum, num) {
+                                return sum + num
+                            }
+                        )
+                        maxSum = Math.max(maxSum, sum)
                     }
                 }
             }
+            return maxSum;
+        };
 
-            return result;
-        }
+        // var maxSubArray = function (nums) {
+        //     let pre = 0, maxNum = nums[0];
+        //     nums.forEach((x) => {
+        //         pre = Math.max(pre + x, x);
+        //         maxNum = Math.max(maxNum, pre);
+        //     });
+        //     return maxNum;
+        // };
 
-        // 示例
-        const nums = [-1, 0, 1, 2, -1, -4];
-        const result = threeSum(nums);
-        console.log(result); // 输出: [[-1, -1, 2], [-1, 0, 1]]
+        console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+        console.log(maxSubArray([1]))
+        console.log(maxSubArray([5, 4, -1, 7, 8]))
+
+
 
 
 
