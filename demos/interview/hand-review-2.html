@@ -416,44 +416,47 @@
         // 你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。
         // 如何使用大顶堆解决问题呢？
 
-
+        // function solution(nums, k) {
+        //     nums.sort((a, b) => b - a)
+        //     return nums[k - 1]
+        // }
 
 
         // Todo: 最大子数组和
         // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），
         // 返回其最大和。子数组是数组中的一个连续部分。
 
-        var maxSubArray = function (nums) {
-            let len = nums.length, maxSum = 0
-                , begin = 0, end = 0;
-            for (let i = 0; i < len; i++) {
-                if (len == 1) {
-                    return nums[0]
-                }
-                for (let j = 1; j < len; j++) {
-                    if (j > i) {
-                        // debugger
-                        let vaildNums = nums.slice(i, j + 1)
-                        let sum = vaildNums.reduce(
-                            function (sum, num) {
-                                return sum + num
-                            }
-                        )
-                        maxSum = Math.max(maxSum, sum)
-                    }
-                }
-            }
-            return maxSum;
-        };
-
         // var maxSubArray = function (nums) {
-        //     let pre = 0, maxNum = nums[0];
-        //     nums.forEach((x) => {
-        //         pre = Math.max(pre + x, x);
-        //         maxNum = Math.max(maxNum, pre);
-        //     });
-        //     return maxNum;
+        //     let len = nums.length, maxSum = 0
+        //         , begin = 0, end = 0;
+        //     for (let i = 0; i < len; i++) {
+        //         if (len == 1) {
+        //             return nums[0]
+        //         }
+        //         for (let j = 1; j < len; j++) {
+        //             if (j > i) {
+        //                 // debugger
+        //                 let vaildNums = nums.slice(i, j + 1)
+        //                 let sum = vaildNums.reduce(
+        //                     function (sum, num) {
+        //                         return sum + num
+        //                     }
+        //                 )
+        //                 maxSum = Math.max(maxSum, sum)
+        //             }
+        //         }
+        //     }
+        //     return maxSum;
         // };
+
+        function maxSubArray(nums) {
+            let preSum = 0, maxSum = nums[0] //Tip: 假定第一个最大
+            nums.forEach(num => {
+                preSum = Math.max(preSum + num, num)
+                maxSum = Math.max(maxSum, preSum)
+            });
+            return maxSum
+        }
 
         console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
         console.log(maxSubArray([1]))
