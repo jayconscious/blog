@@ -449,18 +449,58 @@
         //     return maxSum;
         // };
 
-        function maxSubArray(nums) {
-            let preSum = 0, maxSum = nums[0] //Tip: 假定第一个最大
-            nums.forEach(num => {
-                preSum = Math.max(preSum + num, num)
-                maxSum = Math.max(maxSum, preSum)
-            });
-            return maxSum
-        }
+        // function maxSubArray(nums) {
+        //     let preSum = 0, maxSum = nums[0] //Tip: 假定第一个最大
+        //     nums.forEach(num => {
+        //         preSum = Math.max(preSum + num, num)
+        //         maxSum = Math.max(maxSum, preSum)
+        //     });
+        //     return maxSum
+        // }
 
-        console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
-        console.log(maxSubArray([1]))
-        console.log(maxSubArray([5, 4, -1, 7, 8]))
+        // console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+        // console.log(maxSubArray([1]))
+        // console.log(maxSubArray([5, 4, -1, 7, 8]))
+
+        // Todo: 洗牌算法
+        // 这道题是这样的给你一个数组，要你写一个函数，使得数组的排列顺序随机。
+        // 这一道题要用到洗牌算法。
+
+        // 1. 不均匀分布的问题 - 极端情况会和原排序一样，并不会打乱数组
+        // sort(() => Math.random() - 0.5) 生成的是一个不稳定的排序，并且 不保证每个元素都有均等的概率出现在每个位置。因为 Math.random() 生成的随机数是伪随机的，并且 sort 方法基于该随机数进行比较，无法保证每一对元素之间有平等的交换机会。
+        // 例如：对于两个相邻的元素，Math.random() - 0.5 生成的值有可能是负数、零或正数，这个随机结果会影响它们的顺序，但是这种随机交换的概率并不是均匀的，导致打乱结果不完全公平。
+        // 在实际测试中，使用这种方法可能会导致某些元素比其他元素更容易出现在某些位置上。
+        // 2. sort 的稳定性问题 sort() 的 稳定性 在不同的浏览器和 JavaScript 引擎中可能不同。稳定性指的是如果两个元素的排序是相等的，它们相对的位置应该保持不变。而 Math.random() 产生的排序是无序的，它实际上并不能确保排序的稳定性。
+        // 因此，使用 sort 来排序数组时，可能出现元素顺序无法预测的情况。
+        // 3. 性能问题
+        // 虽然 sort() 看似简单，但它的时间复杂度是 O(n log n)。而 Fisher-Yates 洗牌算法 只需要 O(n) 时间复杂度，就能实现正确的随机打乱。
+        // 由于 sort(() => Math.random() - 0.5) 依赖于排序算法，排序本身会引入不必要的性能开销。如果数组较大，使用 sort 来打乱数组会导致性能低下，尤其是当 n 非常大的时候。
+        // 4. 不能保证“真正的”随机性
+        // Math.random() 本身是一个伪随机数生成器，它的实现可能导致一些偏差，特别是对于大规模的数据集。在一些情况下，基于 Math.random() 的排序可能会在实际应用中偏离预期的随机性分布。
+        // 如何解决这些问题？
+        // 使用 Fisher-Yates 洗牌算法
+        // Fisher-Yates（又称 Knuth 洗牌算法）是 O(n) 时间复杂度的高效算法，能够保证每个元素有 均等的概率 出现在每个位置，而且它的实现简单且均匀分布。
+
+        // let arr = [1, 2, 3, 4, 5]
+        // function shuffle(nums) {
+        //     let len = nums.length
+        //     for (let i = 0; i < len; i++) {
+        //         let j = Math.floor(Math.random() * (i + 1)); // 这里一定要写分号
+        //         [nums[j], nums[i]] = [nums[i], nums[j]]
+        //     }
+        //     return nums
+        // }
+        // console.log(shuffle(arr))
+
+        // Todo: 合并有序俩表
+        
+
+
+
+
+
+
+
 
 
 
