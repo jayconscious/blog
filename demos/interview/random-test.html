@@ -114,6 +114,7 @@
                 // 第一个参数位，两两不相同，即可保证三元组不重复
                 if (i > 0 && nums[i] === nums[i - 1]) { continue }
                 for (let j = i + 1; j < nums.length - 1; j++) {
+                    // 第二个参数位保证两两不相同
                     if (j > i + 1 && nums[j] === nums[j - 1]) { continue }
                     for (let k = j + 1; k < nums.length; k++) {
                         if (nums[k] === nums[k - 1]) { continue }

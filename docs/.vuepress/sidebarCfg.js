@@ -3,7 +3,7 @@ module.exports = {
     react: [{
         title: '源码分析',
         path: '/react/react18/sourcecode/',
-        children: [ 'reactOutline', 'reactRender', ]
+        children: [ 'reactOutline', 'reactRender', 'reactDiff' ]
     },{
         title: '问题解答',
         path: '/react/react18/question/',
