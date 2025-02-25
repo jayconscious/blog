@@ -494,47 +494,223 @@
 
         // Todo: 合并有序俩表
         // 
-        const arr1 = [1, 3, 7]
-        const arr2 = [2, 4, 6]
-        class ListNode {
-            constructor(value, next) {
-                this.value = value
-                this.next = next
-            }
-        }
-        // 将数组转换为链表
-        function arrayToList(arr) {
-            if (!arr.length) {
-                return
-            }
-            let head = new ListNode(arr[0])
-            let current = head
-            for (let i = 1; i < arr.length; i++) {
-                let item = arr[i]
-                current.next = new ListNode(item)
-                // Todo: 把索引往下传递
-                current = current.next
-            }
-            return head
-        }
+        // const arr1 = [1, 3, 7]
+        // const arr2 = [2, 4, 6]
+        // class ListNode {
+        //     constructor(value, next) {
+        //         this.value = value
+        //         this.next = next
+        //     }
+        // }
+        // // 将数组转换为链表
+        // function arrayToList(arr) {
+        //     if (!arr.length) {
+        //         return
+        //     }
+        //     let head = new ListNode(arr[0])
+        //     let current = head
+        //     for (let i = 1; i < arr.length; i++) {
+        //         let item = arr[i]
+        //         current.next = new ListNode(item)
+        //         // Todo: 把索引往下传递
+        //         current = current.next
+        //     }
+        //     return head
+        // }
 
         // console.log(arrayToList(arr))
-        function mergeTwoList(list1, list2) {
-            if (list1 == null) {
-                return list2
-            } else if (list2 == null) {
-                return list1
-            } else if (list1.value < list2.value) {
-                list1.next = mergeTwoList(list1.next, list2)
-                return list1
-            } else {
-                list2.next = mergeTwoList(list1, list2.next)
-                return list2
-            }
-        }
+        // function mergeTwoList(list1, list2) {
+        //     if (list1 == null) {
+        //         return list2
+        //     } else if (list2 == null) {
+        //         return list1
+        //     } else if (list1.value < list2.value) {
+        //         list1.next = mergeTwoList(list1.next, list2)
+        //         return list1
+        //     } else {
+        //         list2.next = mergeTwoList(list1, list2.next)
+        //         return list2
+        //     }
+        // }
 
-        console.log(mergeTwoList(arrayToList(arr1), arrayToList(arr2)))
+        // console.log(mergeTwoList(arrayToList(arr1), arrayToList(arr2)))
+
+
+        // Todo: 请求并发控制
         // 
+        // const request = function (url) {
+        //     return new Promise(function (resolve, reject) {
+        //         setTimeout(() => {
+        //             resolve(url)
+        //         }, 2000 * Math.random());
+        //     })
+        // }
+
+        // class RequestConcurrentControl {
+        //     constructor(nums) {
+        //         this.maxNums = nums
+        //         this.isRunningCount = 0
+        //         this.queue = []
+        //     }
+
+        //     enqueue(url) {
+        //         const that = this
+        //         return new Promise(function (resolve, reject) {
+        //             const task = function () {
+        //                 that.isRunningCount++
+        //                 request(url).then(resolve).catch(reject).finally(() => {
+        //                     that.isRunningCount--
+        //                     that.dequeue()
+        //                 })
+        //             }
+        //             that.queue.push(task)
+        //             that.dequeue()
+        //         })
+        //     }
+
+        //     dequeue() {
+        //         if ((this.isRunningCount < this.maxNums) && this.queue.length) {
+        //             const task = this.queue.shift()
+        //             task()
+        //         }
+        //     }
+        // }
+
+        // // 使用ø
+        // let rcc = new RequestConcurrentControl(3)
+        // const urlList = ['url1', 'url2', 'url3', 'url4', 'url5', 'url6', 'url7', 'url8']
+        // urlList.forEach(url => {
+        //     // 实现效果 
+        //     rcc.enqueue(url).then(url => {
+        //         console.log(url + ' end')
+        //     })
+        // })
+
+
+        // Todo:
+        // 要实现一个最大请求控制的功能，可以通过一个队列来管理请求，并使用计数器来限制同时运行的请求数量。
+        // 以下是实现 add、step 和 remove 等方法的代码示例：
+
+        // class RequestController {
+        //     constructor(maxNums) {
+        //         this.maxConcurrentCount = maxNums
+        //         this.queue = []
+        //         this.runningCount = 0
+        //     }
+
+        //     add(requestFn) {
+        //         return new Promise((resolve, reject) => {
+        //             this.queue.push({ requestFn, resolve, reject })
+        //             this.step()
+        //         })
+        //     }
+
+        //     step() {
+        //         while ((this.runningCount < this.maxConcurrentCount) && this.queue.length) {
+        //             const { requestFn, resolve, reject } = this.queue.shift()
+        //             this.runningCount++
+        //             requestFn().then(resolve).catch(reject).finally(() => {
+        //                 this.runningCount--
+        //                 this.step()
+        //             })
+        //         }
+        //     }
+
+        //     remove(requestFn) {
+        //         const index = this.queue.findIndex(item => item.requestFn == requestFn)
+        //         if (index != -1) {
+        //             this.queue.splice(index, 1)
+        //         }
+        //     }
+        // }
+
+        // // 模拟一个异步请求函数
+        // function mockRequest(id, delay) {
+        //     return new Promise((resolve) => {
+        //         setTimeout(() => {
+        //             console.log(`请求 ${id} 完成`);
+        //             resolve(`请求 ${id} 的结果`);
+        //         }, delay);
+        //     });
+        // }
+
+        // // 创建一个最大并发数为 2 的请求控制器
+        // const controller = new RequestController(2);
+
+        // // 添加请求
+        // controller.add(() => mockRequest(1, 1000)).then((result) => console.log(result));
+        // controller.add(() => mockRequest(2, 2000)).then((result) => console.log(result));
+        // controller.add(() => mockRequest(3, 500)).then((result) => console.log(result));
+        // controller.add(() => mockRequest(4, 1500)).then((result) => console.log(result));
+
+        // 移除一个请求（可选）
+        // const requestFn = () => mockRequest(5, 1000);
+        // controller.add(requestFn).then((result) => console.log(result));
+        // controller.remove(requestFn); // 移除未执行的请求
+
+
+        // Todo: 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+        // 有效字符串需满足：
+        // 左括号必须用相同类型的右括号闭合。
+        // 左括号必须以正确的顺序闭合。
+        // 每个右括号都有一个对应的相同类型的左括号。
+        // 示例 1：输入：s = "()"
+        // 输出：true
+        // 示例 2：
+        // 输入：s = "()[]{}"
+        // 输出：true
+        // 示例 3：
+        // 输入：s = "(]"
+        // 输出：false
+        // 示例 4：
+        // 输入：s = "([])"
+        // 输出：true
+
+        // 解题核心：1.括号是可以罗列的。不然很难知道括号是否成对。
+        //          2. 利用栈的思想来解决。
+        // /**
+        //  * @param {string} s
+        //  * @return {boolean}
+        //  */
+        // var isValid = function (s) {
+        //     let stack = []
+        //     const bracketMap = {
+        //         '(': ')',
+        //         '[': ']',
+        //         '{': '}',
+        //     };
+        //     for (let char of s) {
+        //         // char
+        //         // 判断当前的字符是否与数组最后一个元素成对，不成对则推入，成对，则删除最后一个元素
+        //         if (bracketMap[char]) {
+        //             stack.push(char)
+        //         } else {
+        //             // 右括号
+        //             const top = stack.pop()
+        //             if (bracketMap[top] !== char) {
+        //                 return false
+        //             }
+        //         }
+        //     }
+        //     return stack.length === 0
+        // };
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
