@@ -746,9 +746,37 @@
         // console.log(permute([1, 2, 3]))
 
 
-        // 
+        // Todo: 快速排序
+        // 核心思想：
+        // 基线条件：如果数组长度小于等于 1，直接返回数组，因为已经有序。
+        // 选择基准值：通常选择数组的第一个元素作为基准值（pivot）。
+        // 分区：遍历数组，将比 pivot 小的元素放入 left 数组，比 pivot 大的元素放入 right 数组。
+        // 递归排序：对 left 和 right 数组递归调用 quickSort，然后将结果与 pivot 合并。
+        // 返回结果：使用展开运算符 ... 将排序后的 left、pivot 和 right 合并成一个新数组。
+        
+        // function quickSort(nums) {
+        //     if (nums.length <= 1) {
+        //         return nums
+        //     }
+        //     let leftNums = []
+        //     let rightNums = []
+        //     let baseLine = nums[0]
+        //     for (let i = 1; i < nums.length; i++) {
+        //         if (nums[i] < baseLine) {
+        //             leftNums.push(nums[i])
+        //         } else {
+        //             rightNums.push(nums[i])
+        //         }
+        //     }
+        //     return [...quickSort(leftNums), baseLine, ...quickSort(rightNums)]
+        // }
+
+        // console.log(quickSort([-1, 0, 1, 2, -1, -4]))
+
+        
 
 
+        
 
 
 
