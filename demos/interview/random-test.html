@@ -276,7 +276,49 @@
         //     }
         // }
 
+        // Todo: 寄生虫继承
+        // function Parent(name) {
+        //     this.name = name
+        //     this.say()
+        // }
+        // Parent.prototype.say = function () {
+        //     console.log('My name is ', this.name)
+        // }
+        // Parent.prototype.haha = function () {
+        //     console.log(this.name)
+        // }
+        // function Child(name, age) {
+        //     Parent.call(this, name)
+        //     this.age = age
+        // }
+        // Child.prototype = Object.create(Parent.prototype)
+        // const child1 = new Child('zzy')
+
+        // Todo: 手写 setTimeout 模拟实现 setinterval
+        // 1、 实现思路 setinterval 每隔一定的时间执行一个方法
+        // function mySetinterval(fn, delay = 300) {
+        //     let timer, isClear = false
+        //     function innerInterval() {
+        //         if (isClear) {
+        //             isClear = false
+        //             clearTimeout(timer)
+        //             return
+        //         }
+        //         fn()
+        //         timer = setTimeout(() => {
+        //             innerInterval()
+        //         }, delay);
+        //     }
+        //     timer = setTimeout(() => {
+        //         innerInterval()
+        //     }, delay);
+        //     return () => {
+        //         isClear = true
+        //     }
+        // }
+
         
+
 
 
 
