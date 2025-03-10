@@ -753,7 +753,7 @@
         // 分区：遍历数组，将比 pivot 小的元素放入 left 数组，比 pivot 大的元素放入 right 数组。
         // 递归排序：对 left 和 right 数组递归调用 quickSort，然后将结果与 pivot 合并。
         // 返回结果：使用展开运算符 ... 将排序后的 left、pivot 和 right 合并成一个新数组。
-        
+
         // function quickSort(nums) {
         //     if (nums.length <= 1) {
         //         return nums
@@ -774,13 +774,44 @@
         // console.log(quickSort([-1, 0, 1, 2, -1, -4]))
 
 
-        // Todo: 
-        // 
+        // Todo: 最长公共前缀
+        // 编写一个函数来查找字符串数组中的最长公共前缀。
+        // 如果不存在公共前缀，返回空字符串 ""。
+        // 示例 1：
+        // 输入：strs = ["flower","flow","flight"]
+        // 输出："fl"
+
+        // 示例 2：
+        // 输入：strs = ["dog","racecar","car"]
+        // 输出：""
+        // 解释：输入不存在公共前缀。
+        function solution(strs) {
+            if (strs.length == 0)
+                return "";
+            let ans = strs[0];
+
+            for (let i = 1; i < strs.length; i++) {
+                let j = 0;
+                for (; j < ans.length && j < strs[i].length; j++) {
+                    if (ans[j] != strs[i][j])
+                        break;
+                }
+                ans = ans.substr(0, j);
+                // 没有前缀
+                if (ans === "") {
+                    return ans;
+                }
+            }
+            return ans;
+        }
+
+        console.log(solution(["flower", "flow", "flight"]))
+        console.log(solution(["dog", "racecar", "car"]))
 
 
 
 
-        
+
 
 
 
