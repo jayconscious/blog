@@ -317,7 +317,77 @@
         //     }
         // }
 
-        
+
+        // Todo: 请求并发控制
+        // class RequestController {
+        //     constructor(limitNums) {
+        //         this.limitNums = limitNums
+        //         this.count = 0
+        //         this.taskQueue = []
+        //     }
+        //     enqueue(requestFn) {
+        //         return new Promise((resolve, reject) => {
+        //             const task = function () {
+        //                 this.count++
+        //                 requestFn.then(resolve).catch(reject).finally(() => {
+        //                     this.count--
+        //                     this.dequeue()
+        //                 })
+        //             }
+        //             this.taskQueue.push(task)
+        //             this.dequeue()
+        //         })
+        //     }
+
+        //     dequeue() {
+        //         if (this.count < this.limitNums && this.taskQueue.length) {
+        //             const task = this.taskQueue.shift()
+        //             task()
+        //         }
+        //     }
+        // }
+
+
+        class RequestController {
+            constructor(limitNums) {
+                this.limitNums = limitNums
+                this.count = 0
+                this.taskQueue = []
+            }
+
+            add(requestFn) {
+                return new Promise((resolve, reject) => {
+                    this.taskQueue.push({
+                        requestFn,
+                        resolve,
+                        reject
+                    })
+                    this.step()
+                })
+            }
+
+            step() {
+                while (this.count < this.limitNums && this.taskQueue.length) {
+                    const { requestFn,
+                        resolve,
+                        reject } = this.taskQueue.shift();
+                    this.count++
+                    requestFn.then(resolve).catch(reject).finally(() => {
+                        this.count--
+                        this.step()
+                    })
+                }
+            }
+
+            remove(requestFn) {
+                const index = this.queue.findIndex(item => item.requestFn == requestFn)
+                if (index != -1) {
+                    this.queue.splice(index, 1)
+                }
+            }
+        }
+
+
 
 
 

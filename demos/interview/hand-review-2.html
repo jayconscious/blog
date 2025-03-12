@@ -785,28 +785,31 @@
         // 输入：strs = ["dog","racecar","car"]
         // 输出：""
         // 解释：输入不存在公共前缀。
-        function solution(strs) {
-            if (strs.length == 0)
-                return "";
-            let ans = strs[0];
+        // function solution(strs) {
+        //     if (strs.length <= 1) {
+        //         return ''
+        //     }
+        //     let tempCommonPrefix = strs[0]
+        //     for (let i = 1; i < strs.length; i++) {
+        //         let j = 0
+        //         for (; j < strs[i].length && j < tempCommonPrefix.length; j++) {
+        //             if (tempCommonPrefix[j] != strs[i][j]) {
+        //                 break;
+        //             }
+        //         }
+        //         tempCommonPrefix = tempCommonPrefix.substr(0, j)
+        //     }
+        //     return tempCommonPrefix
+        // }
+        // console.log(solution(["flower", "flow", "flight"]))
+        // console.log(solution(["dog", "racecar", "car"]))
 
-            for (let i = 1; i < strs.length; i++) {
-                let j = 0;
-                for (; j < ans.length && j < strs[i].length; j++) {
-                    if (ans[j] != strs[i][j])
-                        break;
-                }
-                ans = ans.substr(0, j);
-                // 没有前缀
-                if (ans === "") {
-                    return ans;
-                }
-            }
-            return ans;
-        }
 
-        console.log(solution(["flower", "flow", "flight"]))
-        console.log(solution(["dog", "racecar", "car"]))
+        
+
+
+
+
 
 
 
