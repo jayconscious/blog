@@ -805,7 +805,55 @@
         // console.log(solution(["dog", "racecar", "car"]))
 
 
-        
+        // Todo:  https://leetcode.cn/problems/subarray-sum-equals-k/description/?envType=study-plan-v2&envId=top-100-liked
+        // 和为k的子数组
+        // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+        // 子数组是数组中元素的连续非空序列。
+        // 示例 1：
+        // 输入：nums = [1, 1, 1], k = 2
+        // 输出：2
+
+        // 示例 2：
+        // 输入：nums = [1, 2, 3], k = 3
+        // 输出：2
+
+        // var subarraySum = function (nums, k) {
+        //     let res = [], startIndex = 0
+        //     for (let i = 1; i < nums.length; i++) {
+        //         let currNums = nums.slice(startIndex, i)
+        //         let currSum = sum(currNums)
+        //         if (currSum == k) {
+        //             startIndex = 0
+        //             res.push(currNums)
+        //         }
+        //     }
+        //     return res.length
+        // };
+
+        // const sum = function (arr) {
+        //     return arr.reduce(function (acc, item) {
+        //         return acc + item;
+        //     })
+        // }
+
+        var subarraySum = function (nums, k) {
+            let count = 0;
+            for (let start = 0; start < nums.length; ++start) {
+                let sum = 0;
+                for (let end = start; end >= 0; end--) {
+                    sum += nums[end];
+                    if (sum == k) {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        };
+
+        // console.log(subarraySum([1, 1, 1], 2))
+        console.log(subarraySum([1, 2, 3], 3))
+
+
 
 
 

@@ -433,11 +433,37 @@
         // 示例 1：
         // 输入：strs = ["flower","flow","flight"]
         // 输出："fl"
-
         // 示例 2：
-        // 输入：strs = ["dog","racecar","car"]
+        // 输入： strs = ["dog","racecar","car"]
         // 输出：""
         // 解释：输入不存在公共前缀。
+        // function solution(strs) {
+        //     if (strs.length <= 1) {
+        //         return ''
+        //     }
+        //     let commonPrefix = strs[0]
+        //     for (let i = 1; i < strs.length; i++) {
+        //         let j = 0
+        //         for (; j < strs[i].length && j < commonPrefix.length; j++) {
+        //             if (commonPrefix[j] != strs[i][j]) {
+        //                 break;
+        //             }
+        //         }
+        //         commonPrefix = commonPrefix.substr(0, j)
+        //     }
+        //     return commonPrefix;
+        // }
+
+        // console.log(solution(["flower", "flow", "flight"]))
+        // console.log(solution(["dog", "racecar", "car"]))
+
+        
+
+
+
+
+
+
 
 
 
