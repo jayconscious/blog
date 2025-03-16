@@ -893,7 +893,74 @@
         //     return nums1.sort((a, b) => a - b)
         // }
 
-        
+        // Todo: 49. 字母异位词分组
+        // 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+        // 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。
+        // 示例 1:
+        // 输入: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+        // 输出: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+        // 示例 2:
+        // 输入: strs = [""]
+        // 输出: [[""]]
+        // 示例 3:
+
+        // 输入: strs = ["a"]
+        // 输出: [["a"]]
+
+        // function solution(strs) {
+        //     if (!strs.length) {
+        //         return false
+        //     }
+        //     let res = [], charList = [], sameList = [];
+        //     charList = strs[0].split('')
+        //     for (let i = 1; i < strs.length; i++) {
+        //         let indexList = []
+        //         strs[i].split('').forEach(str => {
+        //             let strIndex = charList.indexOf(str)
+        //             if (strIndex > -1) {
+        //                 indexList.push(strIndex)
+        //             }
+        //         });
+        //         if (indexList.length == charList.length) {
+        //             sameList.push(strs[i])
+        //         } else {
+        //             if (!sameList.length) {
+        //                 res.push(charList.slice())
+        //             } else {
+        //                 res.push(sameList.slice())
+        //                 sameList = []
+        //             }
+        //             charList = strs[i].split('')
+        //         }
+        //         // if (i === strs.length - 1) {
+        //         // }
+        //     }
+        //     return res
+        // }
+
+        var groupAnagrams = function (strs) {
+            const map = new Map();
+            for (let str of strs) {
+                let array = Array.from(str);
+                array.sort();
+                let key = array.toString();
+                let list = map.get(key) ? map.get(key) : new Array();
+                list.push(str);
+                map.set(key, list);
+            }
+            return Array.from(map.values());
+        };
+
+        console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+
+
+
+
+
+
+
+
 
 
 

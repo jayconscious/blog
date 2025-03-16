@@ -468,17 +468,20 @@
         // 输入：nums = [1, 2, 3], k = 3
         // 输出：2
         function solution(nums, k) {
-            let count = 0;
+            let count = 0, res = []
             for (let i = 0; i < nums.length; i++) {
                 let sum = 0
                 for (let j = i; j >= 0; j--) {
                     sum += nums[j]
                     if (sum == k) {
                         count += 1
+                        let anwser = Array.from(nums).slice(j, i + 1)
+                        console.log(anwser)
+                        res.push(anwser)
                     }
                 }
             }
-            return count
+            return res
         }
         // console.log(solution([1, 1, 1], 2))
         console.log(solution([1, 2, 3], 3))
@@ -494,7 +497,32 @@
         // 示例 3：
         // 输入：nums = [1]
         // 输出：[[1]]
-        
+        function solution(nums) {
+            let res = [], path = [];
+            function backtracking(list, len, used) {
+                if (path.length === len) {
+                    res.push(path.slice())
+                    return
+                }
+                for (let i = 0; i < list.length; i++) {
+                    if (used[i]) {
+                        continue
+                    }
+                    used[i] = true
+                    path.push(list[i])
+                    backtracking(nums, nums.length, used)
+                    path.pop()
+                    used[i] = false
+                }
+            }
+
+            backtracking(nums, nums.length, [])
+            return res
+        }
+
+        console.log(solution([1, 2, 3]))
+
+
 
 
 
