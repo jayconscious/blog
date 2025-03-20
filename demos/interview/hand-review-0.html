@@ -623,29 +623,29 @@
     // 输出：""
     // 解释：输入不存在公共前缀。
     // Tip: 递归函数 实参和形参索引的问题，传递的是变量值而不是变量
-    function getMaxPrefix (strs) {
-      let maxPrefix = '', endIndex = 0, flag = true
-      function next (prefix) {
-        for (let i = 0; i < strs.length; i++) {
-          const element = strs[i];
-          if (element.indexOf(prefix) == -1) {
-            flag = false
-            break;
-          }
-        }
-        if (flag) {
-          endIndex++
-          maxPrefix = strs[0].slice(0, endIndex)
-          next(maxPrefix.toString())
-        } else {
-          maxPrefix = strs[0].slice(0, endIndex - 1)
-          return
-        }
-      }
-      next(maxPrefix.toString())
-      return maxPrefix
-    }
-    console.log(getMaxPrefix([""]))
+    // function getMaxPrefix (strs) {
+    //   let maxPrefix = '', endIndex = 0, flag = true
+    //   function next (prefix) {
+    //     for (let i = 0; i < strs.length; i++) {
+    //       const element = strs[i];
+    //       if (element.indexOf(prefix) == -1) {
+    //         flag = false
+    //         break;
+    //       }
+    //     }
+    //     if (flag) {
+    //       endIndex++
+    //       maxPrefix = strs[0].slice(0, endIndex)
+    //       next(maxPrefix.toString())
+    //     } else {
+    //       maxPrefix = strs[0].slice(0, endIndex - 1)
+    //       return
+    //     }
+    //   }
+    //   next(maxPrefix.toString())
+    //   return maxPrefix
+    // }
+    // console.log(getMaxPrefix([""]))
     // console.log(getMaxPrefix(strList))
     // startsWith
 
@@ -803,7 +803,34 @@
     // }
     // console.log(deepClone(b))
 
-    // 
+    function isObject(ele) {
+      return Object.prototype.toString.call(ele).slice(8, -1) == 'Object'
+    }
+
+    function deepClone(object) {
+      let res = {}
+      for (const key in object) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
+          if (isObject(object[key])) {
+            res[key] = deepClone(object[key])
+          } else {
+            res[key] = object[key]
+          }
+        }
+      }
+      return res
+    }
+
+    const b = {
+      a: 1, 
+      c: {
+        e: 2,
+        f: {
+          g: 4
+        }
+      }
+    }
+    console.log(deepClone(b))
 
 
 
