@@ -1,6 +1,6 @@
 ---
 title: React源码解析(四)：事件合成
-date: 2025-02-24
+date: 2025-03-19
 sidebar: auto
 tags: 
  - react18
