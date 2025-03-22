@@ -555,8 +555,61 @@
         // console.log(solution(["eat", "tea", "tan", "ate", "nat", "bat"]))
 
 
+        // Todo: LRUCache
+        // 什么是LRU，最近最少使用算法，来维护一个队列
+        // 提供 put 方法 和 get 方法
+        // put 方法：如果超过 capatiy，则 push 不进去
+        // get 方法：获取到了，往前排；没有则返回 -1 
 
-        // Todo: LRU
+        // LRU（Least Recently Used，最近最少使用）算法是一种常用的缓存淘汰策略，广泛应用于操作系统、数据库、缓存系统（如Redis、Memcached）以及前端开发中。其核心思想是：当缓存空间不足时，优先淘汰最久未被使用的数据。
+        // LRU算法的核心思想
+        // 最近使用原则：
+        // 如果一个数据最近被访问过，那么它在未来被访问的概率也较高。
+        // 如果一个数据很久没有被访问，那么它在未来被访问的概率较低，可以优先淘汰。
+        // 淘汰策略：
+        // 当缓存空间不足时，淘汰最久未被访问的数据。
+
+        class LRUCache {
+            constructor(capacity) {
+                this.capacity = capacity
+                this.map = new Map()
+            }
+            get(key) {
+                if (this.map.has(key)) {
+                    const item = this.map.get(key)
+                    this.map.delete(key)
+                    this.map.set(key, item)
+                    return item
+                } else {
+                    return -1
+                }
+            }
+
+            put(key, item) {
+                // 判断 key 是否存在
+                if (this.map.has(key)) {
+                    this.map.delete(key)
+                }
+                this.map.set(key, item)
+                if (this.map.size > this.capacity) {
+                    // 拿到刚刚插入的key，之后删除最先 this.map 最前面的 key
+                    const firstKey = this.map.keys().next().value
+                    this.map.delete(firstKey)
+                }
+            }
+        }
+
+        let lRUCache = new LRUCache(2);
+        lRUCache.put(1, 1);  // 缓存是 {1=1}
+        lRUCache.put(2, 2);  // 缓存是 {1=1, 2=2}
+        console.log('lRUCache', lRUCache)
+
+        console.log(lRUCache.get(1));     // 返回 1
+        lRUCache.put(3, 3);  // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+        console.log(lRUCache.get(2));     // 返回 -1
+
+
+
 
 
 
