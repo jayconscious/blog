@@ -916,36 +916,7 @@
         // 输入: strs = ["a"]
         // 输出: [["a"]]
 
-        // function solution(strs) {
-        //     if (!strs.length) {
-        //         return false
-        //     }
-        //     let res = [], charList = [], sameList = [];
-        //     charList = strs[0].split('')
-        //     for (let i = 1; i < strs.length; i++) {
-        //         let indexList = []
-        //         strs[i].split('').forEach(str => {
-        //             let strIndex = charList.indexOf(str)
-        //             if (strIndex > -1) {
-        //                 indexList.push(strIndex)
-        //             }
-        //         });
-        //         if (indexList.length == charList.length) {
-        //             sameList.push(strs[i])
-        //         } else {
-        //             if (!sameList.length) {
-        //                 res.push(charList.slice())
-        //             } else {
-        //                 res.push(sameList.slice())
-        //                 sameList = []
-        //             }
-        //             charList = strs[i].split('')
-        //         }
-        //         // if (i === strs.length - 1) {
-        //         // }
-        //     }
-        //     return res
-        // }
+        
 
         // var groupAnagrams = function (strs) {
         //     const map = new Map();

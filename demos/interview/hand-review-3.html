@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // Todo: 最长回文串
+        // 方法三：中心扩展法（最优解）
+        // 思路：以每个字符或每两个字符为中心，向两侧扩展寻找最长回文。
+        // 时间复杂度：O(n²)。
+        // 空间复杂度：O(1)。
+        function longestPalindrome(s) {
+            let max = '';
+            for (let i = 0; i < s.length; i++) {
+                // 奇数长度回文（以s[i]为中心）
+                const odd = expandAroundCenter(s, i, i);
+                // 偶数长度回文（以s[i]和s[i+1]为中心）
+                const even = expandAroundCenter(s, i, i + 1);
+                // 更新最大值
+                if (odd.length > max.length) max = odd;
+                if (even.length > max.length) max = even;
+            }
+            return max;
+        }
+        function expandAroundCenter(s, left, right) {
+            while (left >= 0 && right < s.length && s[left] === s[right]) {
+                left--;
+                right++;
+            }
+            return s.slice(left + 1, right); // 注意边界
+        }
+        console.log(longestPalindrome("babad")); // 输出 "bab" 或 "aba"
+
+    </script>
+
+</body>
+
+</html>
