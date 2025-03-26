@@ -94,6 +94,104 @@
 
 
 
+    <!-- 4. 清除浮动示例 -->
+    <style>
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+            visibility: hidden;
+            height: 0;
+        }
+
+        .container {
+            border: 2px solid #333;
+            margin: 20px 0;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            float: left;
+            margin: 10px;
+            background: #f0ad4e;
+        }
+    </style>
+
+    <div class="container clearfix">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+
+    <!-- 5. 1px border solutions -->
+    <style>
+        /* Method 1: Transform scale */
+        .border-1px {
+            position: relative;
+            border: none;
+        }
+
+        .border-1px::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200%;
+            height: 200%;
+            border: 1px solid #000;
+            transform: scale(0.5);
+            transform-origin: left top;
+        }
+
+        /* Method 2: Box-shadow */
+        .border-shadow {
+            box-shadow: 0 0 0 0.5px #000;
+        }
+
+        /* Method 3: Linear gradient */
+        .border-gradient {
+            background: linear-gradient(0deg, #000, #000) left top,
+                linear-gradient(90deg, #000, #000) left top,
+                linear-gradient(180deg, #000, #000) right top,
+                linear-gradient(270deg, #000, #000) left bottom;
+            background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%;
+            background-repeat: no-repeat;
+        }
+
+        .border {
+            border-bottom: 1px solid #000;
+        }
+
+        .border::after {
+            content: '';
+            pointer-events: none;
+            /* 元素永远不会成为鼠标事件的target。 */
+            position: absolute;
+            top: -50%;
+            bottom: -50%;
+            left: -50%;
+            right: -50%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+        }
+
+        .box-shadow-1px {
+            width: 100%;
+            /* height: 10px; */
+            box-shadow: inset 0px -1px 1px -1px #000;
+        }
+    </style>
+
+    <div style="padding: 20px;">
+        <div class="border">sdasdada</div>
+        <div class="box-shadow-1px">sdasdada</div>
+        <div class="border-1px" style="width: 100px; height: 100px; margin: 20px;">Scale method</div>
+        <div class="border-shadow" style="width: 100px; height: 100px; margin: 20px;">Shadow method</div>
+        <div class="border-gradient" style="width: 100px; height: 100px; margin: 20px;">Gradient method</div>
+    </div>
+
+
 
 
 
