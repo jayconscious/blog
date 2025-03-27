@@ -760,27 +760,28 @@
         function getTepy(ele) {
             return Object.prototype.toString.call(ele).slice(8, -1)
         }
-        // function flatten(sourceObj) {
-        //     const targetObj = {}, currentKeyPath = ''
+        function flatten(sourceObj) {
+            const targetObj = {}, currentKeyPath = ''
 
-        //     function inner(currentVal, currentKeyPath) {
-        //         if (getTepy(currentVal) == 'Array') {
-        //             currentVal.forEach((arrEle, index) => {
-        //                 inner(arrEle, `${currentKeyPath}[${index}]`)
-        //             })
-        //         } else if (getTepy(currentVal) == 'Object') {
-        //             Object.keys(currentVal).forEach(key => {
-        //                 const keyPath = currentKeyPath ? `${currentKeyPath}.${key}` : `${key}`
-        //                 inner(currentVal[key], `${keyPath}`)
-        //             })
-        //         } else {
-        //             targetObj[currentKeyPath] = currentVal
-        //         }
-        //     }
-        //     inner(sourceObj, currentKeyPath)
-        //     return targetObj
-        // }
-        // console.log(flatten(obj))
+            function inner(currentVal, currentKeyPath) {
+                if (getTepy(currentVal) == 'Array') {
+                    currentVal.forEach((arrEle, index) => {
+                        inner(arrEle, `${currentKeyPath}[${index}]`)
+                    })
+                } else if (getTepy(currentVal) == 'Object') {
+                    Object.keys(currentVal).forEach(key => {
+                        const keyPath = currentKeyPath ? `${currentKeyPath}.${key}` : `${key}`
+                        inner(currentVal[key], `${keyPath}`)
+                    })
+                } else {
+                    targetObj[currentKeyPath] = currentVal
+                }
+            }
+            
+            inner(sourceObj, currentKeyPath)
+            return targetObj
+        }
+        console.log(flatten(obj))
 
 
         // // Todo: 问题将 flatten 的对象还原
