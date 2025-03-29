@@ -124,36 +124,72 @@
         // 输出：[[1]]
         // 广度优先遍历
 
-        let root = arrayToTree([3, 9, 20, null, null, 15, 7])
+        // let root = arrayToTree([3, 9, 20, null, null, 15, 7])
 
-        // console.log('root', root)
+        // // console.log('root', root)
 
-        var levelOrder = function (root) {
-            //二叉树的层序遍历
-            let res = [], queue = [];
-            queue.push(root);
-            if (root === null) {
-                return res;
-            }
-            while (queue.length !== 0) {
-                // 记录当前层级节点数
-                let length = queue.length;
-                //存放每一层的节点 
-                let curLevel = [];
-                for (let i = 0; i < length; i++) {
-                    let node = queue.shift(); // 取节点，存值，
-                    curLevel.push(node.val);
-                    // 存放当前层下一层的节点
-                    node.left && queue.push(node.left);
-                    node.right && queue.push(node.right);
-                }
-                //把每一层的结果放到结果数组
-                res.push(curLevel);
-            }
-            return res;
-        };
+        // var levelOrder = function (root) {
+        //     //二叉树的层序遍历
+        //     let res = [], queue = [];
+        //     queue.push(root);
+        //     if (root === null) {
+        //         return res;
+        //     }
+        //     while (queue.length !== 0) {
+        //         // 记录当前层级节点数
+        //         let length = queue.length;
+        //         //存放每一层的节点 
+        //         let curLevel = [];
+        //         for (let i = 0; i < length; i++) {
+        //             let node = queue.shift(); // 取节点，存值，
+        //             curLevel.push(node.val);
+        //             // 存放当前层下一层的节点
+        //             node.left && queue.push(node.left);
+        //             node.right && queue.push(node.right);
+        //         }
+        //         //把每一层的结果放到结果数组
+        //         res.push(curLevel);
+        //     }
+        //     return res;
+        // };
 
-        console.log(levelOrder(root))
+        // console.log(levelOrder(root))
+
+        // // Todo: 输出二叉树的非子叶节点
+        // // 深度优先搜索（DFS）递归
+        // function getNonLeafNodesDFS(root) {
+        //     let nonLeafNodes = []
+        //     function dfs(rootNode) {
+        //         if (rootNode == null) return
+        //         if (rootNode.left || rootNode.right) {
+        //             res.push(rootNode.val)
+        //         }
+        //         dfs(rootNode.left)
+        //         dfs(rootNode.right)
+        //     }
+        //     dfs(root)
+        //     return nonLeafNodes
+        // }
+
+        // function getNonLeafNodesBFS(root) {
+        //     if (!root) return [];
+        //     const nonLeafNodes = [];
+        //     const queue = [root];
+        //     while (queue.length) {
+        //         const node = queue.shift();
+        //         if (node.left || node.right) {
+        //             nonLeafNodes.push(node.val);
+        //         }
+        //         if (node.left) queue.push(node.left);
+        //         if (node.right) queue.push(node.right);
+        //     }
+        //     return nonLeafNodes;
+        // }
+
+
+        // Todo: 接雨水问题
+        // https://leetcode.cn/problems/trapping-rain-water/description/?envType=study-plan-v2&envId=top-100-liked
+        // 
 
 
 
