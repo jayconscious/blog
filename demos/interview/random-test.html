@@ -744,7 +744,6 @@
         // }
         // console.log(solutionLeafBFS(arrayToTree(arr))) 
         // [1, 2, 3, 4]
-
         function solutionLeafDFS(root) {
             let res = []
 
@@ -758,15 +757,34 @@
                 dfs(node.left)
                 dfs(node.right)
             }
-
             dfs(root)
             return res
         }
 
         console.log(solutionLeafDFS(arrayToTree(arr)))
-        //  [1, 2, 4, 3]
+        //  [1, 2, 4, 3] //  根 -> 左 -> 右
 
         // Todo: 如何保证输出的顺序，左 -> 右 -> 根 
+        // 这个输出的方式，只能使用后续遍历，因为bfs 一定是从死一个节点输出的
+        // 调整位置
+        function solutionLeafDFS(root) {
+            let res = []
+            function dfs(node) {
+                if (node === null) {
+                    return
+                }
+                dfs(node.left)
+                dfs(node.right)
+                if (node.left || node.right) {
+                    res.push(node.val)
+                }
+            }
+            dfs(root)
+            return res
+        }
+        //  [4, 2, 3, 1] 左 -> 右 -> 根 
+        // console.log([4, 2, 3, 1].join('\r\n'))
+
         
 
 
