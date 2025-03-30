@@ -678,47 +678,47 @@
         // Todo: 二叉树相关
         // 将数组转为二叉树
 
-        class TreeNode {
-            constructor(val, left, right) {
-                this.val = val === undefined ? 0 : val
-                this.left = left === undefined ? null : left
-                this.right = right === undefined ? null : right
-            }
-        }
+        // class TreeNode {
+        //     constructor(val, left, right) {
+        //         this.val = val === undefined ? 0 : val
+        //         this.left = left === undefined ? null : left
+        //         this.right = right === undefined ? null : right
+        //     }
+        // }
 
-        function arrayToTree(arr, index = 0) {
-            if (index >= arr.length || arr[index] === null) {
-                return null
-            }
-            let node = new TreeNode(arr[index])
-            node.left = arrayToTree(arr, 2 * index + 1)
-            node.right = arrayToTree(arr, 2 * index + 2)
-            return node
-        }
-        let arr = [1, 2, 3, 4, 5, 6, 7, 8]
+        // function arrayToTree(arr, index = 0) {
+        //     if (index >= arr.length || arr[index] === null) {
+        //         return null
+        //     }
+        //     let node = new TreeNode(arr[index])
+        //     node.left = arrayToTree(arr, 2 * index + 1)
+        //     node.right = arrayToTree(arr, 2 * index + 2)
+        //     return node
+        // }
+        // let arr = [1, 2, 3, 4, 5, 6, 7, 8]
 
         // console.log(arrayToTree(arr))
         // Todo: 二叉树 层序遍历 BFS，
         // 输出每一层的节点
-        function solutionBFS(root) {
-            let res = [], queue = []
-            if (root === null) {
-                return res
-            }
-            queue.push(root)
-            while (queue.length) {
-                let length = queue.length // 记录当前层的 length
-                let currentLevel = []
-                for (let i = 0; i < length; i++) {
-                    let node = queue.shift()
-                    node.val && currentLevel.push(node.val)
-                    node.left && queue.push(node.left)
-                    node.right && queue.push(node.right)
-                }
-                res.push(currentLevel)
-            }
-            return res
-        }
+        // function solutionBFS(root) {
+        //     let res = [], queue = []
+        //     if (root === null) {
+        //         return res
+        //     }
+        //     queue.push(root)
+        //     while (queue.length) {
+        //         let length = queue.length // 记录当前层的 length
+        //         let currentLevel = []
+        //         for (let i = 0; i < length; i++) {
+        //             let node = queue.shift()
+        //             node.val && currentLevel.push(node.val)
+        //             node.left && queue.push(node.left)
+        //             node.right && queue.push(node.right)
+        //         }
+        //         res.push(currentLevel)
+        //     }
+        //     return res
+        // }
         // console.log(solutionBFS(arrayToTree(arr)))
         // Todo: 二叉树 层序遍历 BFS，输出非叶子结点
         // 
@@ -744,48 +744,133 @@
         // }
         // console.log(solutionLeafBFS(arrayToTree(arr))) 
         // [1, 2, 3, 4]
-        function solutionLeafDFS(root) {
-            let res = []
+        // function solutionLeafDFS(root) {
+        //     let res = []
 
-            function dfs(node) {
-                if (node === null) {
-                    return
-                }
-                if (node.left || node.right) {
-                    res.push(node.val)
-                }
-                dfs(node.left)
-                dfs(node.right)
-            }
-            dfs(root)
-            return res
-        }
+        //     function dfs(node) {
+        //         if (node === null) {
+        //             return
+        //         }
+        //         if (node.left || node.right) {
+        //             res.push(node.val)
+        //         }
+        //         dfs(node.left)
+        //         dfs(node.right)
+        //     }
+        //     dfs(root)
+        //     return res
+        // }
 
-        console.log(solutionLeafDFS(arrayToTree(arr)))
+        // console.log(solutionLeafDFS(arrayToTree(arr)))
         //  [1, 2, 4, 3] //  根 -> 左 -> 右
 
         // Todo: 如何保证输出的顺序，左 -> 右 -> 根 
         // 这个输出的方式，只能使用后续遍历，因为bfs 一定是从死一个节点输出的
         // 调整位置
-        function solutionLeafDFS(root) {
-            let res = []
-            function dfs(node) {
-                if (node === null) {
-                    return
-                }
-                dfs(node.left)
-                dfs(node.right)
-                if (node.left || node.right) {
-                    res.push(node.val)
-                }
-            }
-            dfs(root)
-            return res
-        }
+        // function solutionLeafDFS(root) {
+        //     let res = []
+        //     function dfs(node) {
+        //         if (node === null) {
+        //             return
+        //         }
+        //         dfs(node.left)
+        //         dfs(node.right)
+        //         if (node.left || node.right) {
+        //             res.push(node.val)
+        //         }
+        //     }
+        //     dfs(root)
+        //     return res
+        // }
         //  [4, 2, 3, 1] 左 -> 右 -> 根 
+        // 后续遍历
         // console.log([4, 2, 3, 1].join('\r\n'))
 
-        
+
+        // Todo: 最长公共前缀
+        // 编写一个函数来查找字符串数组中的最长公共前缀。
+        // 如果不存在公共前缀，返回空字符串 ""。
+        // 示例 1：
+        // 输入：strs = ["flower","flow","flight"]
+        // 输出："fl"
+
+        // function solution(strs) {
+        //     let prefix = strs[0]
+        //     for (let i = 1; i < strs.length; i++) {
+        //         let j = 0
+        //         for (; j < strs[i].length && j < prefix.length; j++) {
+        //             if (strs[i][j] != prefix[j]) {
+        //                 console.log('j', j)
+        //                 break;
+        //             }
+        //         }
+        //         prefix = prefix.substring(0, j)
+        //     }
+        //     return prefix
+        // }
+        // console.log(solution(["flower","flow","flight"]))
+
+        // Todo: 最大子数组和
+        // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），
+        // 返回其最大和。子数组是数组中的一个连续部分。
+        // 输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
+        // 输出：6
+        // 解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
+
+        // function solution(nums) {
+        //     let maxSum = nums[0]
+        //     for (let i = 0; i < nums.length; i++) {
+        //         let sum = 0
+        //         for (let end = i; end >= 0; end--) {
+        //             sum += nums[end];
+        //             maxSum = Math.max(maxSum, sum)
+        //         }
+        //     }
+        //     return maxSum
+        // }
+        // console.log(solution([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+        // function maxSubArray(nums) {
+        //     // 假定第一最大
+        //     let preSum = 0, maxSum = nums[0]
+        //     nums.forEach(num => {
+        //         preSum = Math.max(preSum + num, num)
+        //         maxSum = Math.max(maxSum, preSum)
+        //     });
+        //     return maxSum
+        // }
+
+        // console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+
+        // Todo: 和为 K 的子数组
+        // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+        // https://leetcode.cn/problems/subarray-sum-equals-k/description/?envType=study-plan-v2&envId=top-100-liked
+
+        // 子数组是数组中元素的连续非空序列。
+        // 示例 1：
+        // 输入：nums = [1,1,1], k = 2
+        // 输出：2
+        // 示例 2：
+        // 输入：nums = [1,2,3], k = 3
+        // 输出：2
+
+        // var subarraySum = function (nums, k) {
+        //     let count = 0;
+        //     for (let start = 0; start < nums.length; ++start) {
+        //         let sum = 0;
+        //         for (let end = start; end >= 0; --end) {
+        //             sum += nums[end];
+        //             if (sum == k) {
+        //                 count++;
+        //             }
+        //         }
+        //     }
+        //     return count;
+        // };
+
+
+
 
 
 

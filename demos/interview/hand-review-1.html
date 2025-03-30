@@ -757,31 +757,31 @@
         //   c: 3
         // }
 
-        function getTepy(ele) {
-            return Object.prototype.toString.call(ele).slice(8, -1)
-        }
-        function flatten(sourceObj) {
-            const targetObj = {}, currentKeyPath = ''
+        // function getTepy(ele) {
+        //     return Object.prototype.toString.call(ele).slice(8, -1)
+        // }
+        // function flatten(sourceObj) {
+        //     const targetObj = {}, currentKeyPath = ''
 
-            function inner(currentVal, currentKeyPath) {
-                if (getTepy(currentVal) == 'Array') {
-                    currentVal.forEach((arrEle, index) => {
-                        inner(arrEle, `${currentKeyPath}[${index}]`)
-                    })
-                } else if (getTepy(currentVal) == 'Object') {
-                    Object.keys(currentVal).forEach(key => {
-                        const keyPath = currentKeyPath ? `${currentKeyPath}.${key}` : `${key}`
-                        inner(currentVal[key], `${keyPath}`)
-                    })
-                } else {
-                    targetObj[currentKeyPath] = currentVal
-                }
-            }
+        //     function inner(currentVal, currentKeyPath) {
+        //         if (getTepy(currentVal) == 'Array') {
+        //             currentVal.forEach((arrEle, index) => {
+        //                 inner(arrEle, `${currentKeyPath}[${index}]`)
+        //             })
+        //         } else if (getTepy(currentVal) == 'Object') {
+        //             Object.keys(currentVal).forEach(key => {
+        //                 const keyPath = currentKeyPath ? `${currentKeyPath}.${key}` : `${key}`
+        //                 inner(currentVal[key], `${keyPath}`)
+        //             })
+        //         } else {
+        //             targetObj[currentKeyPath] = currentVal
+        //         }
+        //     }
             
-            inner(sourceObj, currentKeyPath)
-            return targetObj
-        }
-        console.log(flatten(obj))
+        //     inner(sourceObj, currentKeyPath)
+        //     return targetObj
+        // }
+        // console.log(flatten(obj))
 
 
         // // Todo: 问题将 flatten 的对象还原
@@ -1108,23 +1108,23 @@
 
 
         // Todo: 两数之和
-        // function sumOfDigits(num) {
-        //     // 计算数字的各位数字之和
-        //     return num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-        // }
+        function sumOfDigits(num) {
+            // 计算数字的各位数字之和
+            return num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        }
 
-        // function solution(N) {
-        //     const targetSum = sumOfDigits(N) * 2;  // 目标数字之和是 N 数字之和的两倍
-        //     let candidate = N + 1;  // 从 N+1 开始查找
-        //     // 不断递增查找，直到找到满足条件的数字
-        //     while (sumOfDigits(candidate) !== targetSum) {
-        //         candidate++;
-        //     }
-        //     return candidate;  // 返回找到的数字
-        // }
+        function solution(N) {
+            let targetSum = sumOfDigits(N) * 2;  // 目标数字之和是 N 数字之和的两倍
+            let candidate = N + 1;  // 从 N+1 开始查找
+            // 不断递增查找，直到找到满足条件的数字
+            while (sumOfDigits(candidate) !== targetSum) {
+                candidate++;
+            }
+            return candidate;  // 返回找到的数字
+        }
 
-        // // 示例测试
-        // console.log(solution(14));  // 输出: 19
+        // 示例测试
+        console.log(solution(14));  // 输出: 19
         // console.log(solution(10));  // 输出: 11
         // console.log(solution(99));  // 输出: 9999
 
