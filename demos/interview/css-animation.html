@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animation Examples</title>
+    <style>
+        .container {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background: #3498db;
+            margin: 10px;
+        }
+        /* 1. 简单过渡效果 */
+        .transition-box {
+            transition: all 0.3s ease;
+        }
+        .transition-box:hover {
+            transform: scale(1.2);
+            background: #e74c3c;
+        }
+        /* 2. 无限旋转 */
+        .rotate {
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        /* 3. 淡入淡出 */
+        .fade {
+            animation: fade 2s ease infinite;
+        }
+        @keyframes fade {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        /* 4. 弹跳效果 */
+        .bounce {
+            animation: bounce 1s ease infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        /* 5. 抖动效果 */
+        .shake {
+            animation: shake 0.5s ease infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box transition-box">Hover</div>
+        <div class="box rotate">Rotate</div>
+        <div class="box fade">Fade</div>
+        <div class="box bounce">Bounce</div>
+        <div class="box shake">Shake</div>
+    </div>
+</body>
+</html>

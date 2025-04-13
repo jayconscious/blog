@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Animation Example</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let x = 200;
+        let y = 200;
+        let dx = 4;
+        let dy = 4;
+        const radius = 20;
+
+        function animate() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw circle
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#0095DD';
+            ctx.fill();
+            ctx.closePath();
+            
+            // Bounce off walls
+            if (x + dx > canvas.width - radius || x + dx < radius) {
+                dx = -dx;
+            }
+            if (y + dy > canvas.height - radius || y + dy < radius) {
+                dy = -dy;
+            }
+            
+            // Update position
+            x += dx;
+            y += dy;
+            
+            // setInterval(animate, 1000)
+            // requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex CSS Animations</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1a1a1a;
+        }
+
+        .animation-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .circle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: orbit 4s linear infinite;
+        }
+
+        .circle:nth-child(1) {
+            background: #ff4d4d;
+            animation-delay: 0s;
+        }
+
+        .circle:nth-child(2) {
+            background: #4dff4d;
+            animation-delay: 1s;
+        }
+
+        .circle:nth-child(3) {
+            background: #4d4dff;
+            animation-delay: 2s;
+        }
+
+        .circle:nth-child(4) {
+            background: #ffff4d;
+            animation-delay: 3s;
+        }
+
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) translateX(100px) rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg) translateX(100px) rotate(-360deg);
+            }
+        }
+
+        .square {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            left: 75px;
+            top: 75px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(0.8) rotate(180deg);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="animation-box">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="square"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+</html>
