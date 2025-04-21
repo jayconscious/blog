@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+
+        // Todo: 两数之和 - 哈希
+        // https://leetcode.cn/problems/two-sum/description/?envType=study-plan-v2&envId=top-100-liked
+        // 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+        // 你可以假设每种输入只会对应一个答案，并且你不能使用两次相同的元素。
+        // 你可以按任意顺序返回答案。
+        // 示例 1：
+        // 输入：nums = [2,7,11,15], target = 9
+        // 输出：[0,1]
+        // 解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+
+        // 示例 2：
+        // 输入：nums = [3,2,4], target = 6
+        // 输出：[1,2]
+
+        // 示例 3：
+        // 输入：nums = [3,3], target = 6
+        // 输出：[0,1]
+
+        // 方法一：循环遍历
+        // function solution(nums, target) {
+        //     for (let left = 0; left < nums.length; left++) {
+        //         for (let right = 1; right < nums.length; right++) {
+        //             if (nums[left] + nums[right] == target && left != right) {
+        //                 return [left, right]
+        //             }
+        //         }
+        //     }
+        //     return []
+        // }
+
+        // 方法二：has表 - 查找表法
+        // function solution(nums, target) {
+        //     let map = new Map()
+        //     for (let i = 0; i < nums.length; i++) {
+        //         let currNum = nums[i]
+        //         let restNum = target - currNum
+        //         if (map.has(restNum)) {
+        //             return [i, map.get(restNum)]
+        //         } else {
+        //             map.set(currNum, i)
+        //         }
+        //     }
+        // }
+        // console.log(solution([2, 7, 11, 15], 9))
+        // console.log(solution([3, 2, 4], 6))
+        // console.log(solution([3, 3], 6))
+
+
+        // 
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
