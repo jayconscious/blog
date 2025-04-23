@@ -426,19 +426,106 @@
         //     return res.sort((a, b) => a - b).concat(zoreList)
         // }
 
-        var moveZeroes = function (nums) {
-            let slow = 0
-            for (let fast = 0; fast < nums.length; fast++) {
-                if (nums[fast] !== 0) {
-                    nums[slow] = nums[fast]
-                    slow++
-                }
-            }
-            nums.fill(0, slow)
-            return nums
-        };
+        // var moveZeroes = function (nums) {
+        //     let slow = 0
+        //     for (let fast = 0; fast < nums.length; fast++) {
+        //         if (nums[fast] !== 0) {
+        //             nums[slow] = nums[fast]
+        //             slow++
+        //         }
+        //     }
+        //     nums.fill(0, slow)
+        //     return nums
+        // };
 
-        console.log(moveZeroes([0, 1, 0, 3, 12]))
+        // console.log(moveZeroes([0, 1, 0, 3, 12]))
+
+        // function solution(nums) {
+        //     let slow = 0
+        //     for (let right = 0; right < nums.length; right++) {
+        //         if (nums[right] != 0) {
+        //             nums[slow] = nums[right]
+        //             slow++
+        //         }
+        //     }
+        //     nums.fill(0, slow)
+        //     return nums
+        // }
+
+        // Todo: 矩阵置零
+        // https://leetcode.cn/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-100-liked
+        // 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+        /**
+         * @param {number[][]} matrix
+         * @return {void} Do not return anything, modify matrix in-place instead.
+         */
+        // 解题思路，先标记 0 的下标，然后转化问题，在 matrix 里面只要有一个下标符合，就置为 0 
+        // var setZeroes = function (matrix) {
+        //     // 记录 m 和 n
+        //     const m = matrix.length, n = matrix[0].length
+        //     const row = new Array(m).fill(false)
+        //     const col = new Array(n).fill(false)
+        //     for (let i = 0; i < m; i++) {
+        //         for (let j = 0; j < n; j++) {
+        //             if (matrix[i][j] == 0) {
+        //                 row[i] = col[j] = true
+        //             }
+        //         }
+        //     }
+        //     for (let i = 0; i < m; i++) {
+        //         for (let j = 0; j < n; j++) {
+        //             if (row[i] || col[j]) {
+        //                 matrix[i][j] = 0
+        //             }
+        //         }
+        //     }
+        //     return matrix
+        // };
+
+        // Todo: 合并区间
+        // https://leetcode.cn/problems/merge-intervals/description/?envType=study-plan-v2&envId=top-100-liked
+        // 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。
+        // 请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
+        // 示例 1：
+        // 输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
+        // 输出：[[1,6],[8,10],[15,18]]
+        // 解释：区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+
+        // 示例 2：
+        // 输入：intervals = [[1,4],[4,5]]
+        // 输出：[[1,5]]
+        // 解释：区间 [1,4] 和 [4,5] 可被视为重叠区间。
+        // 解析思路是啥：
+        // Tip: 注意点在于：每一个区间只有两个元素，不会存在多个元素的情况。
+        // 
+
+        var merge = function (intervals) {
+            intervals.sort((a, b) => a[0] - b[0]); // 区间左端点排序，从小到大
+            // console.log('sort intervals', intervals.slice())
+            const merged = [];
+            let i = -1;
+            intervals.forEach((range) => {
+                const [start, end] = range;
+                const [preStart, preEnd] = merged[i] ?? [];
+                if (merged.length === 0 || (start > preEnd)) {
+                    merged.push(range);
+                    i += 1;
+                } else if (end > preEnd) {
+                    merged[i][1] = end;
+                }
+            });
+            return merged;
+        }
+
+        // console.log(merge([[1, 3], [2, 6], [8, 10], [15, 18]]))
+        console.log(merge([[4, 5], [1, 4]]))
+
+
+
+
+
+
+
 
 
 
