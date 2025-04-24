@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  * {
+    margin: 0; padding: 0;
+  }
+  .father {
+    height: 100px;
+    width: 500px;
+    background-color: salmon;
+    display: flex;
+  }
+  .first {
+    width: 200px;
+    background-color: blue;
+  }
+  .second {
+    background-color: bisque;
+    flex: 1;
+    width: 100px;
+  }
+  .grandSun {
+    width: 50px;
+  }
+  .third {
+    background-color: aqua;
+    flex: 1;
+    width: 100px;
+  }
+  .grandSun2 {
+    width: 9999999px;
+  }
+  .forth {
+    width: 200px;
+    background-color: aquamarine;
+  }
+  .forthSun {
+    width: 200px;
+  }
+  </style>
+</head>
+<body>
+<div class="father">
+  <div class="first">150px被挤压</div>
+  <div class="second">
+    <div class="grandSun">100px满足孙子</div>
+  </div>
+  <div class="third">
+    <div class="grandSun2">200px受限于其父</div>
+  </div>
+  <div class="forth">
+    <div class="forthSun">200px</div>
+  </div>
+</div>
+</body>
+</html>

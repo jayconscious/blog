@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex-css</title>
+    <style>
+        .wrap {
+            display: flex;
+            width: 800px;
+        }
+        /* .middle {
+            display: flex;
+            flex: 1;
+        } */
+        .inner1 {
+            /* flex-shrink: 1; 
+            flex-grow: 1; */
+            width: 100px;
+            flex: 1;
+            /* flex-basis: 100px; */
+        }
+
+        .inner2 {
+            width: 200px;
+            flex: 1;
+        }
+
+        .inner3 {
+            width: 250px;
+            flex: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="inner1">111111111111111111111111111111111111111111111111111111</div>
+        <div class="inner2">222</div>
+        <div class="inner3">333</div>
+    </div>
+
+</body>
+
+</html>
