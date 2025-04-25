@@ -1,90 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
 
     <script>
-        // list to tree
-        // const listToTree = function (list) {
 
-        // }
+    // eBay 测试题
+    // 今天
+    // 发送到“会议群聊”的消息也将显示在团队聊天的会议群聊中
+    // 测试 1. 实现异步调度器（Promise 版本）
+    // 请使用 JS 实现一个异步任务调度器，该调度器可以控制同时运行的异步任务数量。
+    // 要求
+    // * 构造一个 Scheduler 类，并实现 add 方法以添加异步任务。每个任务返回一个 Promise。
+    // * Scheduler 一次只能执行两个异步任务。当一个任务完成后，下一个任务才能开始执行。
+    // * add 方法应返回一个 Promise，该 Promise 将在任务完成时被 resolve。
+    // const timeout = (time) => new Promise(resolve => setTimeout(resolve, time));
+    // const scheduler = new Scheduler();
+    // const addTask = (time, name) => {
+    //   scheduler.add(() => timeout(time).then(() => console.log(name)));
+    // };
 
-        let list = [
-            { id: 1, name: '部门A', parentId: 0 },
-            { id: 2, name: '部门B', parentId: 0 },
-            { id: 3, name: '部门C', parentId: 1 },
-            { id: 4, name: '部门D', parentId: 1 },
-            { id: 5, name: '部门E', parentId: 2 },
-            { id: 6, name: '部门F', parentId: 3 },
-            { id: 7, name: '部门G', parentId: 2 },
-            { id: 8, name: '部门H', parentId: 4 }
-        ];
-        // 先提取一级部门。
-
-        // let tree = [
-        //     {
-        //         id: 1,
-        //         name: '部门A',
-        //         parentId: 0,
-        //         children: [
-        //             { id: 1, name: '部门A', parentId: 0 },
-        //             { id: 2, name: '部门B', parentId: 0 },
-        //         ]
-        //     },
-        //     {
-        //         id: 2,
-        //         name: '部门B',
-        //         parentId: 0,
-        //         children: [
-        //         ]
-        //     }
-        // ];
-
-        function listToTree(list) {
-            let res = [], currObj = null, flag = false
-            function getParent(childrenList, item) {
-                let isHas = false
-                childrenList.forEach(child => {
-                    if (child.id == item.parentId) {
-                        currObj = child
-                        isHas = true
-                    } else {
-                        if (Array.isArray(child.children)) {
-                            getParent(child.children, item)
-                        } else {
-                            isHas = false
-                        }
-                    }
-                });
-            }
-            if (!res.length) {
-                res.push({
-                    ...list[0], children: []
+    // addTask(1000, 'A'); 
+    // addTask(1000, 'B'); 
+    // addTask(2000, 'C'); 
+    // addTask(1000, 'D');
+    // 你好
+    class Scheduler {
+        constructor(maxLimit) {
+            this.maxLimit = maxLimit
+            this.queue = []
+            this.isRunningCount = 0
+        }
+        // pLevel 1, 2, 3, 4
+        add (fn, pLevel) {
+            return new Promise((resolve, reject) => {
+                // const task = () => {
+                //     this.isRunningCount++
+                //     fn().then(resolve).catch(reject).finally(() => {
+                //         this.isRunningCount--
+                //         this.deTask()
+                //     })
+                // }
+                this.queue.push({
+                    fn,
+                    pLevel,
+                    resolve,
+                    reject
+                })
+                this.deTask()
+            })
+        }
+        deTask () {
+            if (this.isRunningCount < this.maxLimit && this.queue.length) {
+                this.queue.sort((a, b) => b.pLevel - a.pLevel)
+                const task = this.queue.shift()
+                const { fn, resolve, reject } = task
+                this.isRunningCount++
+                fn().then(resolve).catch(reject).finally(() => {
+                    this.isRunningCount--
+                    this.deTask()
                 })
             }
-            for (let i = 1; i < list.length; i++) {
-                const listItem = list[i];
-                getParent(res, listItem)
-                if (isHas) {
-                    currObj.children.push(listItem)
-                } else {
-                    currObj = {...listItem, children: []}
-                }
-            }
-            return res
         }
+    }
+
+    const timeout = (time) => new Promise(resolve => setTimeout(resolve, time));
+    const scheduler = new Scheduler(2);
+    const addTask = (time, name, pLevel) => {
+      scheduler.add(
+        () => timeout(time).then(() => console.log(name)), pLevel
+        );
+    };
+
+    addTask(1000, 'A', 2); 
+    addTask(1000, 'B', 5); 
+    addTask(1000, 'C', 3); 
+    addTask(1000, 'D', 1);
+    addTask(1000, 'e', 10);
+    //  a b e c d
 
 
-        console.log(listToTree(list))
 
 
     </script>
 </body>
-
 </html>
