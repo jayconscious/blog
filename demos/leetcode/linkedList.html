@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链表相关操作-linkedList</title>
+</head>
+<body>
+    <script>
+        // let head = [1, 2, 3, 4, 5]
+        class ListNode {
+            constructor(value, next) {
+                this.value = value
+                this.next = next
+            }
+        }
+
+        function arrayToList(arr) {
+            if (!arr.length) {
+                return
+            }
+            let head = new ListNode(arr[0])
+            let current = head
+            for (let i = 1; i < arr.length; i++) {
+                current.next = new ListNode(arr[i])
+                current = current.next
+            }
+            // console.log('head', head)
+            return head
+        }
+
+        console.log(arrayToList([1, 2, 3, 4, 5]))
+        
+        
+
+
+        // Todo: 如何将数组数据结构转为链表结构
+        // 
+        
+    </script>
+</body>
+</html>

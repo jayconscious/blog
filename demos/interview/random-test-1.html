@@ -77,7 +77,51 @@
         // console.log(solution('wasdiahgjkd'))
 
 
+        // Todo:  合并区间
+        // 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
+        // 示例 1：
+        // 输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
+        // 输出：[[1,6],[8,10],[15,18]]
+        // 解释：区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6]
+
+        // 示例 2：
+        // 输入：intervals = [[1,4],[4,5]]
+        // 输出：[[1,5]]
+        // 解释：区间 [1,4] 和 [4,5] 可被视为重叠区间。
+
+        // 解题思路：
+        // 1. 先将原数组以左端点排序
+        // 2. 然后比较当前数组的 start, end 和 preEnd 的大小关系
+        // 3. 如果 start > preEnd, 则不连续；否则：preEnd >= start && end > preEnd, 说明有交集，需要合并
+
+        function solution(intervals) {
+            let res = [];
+            intervals.sort((a, b) => a[0] - b[0])
+            let preIndex = -1
+
+            intervals.forEach(interval => {
+                let [preStart, preEnd] = res[preIndex] ? res[preIndex] : []
+                let [start, end] = interval
+                if (!res.length || start > preEnd) {
+                    res.push(interval)
+                    preIndex++
+                } else if (end > preEnd) {
+                    // 合并区间
+                    res[preIndex][1] = end
+                }
+            });
+
+            return res;
+        }
+
+        console.log(solution([[1, 3], [2, 6], [8, 10], [15, 18]])) // [[1,6],[8,10],[15,18]]
+        console.log(solution([[1,4],[4,5]])) // [[1,5]]
         
+
+
+
+
+
 
 
 
