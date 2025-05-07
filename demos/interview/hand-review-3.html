@@ -519,8 +519,72 @@
         // console.log(merge([[4, 5], [1, 4]]))
 
 
-        // Todo: 
-        // 
+        // Todo: 矩阵置零
+        // 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+        // 输入：matrix = [[1,1,1],[1,0,1],[1,1,1]]
+        // 输出：[[1,0,1],[0,0,0],[1,0,1]]
+        // 解题思路：
+        // 1. 使用 m, n 长度的数组，标记元素 0 的，假如 matrix[1][1] = 0, 则 m[1] = n[1] = true
+        // 2. 遍历嵌套遍历，m，n，m[1]，n[1]
+
+        function solution(matrix) {
+            let m = matrix.length
+            let n = matrix[0].length
+
+            let row = new Array(m).fill(false)
+            let col = new Array(n).fill(false)
+
+            for (let i = 0; i < m; i++) {
+                for (let j = 0; j < n; j++) {
+                    if (matrix[i][j] == 0) {
+                        row[i] = col[j] = true
+                        // 标记位置
+                    }
+                }
+            }
+
+            for (let i = 0; i < m; i++) {
+                for (let j = 0; j < n; j++) {
+                    if (row[i] || col[j]) {
+                        matrix[i][j] = 0
+                    }
+                }
+            }
+            
+            return matrix
+        }
+
+        // var setZeroes = function (matrix) {
+        //     // 记录 m 和 n
+        //     const m = matrix.length, n = matrix[0].length
+        //     const row = new Array(m).fill(false)
+        //     const col = new Array(n).fill(false)
+        //     for (let i = 0; i < m; i++) {
+        //         for (let j = 0; j < n; j++) {
+        //             if (matrix[i][j] == 0) {
+        //                 row[i] = col[j] = true
+        //             }
+        //         }
+        //     }
+        //     for (let i = 0; i < m; i++) {
+        //         for (let j = 0; j < n; j++) {
+        //             if (row[i] || col[j]) {
+        //                 matrix[i][j] = 0
+        //             }
+        //         }
+        //     }
+        //     return matrix
+        // };
+
+        console.log(solution([[1,1,1],[1,0,1],[1,1,1]]))
+
+        // console.log(setZeroes([[1,1,1],[1,0,1],[1,1,1]]))
+
+
+
+
+
+
 
 
 
