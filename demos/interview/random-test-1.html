@@ -94,29 +94,63 @@
         // 2. 然后比较当前数组的 start, end 和 preEnd 的大小关系
         // 3. 如果 start > preEnd, 则不连续；否则：preEnd >= start && end > preEnd, 说明有交集，需要合并
 
-        function solution(intervals) {
-            let res = [];
-            intervals.sort((a, b) => a[0] - b[0])
-            let preIndex = -1
+        // function solution(intervals) {
+        //     let res = [];
+        //     intervals.sort((a, b) => a[0] - b[0])
+        //     let preIndex = -1
 
-            intervals.forEach(interval => {
-                let [preStart, preEnd] = res[preIndex] ? res[preIndex] : []
-                let [start, end] = interval
-                if (!res.length || start > preEnd) {
-                    res.push(interval)
-                    preIndex++
-                } else if (end > preEnd) {
-                    // 合并区间
-                    res[preIndex][1] = end
+        //     intervals.forEach(interval => {
+        //         let [preStart, preEnd] = res[preIndex] ? res[preIndex] : []
+        //         let [start, end] = interval
+        //         if (!res.length || start > preEnd) {
+        //             res.push(interval)
+        //             preIndex++
+        //         } else if (end > preEnd) {
+        //             // 合并区间
+        //             res[preIndex][1] = end
+        //         }
+        //     });
+        //     return res;
+        // }
+
+        // console.log(solution([[1, 3], [2, 6], [8, 10], [15, 18]])) // [[1,6],[8,10],[15,18]]
+        // console.log(solution([[1,4],[4,5]])) // [[1,5]]
+
+        function isHuiWen(s, left, right) {
+            while (left < right) {
+                if (s[left] != s[right]) {
+                    return false
                 }
-            });
-
-            return res;
+                left++
+                right--
+            }
+            return true
         }
 
-        console.log(solution([[1, 3], [2, 6], [8, 10], [15, 18]])) // [[1,6],[8,10],[15,18]]
-        console.log(solution([[1,4],[4,5]])) // [[1,5]]
+        // 回文 'abcbaccc'
+        function solution(s) {
+            if (s.length < 2) {
+                return
+            }
+            let begin = 0, maxLen = 1
+            for (let i = 0; i < s.length - 1; i++) {
+                for (let j = 1; j < s.length; j++) {
+                    let currLen = j - i + 1
+                    if (currLen > maxLen && isHuiWen(s, i, j)) {
+                        maxLen = currLen
+                        begin = i
+                    }
+                }
+            }
+            return s.substr(begin, maxLen)
+        }
+        console.log(solution('abcbaccc'))
+
+
         
+
+
+
 
 
 

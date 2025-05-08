@@ -42,7 +42,7 @@
                 //     this.isRunningCount++
                 //     fn().then(resolve).catch(reject).finally(() => {
                 //         this.isRunningCount--
-                //         this.deTask()
+                //         this.doTask()
                 //     })
                 // }
                 this.queue.push({
@@ -51,10 +51,10 @@
                     resolve,
                     reject
                 })
-                this.deTask()
+                this.doTask()
             })
         }
-        deTask () {
+        doTask () {
             if (this.isRunningCount < this.maxLimit && this.queue.length) {
                 this.queue.sort((a, b) => b.pLevel - a.pLevel)
                 const task = this.queue.shift()
@@ -62,7 +62,7 @@
                 this.isRunningCount++
                 fn().then(resolve).catch(reject).finally(() => {
                     this.isRunningCount--
-                    this.deTask()
+                    this.doTask()
                 })
             }
         }
