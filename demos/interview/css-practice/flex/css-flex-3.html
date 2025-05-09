@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            border: 2px darkcyan dashed;
+        }
+        .item {
+            background-color: orange;
+            border-radius: 10px;
+            border: 2px black dashed;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            width: 500px;
+        }
+
+        .item {
+            /* width: max-content; */
+            /* width: min-content; */
+        }
+        .item {
+            /* width: max-content; */
+            /* width: min-content; */
+        }
+
+        /* .item {
+            flex-grow: 1;
+            flex-basis: 50px;
+            5 * (50px + 1x) = 500px
+            x = 50px
+        } */
+
+
+        .item {
+            /* flex-grow: 1; */
+            /* flex-basis: 50px; */
+            /* flex-basis: 0; */
+            /* width: 压缩就是min-content */
+            /* width: 充足就是max-content, 就是单行文本的长度 */
+
+            /* width: 0; */
+            
+        }
+        .item:nth-child(1) {
+            /* flex-grow: 100; */
+            /* 4 * (50px + 1x) + 50px + 6x = 500px */
+            /* x = 25px */
+        }
+
+        /* 默认值：initial */
+        .item {
+            /* flex: initial; */
+            /* flex: 0 1 auto; */
+        }
+
+        /* 默认值： */
+        .item {
+            /* flex: auto; */
+            /* flex: 1 1 auto; */
+        }
+
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="item">item 111</div>
+        <div class="item">item 2</div>
+        <div class="item">item 3</div>
+        <div class="item">
+            item 4 </br>
+            item 4 </br>
+            item 4 </br>
+        </div>
+        <div class="item">item 5</div>
+        <!-- <div class="item">
+            asdasdas asdassdasdasdasasdsadasdasd
+            sdasd
+        </div>
+        <div class="item">
+            asdasdas asdassdasdasdasasdsadasdasd
+            sdasd
+        </div>
+        <div class="item">
+            asdasdas asdassdasdasdasasdsadasdasd
+            sdasd
+        </div>
+        <div class="item">
+            asdasdas asdassdasdasdasasdsadasdasd
+            sdasd
+        </div>
+        <div class="item">
+            asdasdas asdassdasdasdasasdsadasdasd
+            sdasd
+        </div> -->
+
+    </div>
+
+
+    
+</body>
+</html>

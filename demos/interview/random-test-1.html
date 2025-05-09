@@ -8,7 +8,9 @@
 </head>
 
 <body>
-
+    <button id="btn">
+        防抖测试
+    </button>
 
     <script>
 
@@ -116,38 +118,84 @@
         // console.log(solution([[1, 3], [2, 6], [8, 10], [15, 18]])) // [[1,6],[8,10],[15,18]]
         // console.log(solution([[1,4],[4,5]])) // [[1,5]]
 
-        function isHuiWen(s, left, right) {
-            while (left < right) {
-                if (s[left] != s[right]) {
-                    return false
+
+        // 最大回文长度 'abcbaccc'
+
+        // function isHuiWen(s, left, right) {
+        //     while (left < right) {
+        //         if (s[left] != s[right]) {
+        //             return false
+        //         }
+        //         left++
+        //         right--
+        //     }
+        //     return true
+        // }
+        // function solution(s) {
+        //     if (s.length < 2) {
+        //         return
+        //     }
+        //     let begin = 0, maxLen = 1
+        //     for (let i = 0; i < s.length - 1; i++) {
+        //         for (let j = 1; j < s.length; j++) {
+        //             let currLen = j - i + 1
+        //             if (currLen > maxLen && isHuiWen(s, i, j)) {
+        //                 maxLen = currLen
+        //                 begin = i
+        //             }
+        //         }
+        //     }
+        //     return s.substr(begin, maxLen)
+        // }
+        // console.log(solution('abcbaccc'))
+
+
+        // 防抖问题 - 解决什么问题，如何在单位时间内，控制行为触发的频次
+        // 节流问题 - 解决什么问题，如何在单位时间内，控制行为触发的频次
+
+        // 当你使用 clearTimeout 取消一个尚未执行的 setTimeout 回调函数时，该回调函数将不会被执行。
+        // 关键点：
+        // setTimeout 会返回一个唯一的定时器 ID（数字），用于后续取消。
+        // clearTimeout 通过传入这个 ID，可以取消尚未执行的定时任务。
+        // 如果回调尚未触发，调用 clearTimeout 后，回调会被彻底移除，永远不会执行。
+        // 如果回调已执行，clearTimeout 不会有任何效果（但也不会报错）。
+
+        function debounce(fn, delay = 1000) {
+            let timer
+            return function (...args) {
+                if (timer) {
+                    clearTimeout(timer)
                 }
-                left++
-                right--
+                timer = setTimeout(() => {
+                    fn.call(this, ...args)
+                }, delay)
             }
-            return true
         }
 
-        // 回文 'abcbaccc'
-        function solution(s) {
-            if (s.length < 2) {
-                return
+        function throttle(fn, delay = 1000) {
+            let flag = false, timer
+            return (...args) => {
+                if (flag) return;
+                flag = true;
+                timer = setTimeout(() => {
+                    fn.call(this, ...args);
+                    flag = false;
+                }, delay);
             }
-            let begin = 0, maxLen = 1
-            for (let i = 0; i < s.length - 1; i++) {
-                for (let j = 1; j < s.length; j++) {
-                    let currLen = j - i + 1
-                    if (currLen > maxLen && isHuiWen(s, i, j)) {
-                        maxLen = currLen
-                        begin = i
-                    }
-                }
-            }
-            return s.substr(begin, maxLen)
         }
-        console.log(solution('abcbaccc'))
 
+        const btnDom = document.getElementById('btn')
+
+        function print(e) {
+            console.log('e', e)
+        }
+        // btnDom.addEventListener('click', debounce(print), false)
+        btnDom.addEventListener('click', throttle(print), false)
 
         
+
+
+
 
 
 
