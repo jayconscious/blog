@@ -550,7 +550,7 @@
                     }
                 }
             }
-            
+
             return matrix
         }
 
@@ -576,9 +576,72 @@
         //     return matrix
         // };
 
-        console.log(solution([[1,1,1],[1,0,1],[1,1,1]]))
+        // console.log(solution([[1,1,1],[1,0,1],[1,1,1]]))
 
         // console.log(setZeroes([[1,1,1],[1,0,1],[1,1,1]]))
+
+
+        // Todo: 对象扁平化 flatten
+        const obj = {
+          a: {
+            b: 1,
+            c: 2,
+            d: {e: 5}
+          },
+          b: [1, 3, {a: 2, b: 3}],
+          c: 3
+        }
+        // flatten(obj) 结果返回如下
+        // {
+        //  'a.b': 1,
+        //  'a.c': 2,
+        //  'a.d.e': 5,
+        //  'b[0]': 1,
+        //  'b[1]': 3,
+        //  'b[2].a': 2,
+        //  'b[2].b': 3
+        //   c: 3
+        // }
+
+        // 类型判断
+        function getTepy(obj) {
+            return Object.prototype.toString.call(obj).slice(8, -1)
+        }
+
+        function objectFlatten(Obj) {
+            if (getTepy(Obj) != 'Object') {
+                return
+            }
+            let output = {}
+            function inner(source, keyPath) {
+                if (getTepy(source) == 'Object') {
+                    for (const key in source) {
+                        if (Object.prototype.hasOwnProperty.call(source, key)) {
+                            let nextKeyPath = keyPath ? `${keyPath}.${key}` : `${key}`
+                            inner(source[key], nextKeyPath)
+                        }
+                    }
+                } else if (getTepy(source) == 'Array') {
+                    source.forEach((item, index) => {
+                        let nextKeyPath = `${keyPath}.[${index}]`
+                        inner(item, nextKeyPath)
+                    });
+                } else {
+                    output[keyPath] = source
+                }
+            }
+
+            inner(Obj, '')
+
+            return output
+        }
+
+        console.log(objectFlatten(obj))
+
+
+        // Todo: 对象扁平化 flattenRecovery()
+
+
 
 
 

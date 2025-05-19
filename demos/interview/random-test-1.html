@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    <button id="btn">
+    <!-- <button id="btn">
         防抖测试
-    </button>
+    </button> -->
 
     <script>
 
@@ -160,39 +160,116 @@
         // 如果回调尚未触发，调用 clearTimeout 后，回调会被彻底移除，永远不会执行。
         // 如果回调已执行，clearTimeout 不会有任何效果（但也不会报错）。
 
-        function debounce(fn, delay = 1000) {
-            let timer
-            return function (...args) {
-                if (timer) {
-                    clearTimeout(timer)
-                }
-                timer = setTimeout(() => {
-                    fn.call(this, ...args)
-                }, delay)
-            }
-        }
+        // function debounce(fn, delay = 1000) {
+        //     let timer
+        //     return function (...args) {
+        //         if (timer) {
+        //             clearTimeout(timer)
+        //         }
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args)
+        //         }, delay)
+        //     }
+        // }
 
-        function throttle(fn, delay = 1000) {
-            let flag = false, timer
-            return (...args) => {
-                if (flag) return;
-                flag = true;
-                timer = setTimeout(() => {
-                    fn.call(this, ...args);
-                    flag = false;
-                }, delay);
-            }
-        }
+        // function throttle(fn, delay = 1000) {
+        //     let flag = false, timer
+        //     return (...args) => {
+        //         if (flag) return;
+        //         flag = true;
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args);
+        //             flag = false;
+        //         }, delay);
+        //     }
+        // }
+        // const btnDom = document.getElementById('btn')
+        // function print(e) {
+        //     console.log('e', e)
+        // }
+        // // btnDom.addEventListener('click', debounce(print), false)
+        // btnDom.addEventListener('click', throttle(print), false)
 
-        const btnDom = document.getElementById('btn')
+        // // debounce
+        // // 使用定时器来控制触发频次
+        // function debounce(fn, delay = 1000) {
+        //     let timer = null;
+        //     return function (...args) {
+        //         // 都是从1开始的
+        //         if (timer) {
+        //             clearTimeout(timer)
+        //         }
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args)
+        //         }, delay);
+        //     }
+        // }
 
-        function print(e) {
-            console.log('e', e)
-        }
-        // btnDom.addEventListener('click', debounce(print), false)
-        btnDom.addEventListener('click', throttle(print), false)
+        // 其他算法题
+        // Todo: 手写-字符串最长的不重复子串
+        // 题目描述
+        // 给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。
+        // 输入: s = "abcabcbb"
+        // 输出: 3
+        // 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3
+        // 输入: s = "bbbbb"
+        // 输出: 1
+        // 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+        // 输入: s = "pwwkew"
+        // 输出: 3
+        // 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+        // 请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+        // 示例 4:
+        // 输入: s = ""
+        // 输出: 0
+        // function solution(strs) {
+        //     let left = 0, charSet = new Set(), maxLen = 0
+        //     for (let right = 0; right < strs.length; right++) {
+        //         while (charSet.has(strs[right])) {
+        //             charSet.delete(strs[left])
+        //             left++
+        //         }
+        //         charSet.add(strs[right])
+        //         maxLen = Math.max(maxLen, right - left + 1);
+        //     }
+        //     return maxLen
+        // }
+        // console.log(solution("pwwkew"))
+        // console.log(lengthOfLongestSubstring("pwwkew"))
 
+        // Todo: 对象扁平化 flatten
+        // const obj = {
+        //   a: {
+        //     b: 1,
+        //     c: 2,
+        //     d: {e: 5}
+        //   },
+        //   b: [1, 3, {a: 2, b: 3}],
+        //   c: 3
+        // }
+
+        // flatten(obj) 结果返回如下
+        // {
+        //  'a.b': 1,
+        //  'a.c': 2,
+        //  'a.d.e': 5,
+        //  'b[0]': 1,
+        //  'b[1]': 3,
+        //  'b[2].a': 2,
+        //  'b[2].b': 3
+        //   c: 3
+        // }
         
+
+
+
+
+
+
+
+
+
+
 
 
 
