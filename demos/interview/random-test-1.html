@@ -238,16 +238,15 @@
         // console.log(lengthOfLongestSubstring("pwwkew"))
 
         // Todo: 对象扁平化 flatten
-        // const obj = {
-        //   a: {
-        //     b: 1,
-        //     c: 2,
-        //     d: {e: 5}
-        //   },
-        //   b: [1, 3, {a: 2, b: 3}],
-        //   c: 3
-        // }
-
+        const obj = {
+            a: {
+                b: 1,
+                c: 2,
+                d: { e: 5 }
+            },
+            b: [1, 3, { a: 2, b: 3 }],
+            c: 3
+        }
         // flatten(obj) 结果返回如下
         // {
         //  'a.b': 1,
@@ -259,7 +258,48 @@
         //  'b[2].b': 3
         //   c: 3
         // }
-        
+
+        function getType(element) {
+            debugger
+            return Object.prototype.toString.call(element).slice(8, -1).toLowerCase();
+
+            // const typeStr = Object.prototype.toString.call(element).slice(8, -1)
+            // console.log(typeof typeStr)
+            // return typeStr
+            // .toLowerCase()
+
+        }
+        function flattenObject(sourceObject) {
+            const flattenedResult = {};
+
+            function flatten(currentValue, currentPath) {
+                const valueType = getType(currentValue);
+
+                if (valueType === 'object') {
+                    for (const key in currentValue) {
+                        if (Object.prototype.hasOwnProperty.call(currentValue, key)) {
+                            const nestedValue = currentValue[key]; // nestedValue（更语义化，表示嵌套的值）
+                            const newPath = currentPath ? `${currentPath}.${key}` : key; // newPath（更符合逻辑，表示新生成的路径）
+                            flatten(nestedValue, newPath); 
+                        }
+                    }
+                } else if (valueType === 'array') {
+                    currentValue.forEach((item, index) => {
+                        const newPath = `${currentPath}.${index}`;
+                        flatten(item, newPath);
+                    });
+                } else {
+                    flattenedResult[currentPath] = currentValue;
+                }
+            }
+
+            flatten(sourceObject, '');
+            return flattenedResult;
+        }
+
+        console.log(objectFlatten(obj))
+
+
 
 
 
