@@ -259,45 +259,61 @@
         //   c: 3
         // }
 
-        function getType(element) {
-            debugger
-            return Object.prototype.toString.call(element).slice(8, -1).toLowerCase();
+        // function getType(element) {
+        //     return Object.prototype.toString.call(element).slice(8, -1).toLowerCase();
 
-            // const typeStr = Object.prototype.toString.call(element).slice(8, -1)
-            // console.log(typeof typeStr)
-            // return typeStr
-            // .toLowerCase()
+        //     // const typeStr = Object.prototype.toString.call(element).slice(8, -1)
+        //     // console.log(typeof typeStr)
+        //     // return typeStr
+        //     // .toLowerCase()
 
-        }
-        function flattenObject(sourceObject) {
-            const flattenedResult = {};
+        // }
+        // function flattenObject(sourceObject) {
+        //     const flattenedResult = {};
 
-            function flatten(currentValue, currentPath) {
-                const valueType = getType(currentValue);
+        //     function flatten(currentValue, currentPath) {
+        //         const valueType = getType(currentValue);
 
-                if (valueType === 'object') {
-                    for (const key in currentValue) {
-                        if (Object.prototype.hasOwnProperty.call(currentValue, key)) {
-                            const nestedValue = currentValue[key]; // nestedValue（更语义化，表示嵌套的值）
-                            const newPath = currentPath ? `${currentPath}.${key}` : key; // newPath（更符合逻辑，表示新生成的路径）
-                            flatten(nestedValue, newPath); 
-                        }
-                    }
-                } else if (valueType === 'array') {
-                    currentValue.forEach((item, index) => {
-                        const newPath = `${currentPath}.${index}`;
-                        flatten(item, newPath);
-                    });
-                } else {
-                    flattenedResult[currentPath] = currentValue;
-                }
-            }
+        //         if (valueType === 'object') {
+        //             for (const key in currentValue) {
+        //                 if (Object.prototype.hasOwnProperty.call(currentValue, key)) {
+        //                     const nestedValue = currentValue[key]; // nestedValue（更语义化，表示嵌套的值）
+        //                     const newPath = currentPath ? `${currentPath}.${key}` : key; // newPath（更符合逻辑，表示新生成的路径）
+        //                     flatten(nestedValue, newPath); 
+        //                 }
+        //             }
+        //         } else if (valueType === 'array') {
+        //             currentValue.forEach((item, index) => {
+        //                 const newPath = `${currentPath}.${index}`;
+        //                 flatten(item, newPath);
+        //             });
+        //         } else {
+        //             flattenedResult[currentPath] = currentValue;
+        //         }
+        //     }
+        //     flatten(sourceObject, '');
+        //     return flattenedResult;
+        // }
+        // console.log(objectFlatten(obj))
 
-            flatten(sourceObject, '');
-            return flattenedResult;
-        }
+        // throttle 节流
+        // function throttle(fn, delay = 300) {
+        //     let timer;
+        //     return function (...args) {
+        //         if (timer) return
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args)
+        //             timer = null
+        //         }, delay);
+        //     }
+        // }
 
-        console.log(objectFlatten(obj))
+        // Todo: 使用 setTimeout 模拟 setInterval
+        // 
+
+
+
+
 
 
 
