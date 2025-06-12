@@ -9,7 +9,71 @@
 
 <body>
     <script>
-       
+
+        // 实现一个字符串风格转换函数 camelCase
+        // 提示: 使用正则表达式解析文本
+        // function camelCase(str) {
+        // // return xxx
+        // }
+
+        // // 用例如下：
+        // // 注：字符串中仅出现 英文字母、短横线 和 下划线
+        // const pascal = 'ThisIsASentence'
+        // const snake = 'this_is_a_sentence'
+        // const hyphen = 'this-is-a-sentence'
+        // const constant = 'THIS_IS_A_SENTENCE'
+
+        // camelCase(pascal) // -> thisIsASentence
+        // camelCase(snake) // -> thisIsASentence
+        // camelCase(hyphen) // -> thisIsASentence
+        // camelCase(constant) // -> thisIsASentence
+
+        function camelCase(str) {
+            // 
+            let reg = /[\_\-]+/
+            let strList = str.split(reg).filter(Boolean)
+            if (strList.length == 1) {
+                let currStr = strList[0]
+                let result = `${String.prototype.toLowerCase.call(currStr[0])}${currStr.substr(1, currStr.length - 1)}`
+                return result
+            } else {
+                return generateCamelCase(strList)
+            }
+        }
+
+        function generateCamelCase(strList) {
+            let result = ''
+            for (let i = 0; i < strList.length; i++) {
+                let itemStr = String.prototype.toLowerCase.call(strList[i])
+                if (i != 0) {
+                    itemStr = itemStr.length == 1 ? `${String.prototype.toUpperCase.call(itemStr)}`
+                        : `${String.prototype.toUpperCase.call(itemStr[0])}${itemStr.substr(1, itemStr.length - 1)}`
+                }
+                result = `${result}${itemStr}`
+            }
+            return result
+        }
+
+        console.log(camelCase(pascal))
+        console.log(camelCase(snake))
+        console.log(camelCase(hyphen))
+        console.log(camelCase(constant))
+
+        // -> thisIsASentence
+        // -> thisIsASentence
+        // -> thisIsASentence
+        // -> thisIsASentence
+
+        // var length = 10; function fn() { return this.length + 1; }
+        // var obj = { length: 5, test1: function () { return fn(); } }
+        // obj.test2 = fn;
+        // //下面代码输出是什么
+        // console.log(obj.test1()) // 11
+        // // console.log(fn() === obj.test2()) // 11 6
+        // console.log(obj.test2())
+
+
+
 
 
 
