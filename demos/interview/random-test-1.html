@@ -333,7 +333,7 @@
 
         // 
 
-         // 实现flatObject
+        // 实现flatObject
         // const obj = {
         //     a: {
         //         b: 1,
@@ -397,7 +397,6 @@
         //     for (let index = 0; index < keys.length; index++) {
         //         const keyStr = keys[index];
         //         const keyList = keyStr.split(reg).filter(Boolean)
-
         //         let currentLevel = result
         //         for (let i = 0; i < keyList.length; i++) {
         //             let path = keyList[i]
@@ -411,11 +410,58 @@
         //             currentLevel = currentLevel[path]
         //         }
         //     }
-            
         //     return result
         // }
 
         // console.log(reverseObj(obj))
+
+
+        // Todo: 杨辉三角
+        // 示例 1:
+        // 输入: numRows = 5
+        // 输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+        // 示例 2:
+        // 输入: numRows = 1
+        // 输出: [[1]]
+        // function solution(numRows) {
+        //     let res = []
+        //     for (let i = 0; i < numRows; i++) {
+        //         let currentArr = new Array(i + 1).fill(1)
+        //         for (let j = 1; j < currentArr.length - 1; j++) {
+        //             currentArr[j] = res[i - 1][j - 1] + res[i - 1][j]
+        //         }
+        //         res.push(currentArr)
+
+        //     }
+        //     return res
+        // }
+        // // 输入: numRows = 5
+        // // 输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+        // console.log(solution(5))
+
+        // 方法二：使用递归调用的方式
+        // function solution(numRows) {
+        //     let res = [], initRow = 0
+        //     function inner(currentRow) {
+        //         if (currentRow == numRows) {
+        //             return
+        //         }
+        //         let currentArr = new Array(currentRow + 1).fill(1)
+        //         for (let i = 1; i < currentArr.length - 1; i++) {
+        //             currentArr[i] = res[currentRow - 1][i - 1] + res[currentRow - 1][i]
+        //         }
+        //         res.push(currentArr)
+        //         inner(currentRow+1)
+        //     }
+        //     inner(initRow)
+        //     return res;
+        // }
+        // console.log(solution(5))
+
+        
+
+
 
 
 
