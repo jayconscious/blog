@@ -622,7 +622,7 @@
         //             }
         //         } else if (getTepy(source) == 'Array') {
         //             source.forEach((item, index) => {
-        //                 let nextKeyPath = `${keyPath}.[${index}]`
+        //                 let nextKeyPath = `${keyPath}[${index}]`
         //                 inner(item, nextKeyPath)
         //             });
         //         } else {
@@ -714,7 +714,324 @@
         // // b[2].a
         // console.log(getValueByPath(obj, 'b[2].a'))
 
-        
+        // Todo: 实现一个字符串风格转换函数 camelCase
+        // 提示: 使用正则表达式解析文本
+        // function camelCase(str) {
+        // // return xxx
+        // }
+
+        // // 用例如下：
+        // // 注：字符串中仅出现 英文字母、短横线 和 下划线
+        // const pascal = 'ThisIsASentence'
+        // const snake = 'this_is_a_sentence'
+        // const hyphen = 'this-is-a-sentence'
+        // const constant = 'THIS_IS_A_SENTENCE'
+
+        // camelCase(pascal) // -> thisIsASentence
+        // camelCase(snake) // -> thisIsASentence
+        // camelCase(hyphen) // -> thisIsASentence
+        // camelCase(constant) // -> thisIsASentence
+
+        // function camelCase(str) {
+        //     const strList = str.split(/[_-]+/).filter(Boolean);
+        //     if (strList.length === 1) {
+        //         let currentWord = strList[0]
+        //         return currentWord[0].toLowerCase() + currentWord.slice(1);
+        //     }
+        //     return generateCamelCase(strList);
+        // }
+
+        // function generateCamelCase(strList) {
+        //     return strList
+        //         .map((word, index) => {
+        //             if (index === 0) {
+        //                 return word.toLowerCase();
+        //             }
+        //             return word[0].toUpperCase() + word.slice(1).toLowerCase();
+        //         })
+        //         .join('');
+        // }
+        // // 测试用例
+        // const pascal = 'ThisIsASentence';
+        // const snake = 'this_is_a_sentence';
+        // const hyphen = 'this-is-a-sentence';
+        // const constant = 'THIS_IS_A_SENTENCE';
+        // console.log(camelCase(pascal));    // -> "thisIsASentence"
+        // console.log(camelCase(snake));     // -> "thisIsASentence"
+        // console.log(camelCase(hyphen));    // -> "thisIsASentence"
+        // console.log(camelCase(constant));  // -> "thisIsASentence"
+
+        // console.log(camelCase(pascal))
+        // console.log(camelCase(snake))
+        // console.log(camelCase(hyphen))
+        // console.log(camelCase(constant))
+        // -> thisIsASentence
+        // -> thisIsASentence
+        // -> thisIsASentence
+        // -> thisIsASentence
+
+        // var length = 10; function fn() { return this.length + 1; }
+        // var obj = { length: 5, test1: function () { return fn(); } }
+        // obj.test2 = fn;
+        // //下面代码输出是什么
+        // console.log(obj.test1()) // 11
+        // // console.log(fn() === obj.test2()) // 11 6
+        // console.log(obj.test2())
+
+        // function camelCase(str) {
+        // return str
+        //     // 处理下划线和短横线：将 _ 或 - 后的字母转为大写
+        //     .replace(/[-_]([a-z])/g, (_, char) => char.toUpperCase())
+        //     // 处理 CONSTANT_CASE（全大写）：将所有 _ 后的字母转为大写，并首字母小写
+        //     .replace(/_([A-Z])/g, (_, char) => char)
+        //     // 确保首字母是小写（处理 PascalCase）
+        //     .replace(/^[A-Z]/, (firstChar) => firstChar.toLowerCase());
+        // }
+
+        // // 测试用例
+        // const pascal = 'ThisIsASentence';
+        // const snake = 'this_is_a_sentence';
+        // const hyphen = 'this-is-a-sentence';
+        // const constant = 'THIS_IS_A_SENTENCE';
+
+        // console.log(camelCase(pascal));    // -> "thisIsASentence"
+        // console.log(camelCase(snake));     // -> "thisIsASentence"
+        // console.log(camelCase(hyphen));    // -> "thisIsASentence"
+        // console.log(camelCase(constant));  // -> "thisIsASentence"
+
+
+
+        // 来未来笔试题
+        // Todo: 
+        // 实现一个 submit 函数，控制函数，0.5s内重复点击不触发，1.5s后触发一次，而且首次一次执行
+        // 
+        // const submitForm = function (res) {
+        //     console.log('submit' + res)
+        // }
+        // const submit = handleSubmit(submitForm, 1000)
+
+        // function handleSubmit(fn, delay) {
+        //     let lastExecTime = 0;  // 上次执行时间
+        //     let timer = null;      // 定时器
+        //     let isFirstCall = true; // 是否是第一次调用
+
+        //     return function (...args) {
+        //         const now = Date.now();
+        //         // 清除之前的定时器
+        //         if (timer) {
+        //             clearTimeout(timer);
+        //             timer = null;
+        //         }
+        //         // 第一次调用立即执行
+        //         if (isFirstCall) {
+        //             fn.apply(this, args);
+        //             lastExecTime = now;
+        //             isFirstCall = false;
+        //             return;
+        //         }
+
+        //         // 计算距离上次执行的时间
+        //         const timeSinceLastExec = now - lastExecTime;
+        //         // 如果距离上次执行不足500ms，则忽略
+        //         if (timeSinceLastExec < 500) {
+        //             return;
+        //         }
+        //         // 如果距离上次执行在500ms-1500ms之间，则设置定时器
+        //         // Todo: 待思考？
+        //         if (timeSinceLastExec < 1500) {
+        //             timer = setTimeout(() => {
+        //                 fn.apply(this, args);
+        //                 lastExecTime = Date.now();
+        //             }, 1500 - timeSinceLastExec);
+        //             return;
+        //         }
+        //         // 如果距离上次执行超过1500ms，则立即执行
+        //         fn.apply(this, args);
+        //         lastExecTime = now;
+        //     };
+        // }
+
+        // submit(1)
+        // submit(2)
+        // setTimeout(() => {
+        //     submit(3)
+        //     setTimeout(() => {
+        //         submit(4)
+        //         setTimeout(() => {
+        //             submit(5)
+        //             setTimeout(() => {
+        //                 submit(6)
+        //                 setTimeout(() => {
+        //                     submit(7)
+        //                     setTimeout(() => {
+        //                         submit(8)
+        //                     }, 800);
+        //                 }, 200);
+        //             }, 1000);
+        //         }, 500);
+        //     }, 200);
+        // }, 100);
+
+        // 输出
+        // submit1
+        // submit6
+
+
+        // 第二题：
+        // 文件路径转树形结构解决方案
+        // 根据你的需求，我们需要将文件路径字符串数组转换为树形结构，用于Tree组件展示。
+        // 我将实现三个函数来完成这个转换过程。
+        // 
+
+
+        // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
+
+
+
+        // 将路径数组转换为带有id和parentId的扁平列表
+        const toList = (arr) => {
+            const list = [];
+            const seen = new Set(); // 用于去重
+
+            arr.forEach(path => {
+                const segments = path.split('.');
+                let parentId = null;
+
+                segments.forEach((segment, index) => {
+                    const id = parentId ? `${parentId}.${segment}` : segment;
+
+                    // 如果这个节点已经处理过则跳过
+                    if (!seen.has(id)) {
+                        seen.add(id);
+                        list.push({
+                            title: segment,
+                            parentId: parentId,
+                            id: id,
+                            key: id,
+                            children: null
+                        });
+                    }
+
+                    parentId = id;
+                });
+            });
+
+            return list;
+        };
+
+        // 将扁平列表转换为树形结构
+        const toTree = (list, parentId = null) => {
+            const tree = [];
+
+            list.forEach(item => {
+                if (item.parentId === parentId) {
+                    const children = toTree(list, item.id);
+                    if (children.length > 0) {
+                        item.children = children;
+                    }
+                    tree.push(item);
+                }
+            });
+
+            return tree;
+        };
+
+        // 整合函数，直接生成Tree组件需要的数据
+        const toTreeData = (arr) => {
+            const list = toList(arr);
+            console.log('list', list)
+            return toTree(list);
+        };
+
+        // 测试数据
+        const arr = ['aa.dd', 'bb.cc.ff', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc'];
+        const treeData = toTreeData(arr);
+        console.log(JSON.stringify(treeData, null, 2));
+
+
+        // Todo: 第三题
+        // 设计一个英文单词字典，请实现字典检索方法wordFilter.findWord，
+        // 通过单词的前后缀来检索单词位置。当符合条件的单词不止一个时，返回最大下标。
+        // 实际使用场景中需要考虑字典多次检索效率(时间复杂度与空间复杂度)，
+        // 保证单次检索wordFilter.findWord 的效率最高。
+
+        // 
+
+        class WordFilter {
+            constructor(words) {
+                this.prefixMap = new Map();
+                this.suffixMap = new Map();
+                this.wordIndices = new Map();
+
+                // 构建索引 
+                for (let i = 0; i < words.length; i++) {
+                    const word = words[i];
+                    this.wordIndices.set(word, i);
+
+                    // 构建前缀索引
+                    for (let j = 0; j <= word.length; j++) {
+                        const prefix = word.substring(0, j);
+                        if (!this.prefixMap.has(prefix)) {
+                            this.prefixMap.set(prefix, new Set());
+                        }
+                        this.prefixMap.get(prefix).add(word);
+                    }
+
+                    // 构建后缀索引
+                    for (let j = 0; j <= word.length; j++) {
+                        const suffix = word.substring(word.length - j);
+                        if (!this.suffixMap.has(suffix)) {
+                            this.suffixMap.set(suffix, new Set());
+                        }
+                        this.suffixMap.get(suffix).add(word);
+                    }
+                }
+            }
+
+            findWord(prefix, suffix = '') {
+                let prefixWords = this.prefixMap.get(prefix) || new Set();
+                let suffixWords = this.suffixMap.get(suffix) || new Set();
+
+                // 找到同时满足前缀和后缀的单词
+                const intersection = new Set(
+                    [...prefixWords].filter(word => suffixWords.has(word))
+                );
+
+                if (intersection.size === 0) return null;
+
+                // 返回最大索引的单词
+                let maxIndex = -1;
+                let result = null;
+                intersection.forEach(word => {
+                    const index = this.wordIndices.get(word);
+                    if (index > maxIndex) {
+                        maxIndex = index;
+                        result = word;
+                    }
+                });
+
+                return result;
+            }
+        }
+        // 测试用例
+        const wordFilter = new WordFilter(['apple', 'banana', 'orange', 'bana']);
+
+        console.log(wordFilter.findWord('a', 'e')); // 'apple'
+        console.log(wordFilter.findWord('b', 'a')); // 'banana'
+        console.log(wordFilter.findWord('c', 'c')); // null
+        console.log(wordFilter.findWord('d', 'd')); // null
+        console.log(wordFilter.findWord('e', 'f')); // null
+        console.log(wordFilter.findWord('g')); // null
+
+
+
+
+
+
+
+
+
+
 
 
 
