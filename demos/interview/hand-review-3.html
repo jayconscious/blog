@@ -881,9 +881,6 @@
         // 文件路径转树形结构解决方案
         // 根据你的需求，我们需要将文件路径字符串数组转换为树形结构，用于Tree组件展示。
         // 我将实现三个函数来完成这个转换过程。
-        // 
-
-
         // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
 
 
@@ -920,6 +917,7 @@
         };
 
         // 将扁平列表转换为树形结构
+        // 这个递归的逻辑是什么？
         const toTree = (list, parentId = null) => {
             const tree = [];
 
@@ -957,71 +955,71 @@
 
         // 
 
-        class WordFilter {
-            constructor(words) {
-                this.prefixMap = new Map();
-                this.suffixMap = new Map();
-                this.wordIndices = new Map();
+        // class WordFilter {
+        //     constructor(words) {
+        //         this.prefixMap = new Map();
+        //         this.suffixMap = new Map();
+        //         this.wordIndices = new Map();
 
-                // 构建索引 
-                for (let i = 0; i < words.length; i++) {
-                    const word = words[i];
-                    this.wordIndices.set(word, i);
+        //         // 构建索引 
+        //         for (let i = 0; i < words.length; i++) {
+        //             const word = words[i];
+        //             this.wordIndices.set(word, i);
 
-                    // 构建前缀索引
-                    for (let j = 0; j <= word.length; j++) {
-                        const prefix = word.substring(0, j);
-                        if (!this.prefixMap.has(prefix)) {
-                            this.prefixMap.set(prefix, new Set());
-                        }
-                        this.prefixMap.get(prefix).add(word);
-                    }
+        //             // 构建前缀索引
+        //             for (let j = 0; j <= word.length; j++) {
+        //                 const prefix = word.substring(0, j);
+        //                 if (!this.prefixMap.has(prefix)) {
+        //                     this.prefixMap.set(prefix, new Set());
+        //                 }
+        //                 this.prefixMap.get(prefix).add(word);
+        //             }
 
-                    // 构建后缀索引
-                    for (let j = 0; j <= word.length; j++) {
-                        const suffix = word.substring(word.length - j);
-                        if (!this.suffixMap.has(suffix)) {
-                            this.suffixMap.set(suffix, new Set());
-                        }
-                        this.suffixMap.get(suffix).add(word);
-                    }
-                }
-            }
+        //             // 构建后缀索引
+        //             for (let j = 0; j <= word.length; j++) {
+        //                 const suffix = word.substring(word.length - j);
+        //                 if (!this.suffixMap.has(suffix)) {
+        //                     this.suffixMap.set(suffix, new Set());
+        //                 }
+        //                 this.suffixMap.get(suffix).add(word);
+        //             }
+        //         }
+        //     }
 
-            findWord(prefix, suffix = '') {
-                let prefixWords = this.prefixMap.get(prefix) || new Set();
-                let suffixWords = this.suffixMap.get(suffix) || new Set();
+        //     findWord(prefix, suffix = '') {
+        //         let prefixWords = this.prefixMap.get(prefix) || new Set();
+        //         let suffixWords = this.suffixMap.get(suffix) || new Set();
 
-                // 找到同时满足前缀和后缀的单词
-                const intersection = new Set(
-                    [...prefixWords].filter(word => suffixWords.has(word))
-                );
+        //         // 找到同时满足前缀和后缀的单词
+        //         const intersection = new Set(
+        //             [...prefixWords].filter(word => suffixWords.has(word))
+        //         );
 
-                if (intersection.size === 0) return null;
+        //         if (intersection.size === 0) return null;
 
-                // 返回最大索引的单词
-                let maxIndex = -1;
-                let result = null;
-                intersection.forEach(word => {
-                    const index = this.wordIndices.get(word);
-                    if (index > maxIndex) {
-                        maxIndex = index;
-                        result = word;
-                    }
-                });
+        //         // 返回最大索引的单词
+        //         let maxIndex = -1;
+        //         let result = null;
+        //         intersection.forEach(word => {
+        //             const index = this.wordIndices.get(word);
+        //             if (index > maxIndex) {
+        //                 maxIndex = index;
+        //                 result = word;
+        //             }
+        //         });
 
-                return result;
-            }
-        }
-        // 测试用例
-        const wordFilter = new WordFilter(['apple', 'banana', 'orange', 'bana']);
+        //         return result;
+        //     }
+        // }
+        // // 测试用例
+        // const wordFilter = new WordFilter(['apple', 'banana', 'orange', 'bana']);
 
-        console.log(wordFilter.findWord('a', 'e')); // 'apple'
-        console.log(wordFilter.findWord('b', 'a')); // 'banana'
-        console.log(wordFilter.findWord('c', 'c')); // null
-        console.log(wordFilter.findWord('d', 'd')); // null
-        console.log(wordFilter.findWord('e', 'f')); // null
-        console.log(wordFilter.findWord('g')); // null
+        // console.log(wordFilter.findWord('a', 'e')); // 'apple'
+        // console.log(wordFilter.findWord('b', 'a')); // 'banana'
+        // console.log(wordFilter.findWord('c', 'c')); // null
+        // console.log(wordFilter.findWord('d', 'd')); // null
+        // console.log(wordFilter.findWord('e', 'f')); // null
+        // console.log(wordFilter.findWord('g')); // null
 
 
 

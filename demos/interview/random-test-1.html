@@ -459,7 +459,175 @@
         // }
         // console.log(solution(5))
 
-        
+
+
+        // Todo: 文件路径转树形结构解决方案
+        // 根据你的需求，我们需要将文件路径字符串数组转换为树形结构，用于Tree组件展示。
+        // 我将实现三个函数来完成这个转换过程。
+        // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
+        // let res = [
+        //     {
+        //         "title": "aa",
+        //         "parentId": null,
+        //         "id": "aa",
+        //         "key": "aa",
+        //         "children": [
+        //             {
+        //                 "title": "dd",
+        //                 "parentId": "aa",
+        //                 "id": "aa.dd",
+        //                 "key": "aa.dd",
+        //                 "children": null
+        //             }
+        //         ]
+        //     },
+        //     {
+        //         "title": "bb",
+        //         "parentId": null,
+        //         "id": "bb",
+        //         "key": "bb",
+        //         "children": [
+        //             {
+        //                 "title": "cc",
+        //                 "parentId": "bb",
+        //                 "id": "bb.cc",
+        //                 "key": "bb.cc",
+        //                 "children": [
+        //                     {
+        //                         "title": "ff",
+        //                         "parentId": "bb.cc",
+        //                         "id": "bb.cc.ff",
+        //                         "key": "bb.cc.ff",
+        //                         "children": null
+        //                     },
+        //                     {
+        //                         "title": "bb",
+        //                         "parentId": "bb.cc",
+        //                         "id": "bb.cc.bb",
+        //                         "key": "bb.cc.bb",
+        //                         "children": [
+        //                             {
+        //                                 "title": "dd",
+        //                                 "parentId": "bb.cc.bb",
+        //                                 "id": "bb.cc.bb.dd",
+        //                                 "key": "bb.cc.bb.dd",
+        //                                 "children": [
+        //                                     {
+        //                                         "title": "aa",
+        //                                         "parentId": "bb.cc.bb.dd",
+        //                                         "id": "bb.cc.bb.dd.aa",
+        //                                         "key": "bb.cc.bb.dd.aa",
+        //                                         "children": [
+        //                                             {
+        //                                                 "title": "cc",
+        //                                                 "parentId": "bb.cc.bb.dd.aa",
+        //                                                 "id": "bb.cc.bb.dd.aa.cc",
+        //                                                 "key": "bb.cc.bb.dd.aa.cc",
+        //                                                 "children": null
+        //                                             }
+        //                                         ]
+        //                                     }
+        //                                 ]
+        //                             }
+        //                         ]
+        //                     }
+        //                 ]
+        //             }
+        //         ]
+        //     },
+        //     {
+        //         "title": "cc",
+        //         "parentId": null,
+        //         "id": "cc",
+        //         "key": "cc",
+        //         "children": [
+        //             {
+        //                 "title": "aa",
+        //                 "parentId": "cc",
+        //                 "id": "cc.aa",
+        //                 "key": "cc.aa",
+        //                 "children": [
+        //                     {
+        //                         "title": "bb",
+        //                         "parentId": "cc.aa",
+        //                         "id": "cc.aa.bb",
+        //                         "key": "cc.aa.bb",
+        //                         "children": [
+        //                             {
+        //                                 "title": "bb",
+        //                                 "parentId": "cc.aa.bb",
+        //                                 "id": "cc.aa.bb.bb",
+        //                                 "key": "cc.aa.bb.bb",
+        //                                 "children": null
+        //                             }
+        //                         ]
+        //                     }
+        //                 ]
+        //             }
+        //         ]
+        //     }
+        // ]
+
+        function toList(arr) {
+            let res = [], idSet = new Set()
+
+            arr.forEach((elements, index) => {
+                let parentId = null
+                let eleList = elements.split('.')
+
+                for (let i = 0; i < eleList.length; i++) {
+                    let curEle = eleList[i]
+                    let id = parentId ? `${parentId}.${curEle}` : `${curEle}`
+
+                    if (!idSet.has(id)) {
+                        idSet.add(id)
+                        res.push({
+                            id,
+                            key: id,
+                            parentId,
+                            title: curEle,
+                            children: null
+                        })
+                    }
+                    parentId = id
+                }
+            });
+
+            return res
+        }
+
+        // [{ parentId: null, id: '', key: '', children: null, "title": "bb", }]
+        let arr = ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']
+        // let arr = ['aa.bb', 'aa.cc.bb',]
+        // console.log(toList(arr))
+        function toTree(list, parentId = null) {
+            let res = []
+
+            list.forEach(item => {
+                if (item.parentId == parentId) {
+                    let children = toTree(list, item.id)
+                    if (children.length) {
+                        item.children = children
+                    }
+                    res.push(item)
+                }
+            })
+            return res
+        }
+
+        function test(arr) {
+            const list = toList(arr)
+            let res = toTree(list)
+            console.log(JSON.stringify(res, null, 2))
+            return res
+        }
+        test(arr)
+        // console.log(test(arr))
+        // 反思和总结
+
+
+
+
 
 
 
