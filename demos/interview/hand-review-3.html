@@ -884,67 +884,65 @@
         // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
 
 
-
         // 将路径数组转换为带有id和parentId的扁平列表
-        const toList = (arr) => {
-            const list = [];
-            const seen = new Set(); // 用于去重
+        // const toList = (arr) => {
+        //     const list = [];
+        //     const seen = new Set(); // 用于去重
 
-            arr.forEach(path => {
-                const segments = path.split('.');
-                let parentId = null;
+        //     arr.forEach(path => {
+        //         const segments = path.split('.');
+        //         let parentId = null;
 
-                segments.forEach((segment, index) => {
-                    const id = parentId ? `${parentId}.${segment}` : segment;
+        //         segments.forEach((segment, index) => {
+        //             const id = parentId ? `${parentId}.${segment}` : segment;
+        //             // 如果这个节点已经处理过则跳过
+        //             if (!seen.has(id)) {
+        //                 seen.add(id);
+        //                 list.push({
+        //                     title: segment,
+        //                     parentId: parentId,
+        //                     id: id,
+        //                     key: id,
+        //                     children: null
+        //                 });
+        //             }
 
-                    // 如果这个节点已经处理过则跳过
-                    if (!seen.has(id)) {
-                        seen.add(id);
-                        list.push({
-                            title: segment,
-                            parentId: parentId,
-                            id: id,
-                            key: id,
-                            children: null
-                        });
-                    }
+        //             parentId = id;
+        //         });
+        //     });
 
-                    parentId = id;
-                });
-            });
+        //     return list;
+        // };
 
-            return list;
-        };
+        // // 将扁平列表转换为树形结构
+        // // 这个递归的逻辑是什么？
+        // const toTree = (list, parentId = null) => {
+        //     const tree = [];
 
-        // 将扁平列表转换为树形结构
-        // 这个递归的逻辑是什么？
-        const toTree = (list, parentId = null) => {
-            const tree = [];
+        //     list.forEach(item => {
+        //         if (item.parentId === parentId) {
+        //             const children = toTree(list, item.id);
+        //             if (children.length > 0) {
+        //                 item.children = children;
+        //             }
+        //             tree.push(item);
+        //         }
+        //     });
 
-            list.forEach(item => {
-                if (item.parentId === parentId) {
-                    const children = toTree(list, item.id);
-                    if (children.length > 0) {
-                        item.children = children;
-                    }
-                    tree.push(item);
-                }
-            });
+        //     return tree;
+        // };
 
-            return tree;
-        };
+        // // 整合函数，直接生成Tree组件需要的数据
+        // const toTreeData = (arr) => {
+        //     const list = toList(arr);
+        //     console.log('list', list)
+        //     return toTree(list);
+        // };
 
-        // 整合函数，直接生成Tree组件需要的数据
-        const toTreeData = (arr) => {
-            const list = toList(arr);
-            console.log('list', list)
-            return toTree(list);
-        };
-
-        // 测试数据
-        const arr = ['aa.dd', 'bb.cc.ff', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc'];
-        const treeData = toTreeData(arr);
-        console.log(JSON.stringify(treeData, null, 2));
+        // // 测试数据
+        // const arr = ['aa.dd', 'bb.cc.ff', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc'];
+        // const treeData = toTreeData(arr);
+        // console.log(JSON.stringify(treeData, null, 2));
 
 
         // Todo: 第三题
@@ -952,8 +950,6 @@
         // 通过单词的前后缀来检索单词位置。当符合条件的单词不止一个时，返回最大下标。
         // 实际使用场景中需要考虑字典多次检索效率(时间复杂度与空间复杂度)，
         // 保证单次检索wordFilter.findWord 的效率最高。
-
-        // 
 
         // class WordFilter {
         //     constructor(words) {
@@ -1020,6 +1016,74 @@
         // console.log(wordFilter.findWord('d', 'd')); // null
         // console.log(wordFilter.findWord('e', 'f')); // null
         // console.log(wordFilter.findWord('g')); // null
+
+        // deepClone 强化版本
+        function deepClone(obj, hash = new WeakMap()) {
+            // 处理基本类型和null
+            if (obj === null || typeof obj !== 'object') {
+                return obj;
+            }
+            // 处理循环引用
+            if (hash.has(obj)) {
+                return hash.get(obj);
+            }
+            // 处理Date
+            if (obj instanceof Date) {
+                const copy = new Date(obj);
+                hash.set(obj, copy);
+                return copy;
+            }
+            // 处理RegExp
+            if (obj instanceof RegExp) {
+                const copy = new RegExp(obj);
+                hash.set(obj, copy);
+                return copy;
+            }
+            // 处理Map
+            if (obj instanceof Map) {
+                const copy = new Map();
+                hash.set(obj, copy);
+                obj.forEach((value, key) => {
+                    copy.set(deepClone(key, hash), deepClone(value, hash));
+                });
+                return copy;
+            }
+            // 处理Set
+            if (obj instanceof Set) {
+                const copy = new Set();
+                hash.set(obj, copy);
+                obj.forEach(value => {
+                    copy.add(deepClone(value, hash));
+                });
+                return copy;
+            }
+            // 处理数组和普通对象
+            const clone = Array.isArray(obj) ? [] : {};
+            hash.set(obj, clone);
+            // 处理Symbol属性
+            const symKeys = Object.getOwnPropertySymbols(obj);
+            for (const symKey of symKeys) {
+                clone[symKey] = deepClone(obj[symKey], hash);
+            }
+            // 处理普通属性
+            for (const key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                    clone[key] = deepClone(obj[key], hash);
+                }
+            }
+            return clone;
+        }
+
+        function deepClone(obj) {
+            return structuredClone(obj);
+        }
+
+
+        
+
+
+
+
 
 
 
