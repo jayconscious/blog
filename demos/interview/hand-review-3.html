@@ -259,6 +259,7 @@
         // };
 
         // // Todo: 解题核心其余每一个元素都出现 2 次，多了也不行
+        // 按位异或（^）运算符在两个操作数有且仅有一个对应的二进制位为 1 时，该位的结果值为 1。
         // var singleNumber = function (nums) {
         //     let ans = 0;
         //     for (const num of nums) {
@@ -1018,115 +1019,67 @@
         // console.log(wordFilter.findWord('g')); // null
 
         // deepClone 强化版本
-        function deepClone(obj, hash = new WeakMap()) {
-            // 处理基本类型和null
-            if (obj === null || typeof obj !== 'object') {
-                return obj;
-            }
-            // 处理循环引用
-            if (hash.has(obj)) {
-                return hash.get(obj);
-            }
-            // 处理Date
-            if (obj instanceof Date) {
-                const copy = new Date(obj);
-                hash.set(obj, copy);
-                return copy;
-            }
-            // 处理RegExp
-            if (obj instanceof RegExp) {
-                const copy = new RegExp(obj);
-                hash.set(obj, copy);
-                return copy;
-            }
-            // 处理Map
-            if (obj instanceof Map) {
-                const copy = new Map();
-                hash.set(obj, copy);
-                obj.forEach((value, key) => {
-                    copy.set(deepClone(key, hash), deepClone(value, hash));
-                });
-                return copy;
-            }
-            // 处理Set
-            if (obj instanceof Set) {
-                const copy = new Set();
-                hash.set(obj, copy);
-                obj.forEach(value => {
-                    copy.add(deepClone(value, hash));
-                });
-                return copy;
-            }
-            // 处理数组和普通对象
-            const clone = Array.isArray(obj) ? [] : {};
-            hash.set(obj, clone);
-            // 处理Symbol属性
-            const symKeys = Object.getOwnPropertySymbols(obj);
-            for (const symKey of symKeys) {
-                clone[symKey] = deepClone(obj[symKey], hash);
-            }
-            // 处理普通属性
-            for (const key in obj) {
-                if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                    clone[key] = deepClone(obj[key], hash);
-                }
-            }
-            return clone;
-        }
+        // function deepClone(obj, hash = new WeakMap()) {
+        //     // 处理基本类型和null
+        //     if (obj === null || typeof obj !== 'object') {
+        //         return obj;
+        //     }
+        //     // 处理循环引用
+        //     if (hash.has(obj)) {
+        //         return hash.get(obj);
+        //     }
+        //     // 处理Date
+        //     if (obj instanceof Date) {
+        //         const copy = new Date(obj);
+        //         hash.set(obj, copy);
+        //         return copy;
+        //     }
+        //     // 处理RegExp
+        //     if (obj instanceof RegExp) {
+        //         const copy = new RegExp(obj);
+        //         hash.set(obj, copy);
+        //         return copy;
+        //     }
+        //     // 处理Map
+        //     if (obj instanceof Map) {
+        //         const copy = new Map();
+        //         hash.set(obj, copy);
+        //         obj.forEach((value, key) => {
+        //             copy.set(deepClone(key, hash), deepClone(value, hash));
+        //         });
+        //         return copy;
+        //     }
+        //     // 处理Set
+        //     if (obj instanceof Set) {
+        //         const copy = new Set();
+        //         hash.set(obj, copy);
+        //         obj.forEach(value => {
+        //             copy.add(deepClone(value, hash));
+        //         });
+        //         return copy;
+        //     }
+        //     // 处理数组和普通对象
+        //     const clone = Array.isArray(obj) ? [] : {};
+        //     hash.set(obj, clone);
+        //     // 处理Symbol属性
+        //     const symKeys = Object.getOwnPropertySymbols(obj);
+        //     for (const symKey of symKeys) {
+        //         clone[symKey] = deepClone(obj[symKey], hash);
+        //     }
+        //     // 处理普通属性
+        //     for (const key in obj) {
+        //         if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        //             clone[key] = deepClone(obj[key], hash);
+        //         }
+        //     }
+        //     return clone;
+        // }
+        // function deepClone(obj) {
+        //     return structuredClone(obj);
+        // }
 
-        function deepClone(obj) {
-            return structuredClone(obj);
-        }
-
-
+        // 
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
