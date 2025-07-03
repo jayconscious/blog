@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hand-review-4</title>
+</head>
+
+<body>
+    <script>
+        // Todo: https://leetcode.cn/problems/3sum/description/?envType=study-plan-v2&envId=top-100-liked
+        // 三数之和为 0 
+        // 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 
+        // 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。
+        // 请你返回所有和为 0 且不重复的三元组。
+        // 答案中不可以包含重复的三元组
+        // 示例 1：
+        // 输入：nums = [-1,0,1,2,-1,-4]
+        // 输出：[[-1,-1,2],[-1,0,1]]
+        // 解释：
+        // nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0 。
+        // nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0 。
+        // nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
+        // 不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。
+        // 注意，输出的顺序和三元组的顺序并不重要。
+        // 重复的三元组是指 [-1,-1,2] 这样是重复的 [-1,2,-1]
+        // 核心思路：这里的不同是指什么不同？
+        // function solution(nums) {
+        //     let result = []
+        //     nums.sort((a, b) => a - b)
+        //     let len = nums.length
+        //     for (let i = 0; i < len - 2; i++) {
+        //         if (i > 0 && nums[i] === nums[i - 1]) continue
+        //         for (let j = i + 1; j < len - 1; j++) {
+        //             if (j > i + 1 && nums[j] === nums[j - 1]) continue
+        //             for (let k = j + 1; k < len; k++) {
+        //                 if (k > j + 1 && nums[k] === nums[k - 1]) continue
+        //                 if (nums[i] + nums[j] + nums[k] === 0) {
+        //                     result.push([nums[i], nums[j], nums[k]])
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return result
+        // }
+        // console.log(solution([-1, 0, 1, 2, -1, -4]))
+        // 缺点是什么？时间复杂度 O(n^3)
+
+        // Todo: 方法二：如何优化这个方法呢？
+        // 双指针法
+        // function threeSum(nums) {
+        //     let result = []
+        //     nums.sort((a, b) => a - b)
+        //     for (let i = 0; i < nums.length - 2; i++) {
+        //         // 跳过重复的a
+        //         if (nums[i] > 0) {
+        //             return
+        //         }   
+        //         if (i > 0 && nums[i] === nums[i - 1]) continue;
+        //         // if (i > 0 && nums[i] === nums[i + 1]) continue;
+        //         // Tip:  [-1, -1, 2] // nums[i] === nums[i + 1] 在这里就有问题了
+        //         let left = i + 1
+        //         let right = nums.length - 1
+        //         while (left < right) {
+        //             let sums = nums[i] + nums[left] + nums[right]
+        //             if (sums == 0) {
+        //                 result.push([nums[i], nums[left], nums[right]])
+        //                 // 跳过重复的b和c
+        //                 while (left < right && nums[left] == nums[left + 1]) {
+        //                     left++
+        //                 }
+        //                 while (left < right && nums[right] == nums[right - 1]) {
+        //                     right--
+        //                 }
+        //                 left++
+        //                 right--
+        //             } else if (sums > 0) {
+        //                 right--
+        //             } else {
+        //                 left++
+        //             }
+        //         }
+        //     }
+        //     return result
+        // }
+        // console.log(threeSum([-1, 0, 1, 2, -1, -4]))
+
+
+        // Todo: 实现一个函数，计算两个数组的交集。
+
+        // 方法一：
+        // function intersection(nums1, nums2) {
+        //     const set1 = new Set(nums1);
+        //     const set2 = new Set(nums2);
+        //     return [...set1].filter(num => set2.has(num));
+        // }
+        // // 示例
+        // console.log(intersection([1, 2, 2, 1], [2, 2])); // 输出: [2]
+        // console.log(intersection([4, 9, 5], [9, 4, 9, 8, 4])); // 输出: [4, 9]
+
+        // 方法二：排序 + 双指针（空间优化版）
+        // 如果输入数组已排序或允许排序，且希望减少空间复杂度：
+
+        // function intersectSorted(nums1, nums2) {
+        //     nums1.sort((a, b) => a - b);
+        //     nums2.sort((a, b) => a - b);
+        //     let i = 0, j = 0;
+        //     const result = [];
+        //     while (i < nums1.length && j < nums2.length) {
+        //         if (nums1[i] === nums2[j]) {
+        //             result.push(nums1[i]);
+        //             i++;
+        //             j++;
+        //         } else if (nums1[i] < nums2[j]) {
+        //             i++;
+        //         } else {
+        //             j++;
+        //         }
+        //     }
+
+        //     return result;
+        // }
+
+        // // 示例
+        // console.log(intersectSorted([1, 2, 2, 1], [2, 2])); // 输出: [2, 2]
+        // console.log(intersectSorted([4, 5, 9], [4, 4, 8, 9, 9])); // 输出: [4, 9]
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

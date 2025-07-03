@@ -460,7 +460,6 @@
         // console.log(solution(5))
 
 
-
         // Todo: 文件路径转树形结构解决方案
         // 根据你的需求，我们需要将文件路径字符串数组转换为树形结构，用于Tree组件展示。
         // 我将实现三个函数来完成这个转换过程。
@@ -568,62 +567,65 @@
         //     }
         // ]
 
-        function toList(arr) {
-            let res = [], idSet = new Set()
+        // function toList(arr) {
+        //     let res = [], idSet = new Set()
 
-            arr.forEach((elements, index) => {
-                let parentId = null
-                let eleList = elements.split('.')
+        //     arr.forEach((elements, index) => {
+        //         let parentId = null
+        //         let eleList = elements.split('.')
 
-                for (let i = 0; i < eleList.length; i++) {
-                    let curEle = eleList[i]
-                    let id = parentId ? `${parentId}.${curEle}` : `${curEle}`
+        //         for (let i = 0; i < eleList.length; i++) {
+        //             let curEle = eleList[i]
+        //             let id = parentId ? `${parentId}.${curEle}` : `${curEle}`
 
-                    if (!idSet.has(id)) {
-                        idSet.add(id)
-                        res.push({
-                            id,
-                            key: id,
-                            parentId,
-                            title: curEle,
-                            children: null
-                        })
-                    }
-                    parentId = id
-                }
-            });
+        //             if (!idSet.has(id)) {
+        //                 idSet.add(id)
+        //                 res.push({
+        //                     id,
+        //                     key: id,
+        //                     parentId,
+        //                     title: curEle,
+        //                     children: null
+        //                 })
+        //             }
+        //             parentId = id
+        //         }
+        //     });
 
-            return res
-        }
+        //     return res
+        // }
 
-        // [{ parentId: null, id: '', key: '', children: null, "title": "bb", }]
-        let arr = ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']
-        // let arr = ['aa.bb', 'aa.cc.bb',]
-        // console.log(toList(arr))
-        function toTree(list, parentId = null) {
-            let res = []
+        // // [{ parentId: null, id: '', key: '', children: null, "title": "bb", }]
+        // let arr = ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']
+        // // let arr = ['aa.bb', 'aa.cc.bb',]
+        // // console.log(toList(arr))
+        // function toTree(list, parentId = null) {
+        //     let res = []
 
-            list.forEach(item => {
-                if (item.parentId == parentId) {
-                    let children = toTree(list, item.id)
-                    if (children.length) {
-                        item.children = children
-                    }
-                    res.push(item)
-                }
-            })
-            return res
-        }
+        //     list.forEach(item => {
+        //         if (item.parentId == parentId) {
+        //             let children = toTree(list, item.id)
+        //             if (children.length) {
+        //                 item.children = children
+        //             }
+        //             res.push(item)
+        //         }
+        //     })
+        //     return res
+        // }
 
-        function test(arr) {
-            const list = toList(arr)
-            let res = toTree(list)
-            console.log(JSON.stringify(res, null, 2))
-            return res
-        }
-        test(arr)
+        // function test(arr) {
+        //     const list = toList(arr)
+        //     let res = toTree(list)
+        //     console.log(JSON.stringify(res, null, 2))
+        //     return res
+        // }
+        // test(arr)
         // console.log(test(arr))
         // 反思和总结
+        // 值得反思
+
+        
 
 
 
