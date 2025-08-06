@@ -625,7 +625,145 @@
         // 反思和总结
         // 值得反思
 
+
+        // Todo: 三数之和 - 双指针法
+        // nums = [-1, 0, 1, 2, -1, -4]
+        // 期望输出：[[-1, -1, 2], [-1, 0, 1]]
+        // 核心解题思路：
+        // 1：对数组排序；
+        // 2：a, b, c 不重复(如何保证不重复)。 
+
+        // function solution(nums) {
+        //     let result = [];
+        //     let len = nums.length;
+        //     nums.sort((a, b) => a - b)
+        //     if (nums[0] > 0) {
+        //         return
+        //     }
+        //     for (let i = 0; i < len - 2; i++) {
+        //         let left = i + 1;
+        //         let right = len - 1
+        //         if (i > 0 && nums[i] === nums[i - 1]) { // 跳过重复的a
+        //             continue
+        //         }
+        //         while (left < right) {
+        //             let sum = nums[i] + nums[left] + nums[right]
+        //             if (sum == 0) {
+        //                 result.push([nums[i], nums[left], nums[right]])
+        //                 // // 跳过重复的 b 
+        //                 while (left < right && nums[left] == nums[left + 1]) {
+        //                     left++
+        //                 }
+        //                 // // 跳过重复的 c 
+        //                 while (left < right && nums[right] == nums[right - 1]) {
+        //                     right--
+        //                 }
+        //                 left++
+        //                 right--
+        //             } else if (sum > 0) {
+        //                 right--
+        //             } else {
+        //                 left++
+        //             }
+        //         }
+        //     }
+        //     return result
+        // }
+        // console.log(solution([-1, 0, 1, 2, -1, -4]))
+
+        // 复习三数之和：核心思想？
+        // 1. 一定要排序
+        // 2. 如何跳过无重复逻辑
+        // function solution(nums) {
+        //     let result = []
+        //     nums.sort((a, b) => a - b)
+        //     for (let i = 0; i < nums.length; i++) {
+        //         // const ele = nums[i]
+        //         if (i > 0 && nums[i] == nums[i - 1]) {
+        //             continue
+        //         }
+        //         let left = i + 1
+        //         let right = nums.length - 1
+        //         while (left < right) {
+        //             let sum = nums[i] + nums[left] + nums[right]
+        //             if (sum == 0) {
+        //                 result.push([nums[i], nums[left], nums[right]])
+        //                 // 符合什么样的条件我就移动指针，
+        //                 while (left < right && nums[left] == nums[left + 1]) {
+        //                     left++
+        //                 }
+        //                 while (left < right && nums[right] == nums[right - 1]) {
+        //                     right--
+        //                 }
+        //                 right--
+        //                 left++
+        //             } else if (sum > 0) {
+        //                 right--
+        //             } else {
+        //                 left++
+        //             }
+        //         }
+        //     }
+        //     return result
+        // }
+        // console.log(solution([-1, 0, 1, 2, -1, -4]))
+
+        // Todo: 实现思想
+        // /*redux middleware 中间件的实现思想 函数式编程*/
+        // const app = {
+        //     middleware: [],
+        //     callback(ctx) {
+        //         console.log(ctx, 999999);
+        //     },
+        //     use(fn) {
+        //         this.middleware.push(fn);
+        //     },
+        //     go(ctx) {
+        //         // 创建一个next函数调度器
+        //         let index = 0;
+        //         const next = () => {
+        //             if (index < this.middleware.length) {
+        //                 const middleware = this.middleware[index++];
+        //                 return middleware(ctx, next);
+        //             }
+        //         };
+        //         next(); // 开始执行中间件链
+        //     }
+        // }
+        // app.use((ctx, next) => {
+        //     console.log("第一");
+        //     ctx.name = 'Lucy';
+        //     next();
+        //     console.log("第一一");
+        // })
+        // app.use((ctx, next) => {
+        //     console.log("第二");
+        //     ctx.age = 12;
+        //     next();
+        //     console.log("第二二");
+        // })
+        // app.use((ctx, next) => {
+        //     console.log(`${ctx.name} is ${ctx.age} years old. ${ctx.num}`) // => Lucy is 12 years old.
+        //     next();
+        // })
+
+        // // ... 任意调用 use 插入中间件
+        // app.go({ num: "leon" });
+        // 执行结果
+        // "第一"
+        // "第二"
+        // Lucy is 12 years old.
+        // "第二二"
+        // "第二"
+
         
+
+
+
+
+
+
+
 
 
 
