@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algo-practice-8-11</title>
+</head>
+
+<body>
+
+    <script>
+        // Todo: 
+        // 1. 两数之和
+        // 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那两个整数，并返回它们的数组下标。
+        // 示例 1：
+        // 输入：nums = [2,7,11,15], target = 9
+        // 输出：[0,1]
+        // 解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1]
+        // 第一种方法：两重循环。
+        // 
+        // const twoSum = function (nums, target) {
+        //     let result = []
+        //     for (let i = 0; i < nums.length - 1; i++) {
+        //         for (let j = i + 1; j < nums.length; j++) {
+        //             const sum = nums[i] + nums[j]
+        //             if (sum == target) {
+        //                 result = [i, j]
+        //             }
+        //         }
+        //     }
+        //     return result
+        // }
+
+
+        // 第二种：哈希值表法
+        // const twoSum = function (nums, target) {
+        //     let result = []
+        //     const map = new Map()
+        //     for (let i = 0; i < nums.length; i++) {
+        //         const element = nums[i];
+        //         const restNum = target - element
+        //         if (map.has(restNum)) {
+        //             result = [i, map.get(restNum)]
+        //             return result
+        //         }
+        //         map.set(element, i)
+        //     }
+        //     return result
+        // }
+        // console.log(twoSum([2, 7, 11, 15], 9))
+
+
+        // Todo: 无重复字符的最长子串
+        // 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+        // 输入: s = "pwwkew"
+        // 输出: 3
+        // const lengthOfLongestSubstring = function (s) {
+        //     let maxLength = 0, set = new Set(), left = 0;
+        //     for (let right = 0; right < s.length; right++) {
+        //         const char = s[right];
+        //         while (set.has(char)) {
+        //             set.delete(s[left])
+        //             left++
+        //         }
+        //         set.add(char)
+        //         maxLength = Math.max(maxLength, set.size)
+        //     }
+        //     return maxLength
+        // }
+        // console.log(lengthOfLongestSubstring("pwwkew"))
+
+
+        // Todo: 最大并发控制
+        // class RequestController {
+        //     constructor(limit) {
+        //         this.limit = limit
+        //         this.queue = []
+        //         this.running = 0
+        //     }
+        //     addQueue(fn) {
+        //         return new Promise((resolve, reject) => {
+        //             const task = () => {
+        //                 this.running++
+        //                 fn().then(resolve).catch(reject).finally(() => {
+        //                     this.running--
+        //                     this.dispatch()
+        //                 })
+        //             }
+        //             this.queue.push(task)
+        //             this.dispatch()
+        //         })
+        //     }
+        //     dispatch() {
+        //         if (this.running < this.limit && this.queue.length) {
+        //             const task = this.queue.shift()
+        //             task()
+        //         }
+        //     }
+        // }
+
+        // (async () => {
+        //     console.log("\n--- Test 1: 并发控制 ---");
+        //     const controller = new RequestController(2);
+        //     const tasks = [
+        //         () => delayLog("任务1", 300),
+        //         () => delayLog("任务2", 200),
+        //         () => delayLog("任务3", 100),
+        //     ];
+        //     // 记录开始时间
+        //     const startTime = Date.now();
+        //     // 添加所有任务
+        //     const promises = tasks.map(task => controller.addQueue(task));
+        //     // 等待所有任务完成
+        //     await Promise.all(promises);
+        //     // 计算总耗时
+        //     const totalTime = Date.now() - startTime;
+        //     console.log(`所有任务完成，总耗时: ${totalTime}ms`); // 应 ≈ 400ms（200+100 + 300）
+        // })();
+
+        // /** 辅助函数：模拟延迟任务 */
+        // function delayLog(name, delay) {
+        //     return new Promise(resolve => {
+        //         console.log(`[开始] ${name}`);
+        //         setTimeout(() => {
+        //             console.log(`[完成] ${name}`);
+        //             resolve(name);
+        //         }, delay);
+        //     });
+        // }
+
+        // Todo: /*redux middleware 中间件的实现思想 函数式编程*/
+        // koa 中间件
+
+        // const app = {
+        //     middleware: [],
+        //     callback(ctx) {
+        //         console.log(ctx, 999999);
+        //     },
+        //     use(fn) {
+        //         this.middleware.push(fn)
+        //     },
+        //     go(ctx) {
+        //         let index = 0
+        //         // 创建一个next函数调度器
+        //         const next = () => {
+        //             if (this.middleware.length == index) {
+        //                 return
+        //             }
+        //             let middlewareFn = this.middleware[index++]
+        //             return middlewareFn(ctx, next)
+        //         }
+        //         next()
+        //     }
+        // }
+
+        // app.use((ctx, next) => {
+        //     console.log("第一");
+        //     ctx.name = 'Lucy';
+        //     next();
+        //     console.log("第一一");
+        // })
+        // app.use((ctx, next) => {
+        //     console.log("第二");
+        //     ctx.age = 12;
+        //     next();
+        //     console.log("第二二");
+        // })
+        // app.use((ctx, next) => {
+        //     console.log(`${ctx.name} is ${ctx.age} years old. ${ctx.num}`) // => Lucy is 12 years old.
+        //     next();
+        // })
+
+        // // ... 任意调用 use 插入中间件
+        // app.go({ num: "leon" });
+        // // 执行结果
+        // // "第一"
+        // // "第二"
+        // // Lucy is 12 years old.
+        // // "第二二"
+        // // "第二"
+
+
+        // Todo: - 字节面试题
+        // * 已知有一
+        // *@param a
+        // * @param b
+        // * @returns
+        // async function addRemote(a: number, b: number) {await new Promise((resolve)=>setTimeout(resolveMath.random()* 100));
+        // return a + b;
+        // 米米
+        // *请实现本地的 add 方法，调用 addRemote，能最优的实现输入数字的加法。
+        // *@example
+        // * add(5,6).then(result =>{
+        // console.log(result); // 11
+        // *});
+        // * add(1, 4,3, 3, 5).then(result =>{
+        // *console.log(result); // 16
+        // *})
+        // *add(2,3,3,3,4,1, 3, 3, 5).then(result =>{
+        // console.log(result); // 27
+        // *})
+        // Promise<number> 
+        // async function addRemote(a, b) {
+        //     await new Promise((resolve) => setTimeout(
+        //         resolve(Math.random() * 100))
+        //     );
+        //     return a + b;
+        // }
+
+        // // Tip: 串行实现
+        // // async function add(...inputs) {
+        // //     // 你的实现
+        // //     let sum = 0
+        // //     for (let i = 0; i < inputs.length; i++) {
+        // //         const element = inputs[i];
+        // //         sum = await addRemote(sum, element)
+        // //     }
+        // //     return sum
+
+        // //     // for-of 循环
+        // //     // let sum = 0;
+        // //     // for (const num of inputs) {
+        // //     //     sum = await addRemote(sum, num);
+        // //     // }
+        // //     // return sum;
+        // // }
+
+        // // Tip: 二分法并行分组求和
+        // async function add(...inputs) {
+        //     if (inputs.length === 0) return 0;
+        //     if (inputs.length === 1) return inputs[0];
+
+        //     const mid = Math.floor(inputs.length / 2);
+        //     const left = inputs.slice(0, mid);
+        //     const right = inputs.slice(mid);
+
+        //     const [leftSum, rightSum] = await Promise.all([
+        //         add(...left),
+        //         add(...right)
+        //     ]);
+
+        //     return addRemote(leftSum, rightSum);
+        // }
+
+        // // Tip: 没看懂
+        // // async function add(...inputs) {
+        // //     if (inputs.length === 0) return 0;
+        // //     if (inputs.length === 1) return inputs[0];
+        // //     // 将输入数组按2个一组分组
+        // //     const pairs = [];
+        // //     for (let i = 0; i < inputs.length; i += 2) {
+        // //         if (i + 1 < inputs.length) {
+        // //             pairs.push(addRemote(inputs[i], inputs[i + 1]));
+        // //         } else {
+        // //             pairs.push(Promise.resolve(inputs[i]));
+        // //         }
+        // //     }
+        // //     // 并行执行所有分组的加法
+        // //     const results = await Promise.all(pairs);
+        // //     // 如果还有多个结果，递归处理
+        // //     if (results.length > 1) {
+        // //         return add(...results);
+        // //     }
+        // //     return results[0];
+        // // }
+
+        // add(2, 3, 3, 3, 4, 1, 3, 3, 5).then(result => {
+        //     console.log(result); // 27
+        // })
+
+        // Todo: 杨辉三角
+        // 输入: numRows = 5
+        // 输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+        // var generate = function (numRows) {
+        //     let result = [], initRow = 0
+        //     function next(num) {
+        //         if (num == numRows) {
+        //             return
+        //         }
+        //         let arr = new Array(num + 1).fill(1)
+        //         for (let i = 1; i < arr.length - 1; i++) {
+        //             arr[i] = result[num - 1][i - 1] + result[num - 1][i]
+        //         }
+        //         result.push(arr)
+        //         next(++num)
+        //     }
+        //     next(initRow)
+        //     return result
+        // };
+        // console.log(generate(5).join('\r\n'))
+
+        // Todo: 对象扁平化 flatten
+        const obj = {
+            a: {
+                b: 1,
+                c: 2,
+                d: { e: 5 }
+            },
+            b: [1, 3, { a: 2, b: 3 }],
+            c: 3
+        }
+
+        // flattenObject(obj) 结果返回如下
+
+        // {
+        //  'a.b': 1,
+        //  'a.c': 2,
+        //  'a.d.e': 5,
+        //  'b[0]': 1,
+        //  'b[1]': 3,
+        //  'b[2].a': 2,
+        //  'b[2].b': 3
+        //   c: 3
+        // }
+
+        // function getType(source) {
+        //     return Object.prototype.toString.call(source).slice(8, -1)
+        // }
+
+        // const flattenObject = function (obj) {
+        //     let output = {}
+        //     function next(sourceVal, path) {
+        //         if (getType(sourceVal) == 'Object') {
+        //             Object.keys(sourceVal).forEach(key => {
+        //                 let currentPath = `${path}.${key}`
+        //                 next(sourceVal[key], currentPath)
+        //             })
+        //         } else if (getType(sourceVal) == 'Array') {
+        //             sourceVal.forEach((item, index) => {
+        //                 let currentPath = `${path}[${index}]`
+        //                 next(item, currentPath)
+        //             })
+        //         } else {
+        //             output[path] = sourceVal
+        //         }
+        //     }
+        //     next(obj, '')
+        //     return output
+        // }
+
+        // console.log(flattenObject(obj))
+        // console.log(JSON.stringify(flattenObject(obj), null, 4))
+
+        //let source = {
+        //  'a.b': 1,
+        //  'a.c': 2,
+        //  'a.d.e': 5,
+        //  'b[0]': 1,
+        //  'b[1]': 3,
+        //  'b[2].a': 2,
+        //  'b[2].b': 3
+        //   c: 3
+        // }
+
+        // Todo: 对象扁平化 flatten - 逆操作 recovery
+        // Restore a flattened object
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
