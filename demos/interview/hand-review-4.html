@@ -173,9 +173,67 @@
         // "第二"
 
 
-        // 
+        // Todo: 实现将将字符串转换为驼峰格式，toCamelCase
+        // function toCamelCase(str) {
+        //     // 1. 标准化分隔符为空格
+        //     let normalized = str.replace(/[_-]+/g, ' ').trim();
+        //     if (!normalized) return '';
+        //     // 2. 分割单词并处理大小写
+        //     const words = normalized.split(/\s+/);
+        //     return words
+        //         .map((word, i) =>
+        //             i === 0
+        //                 ? word.toLowerCase()
+        //                 : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        //         )
+        //         .join('');
+        // }
 
-        
+        function toCamelCase(input) {
+            if (typeof input !== 'string' || !input.trim()) {
+                return '';
+            }
+
+            // 处理各种分隔符情况（空格、下划线、连字符等）
+            const words = input
+                .replace(/[^a-zA-Z0-9]/g, ' ')  // 将所有非字母数字字符替换为空格
+                .split(/\s+/)                   // 按空格分割成单词数组
+                .filter(word => word.length > 0); // 过滤空字符串
+
+            if (words.length === 0) {
+                return '';
+            }
+
+            // 第一个单词全小写，后续单词首字母大写
+            const camelCase = words
+                .map((word, index) => {
+                    if (index === 0) {
+                        return word.toLowerCase();
+                    }
+                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                })
+                .join('');
+
+            return camelCase;
+        }
+
+        // 测试用例
+        console.log(toCamelCase('user_name'));      // "userName"
+        console.log(toCamelCase('User-Name'));      // "userName"
+        console.log(toCamelCase('user name'));      // "userName"
+        console.log(toCamelCase('userName'));       // "userName"
+        console.log(toCamelCase('USER_NAME'));      // "userName"
+        console.log(toCamelCase('user__name'));     // "userName"
+        console.log(toCamelCase('user-name'));      // "userName"
+        console.log(toCamelCase('User Name'));      // "userName"
+        console.log(toCamelCase('1userName'));      // "_1userName"
+        console.log(toCamelCase(''));               // ""
+        console.log(toCamelCase(null));             // ""
+        console.log(toCamelCase(undefined));        // ""
+        console.log(toCamelCase('some-mixed_string With spaces_underscores-and-hyphens'));
+        // "someMixedStringWithSpacesUnderscoresAndHyphens"
+
+
 
 
 

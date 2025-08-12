@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algo-practice-8-12</title>
+</head>
+
+<body>
+    <script>
+
+        // 1. Todo: 实现将将字符串转换为驼峰格式 toCamelCase
+        // "user__name".replace(/[^a-zA-Z0-9]/g, " ");  // "user  name"（两个空格）
+        // "user__name".replace(/[^a-zA-Z0-9]+/g, " "); // "user name"（一个空格）
+        // function toCamelCase(input) {
+        //     const words = input.replace(/[^a-zA-Z0-9]/g, ' ').split(/\s+/).filter(word => word.length > 0);
+
+        //     // console.log('words', words)
+
+        //     let camelCase = words.map((word, index) => {
+        //         return index == 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        //     }).join('')
+        //     return camelCase
+        // }
+        // console.log(toCamelCase('user_name'));      // "userName"
+        // console.log(toCamelCase('User-Name'));      // "userName"
+        // console.log(toCamelCase('user name'));      // "userName"
+        // console.log(toCamelCase('userName'));       // "userName"
+
+
+        // 2. Todo: 最长回文串
+        // 给你一个字符串 s，找到 s 中最长的回文子串
+        // 示例 1：
+        // 输入：s = "babad"
+        // 输出："bab"
+        // 解释："aba" 同样是符合题意的答案。
+        // 示例 2：
+        // 输入：s = "cbbd"
+        // 输出："bb"
+
+        // 思路是啥？
+        // 双重循环，left，right，判断是不是回文，如果是，记录长度，
+        // function isHuiWen(s, left, right) {
+        //     while (left < right) {
+        //         if (s[left] != s[right]) {
+        //             return false
+        //         }
+        //         left++
+        //         right--
+        //     }
+        //     return true
+        // }
+        // function solution(s) {
+        //     if (s.length <= 1) {
+        //         return false
+        //     }
+        //     let beginIndex = 0, maxLength = 0
+
+        //     for (let left = 0; left < s.length - 1; left++) {
+        //         for (let right = left + 1; right < s.length; right++) {
+        //             const currentLen = right - left + 1
+        //             if (currentLen > maxLength && isHuiWen(s, left, right)) {
+        //                 maxLength = currentLen
+        //                 beginIndex = left
+        //             }
+        //         }
+        //     }
+        //     if (maxLength) {
+        //         return s.substr(beginIndex, maxLength)
+        //     }
+        // }
+        // console.log(solution("babad"))
+
+
+        // 3. Todo: 手写bind
+        // Function.prototype.myBind = function () {
+        //     const argsList = [...arguments]
+        //     const context = argsList.slice(0, 1).pop()
+        //     const restArgs = argsList.slice(1)
+        //     const fn = this
+
+        //     return function (...args) {
+        //         const allArgs = [...restArgs, ...args]
+        //         context.fn = fn
+        //         context.fn(...allArgs)
+        //         delete context.fn
+        //     }
+        // }
+        // var name = 'test',
+        //     me = {
+        //         name: 'zzy'
+        //     }
+        // function hello() {
+        //     console.log('my name is: ', this.name)
+        // }
+        // hello()
+        // hello.myBind(me)()
+
+        // 4. Todo: 手写寄生虫继承
+        // function Parent(name) {
+        //     this.name = name
+        // }
+        // Parent.prototype.say = function () {
+        //     console.log(`my name is: ${this.name}`)
+        // }
+        // const p = new Parent('H')
+        // p.say()
+        // Child.prototype = Object.create(Parent.prototype)
+        // function Child(name) {
+        //     Parent.call(this, name)
+        // }
+        // const c = new Child('z')
+        // c.say()
+
+
+        // 5. Todo: 手写 new 操作符
+        // function myNew(constructor, ...args) {
+        //     const obj = Object.create(constructor.prototype)
+        //     const result = constructor.call(obj, ...args)
+        //     return result instanceof Object ? result : obj
+        // }
+
+        // 6. Todo: 防抖
+        // function debounce(fn, delay) {
+        //     let timer;
+        //     return function (...args) {
+        //         if (timer) {
+        //             clearTimeout(timer)
+        //         }
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args)
+        //         }, delay)
+        //     }
+        // }
+        // // 节流
+        // function throttle(fn, delay) {
+        //     let timer, isRunning = false
+        //     return function (...args) {
+        //         if (isRunning) {
+        //             return
+        //         }
+        //         isRunning = true
+        //         timer = setTimeout(() => {
+        //             fn.call(this, ...args)
+        //             isRunning = false
+        //         }, delay)
+        //     }
+        // }
+
+        
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

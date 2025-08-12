@@ -300,128 +300,6 @@
         // 算法复杂度
         // Why O(n)
 
-
-        // Todo: 三数之和
-        // 给你一个整数数组 nums ，判断是否存在三元组[nums[i], nums[j], nums[k]]
-        // 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。
-        // 请你返回所有和为 0 且不重复的三元组。
-        // 注意：答案中不可以包含重复的三元组。
-
-        // function threeSum(nums) {
-        //     const res = [];
-        //     const n = nums.length;
-        //     // 三层循环遍历
-        //     for (let i = 0; i < n - 2; i++) {
-        //         for (let j = i + 1; j < n - 1; j++) {
-        //             for (let k = j + 1; k < n; k++) {
-        //                 // 检查和是否为 0
-        //                 if (nums[i] + nums[j] + nums[k] === 0) {
-        //                     // 将三元组添加到结果中
-        //                     const triplet = [nums[i], nums[j], nums[k]];
-        //                     // 防止添加重复的三元组
-        //                     // Tip: 这个判断不能保证组合内部元素不重复，如果 nums 有重复的元素的话，有几率产生重复的组合。
-        //                     if (!res.some(item =>
-        //                         item[0] === triplet[0] && item[1] === triplet[1] && item[2] === triplet[2]
-        //                     )) {
-        //                         res.push(triplet);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     return res;
-        // }
-        // // 示例
-        // console.log(threeSum([-1, 0, 1, 2, -1, -4]));
-
-        // Todo: 第一种解法：三层 for 循环暴力破解
-        // function threeSum(nums) {
-        //     const result = [];
-        //     const n = nums.length;
-        //     // 先对数组排序，方便去重，从小到大排序
-        //     nums.sort((a, b) => a - b);
-        //     // 三层循环暴力枚举
-        //     for (let i = 0; i < n - 2; i++) {
-        //         // 跳过重复的 a
-        //         // Q: 为什么这样就可以跳过呢？
-                   // A: 这行代码有效是因为：
-                   // 1. 数组已经排序，相同的数字会相邻
-                   // 2. 当当前数字与前一个数字相同时，说明这个数字作为第一个元素的所有组合已经被考虑过了
-                   // 3. 因此可以直接跳过，避免重复解
-        //         if (i > 0 && nums[i] === nums[i - 1]) continue;
-        
-        //         for (let j = i + 1; j < n - 1; j++) {
-        //             // 关注起始位的索引参数
-        //             // 跳过重复的 b
-        //             if (j > i + 1 && nums[j] === nums[j - 1]) continue;
-        //             // 保证索引大于前一个，并且两两不相同即可保证
-        //             for (let k = j + 1; k < n; k++) {
-        //                 // 跳过重复的 c
-        //                 if (k > j + 1 && nums[k] === nums[k - 1]) continue;
-        //                 // 检查是否满足 a + b + c = 0
-        //                 if (nums[i] + nums[j] + nums[k] === 0) {
-        //                     result.push([nums[i], nums[j], nums[k]]);
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     return result;
-        // }
-        // // 示例
-        // const nums = [-1, 0, 1, 2, -1, -4];
-        // const result = threeSum(nums);
-        // console.log(result); // 输出: [[-1, -1, 2], [-1, 0, 1]]
-
-        // 第二种：双指针索引法
-        //
-        // function threeSum(nums) {
-        //     const result = [];
-        //     const n = nums.length;
-        //     // 先对数组排序
-        //     nums.sort((a, b) => a - b);
-
-        //     // 遍历数组，固定 a
-        //     for (let i = 0; i < n - 2; i++) {
-        //         // 跳过重复的 a
-        //         // 因为数组已经排序过了，所以只要判断相邻两两不相同，
-        //         // 即可保证，当前三元组的第一个元素是不重复的
-        //         if (i > 0 && nums[i] === nums[i - 1]) continue;
-        //         // 初始化双指针
-        //         let left = i + 1;
-        //         let right = n - 1;
-        //         // 双指针寻找 b 和 c
-        //         while (left < right) {
-        //             const sum = nums[i] + nums[left] + nums[right];
-        //             if (sum < 0) {
-        //                 left++; // 和太小，左指针右移
-        //             } else if (sum > 0) {
-        //                 right--; // 和太大，右指针左移
-        //             } else {
-        //                 // 找到满足条件的三元组
-        //                 result.push([nums[i], nums[left], nums[right]]);
-        //                 // 跳过重复的 b 和 c
-        //                 while (left < right && nums[left] === nums[left + 1]) {
-        //                     left++;
-        //                 }
-        //                 while (left < right && nums[right] === nums[right - 1]) {
-        //                     right--;
-        //                 }
-        //                 // 移动指针
-        //                 left++;
-        //                 right--;
-        //             }
-        //         }
-        //     }
-
-        //     return result;
-        // }
-
-        // // 示例
-        // const nums = [-1, 0, 1, 2, -1, -4];
-        // const result = threeSum(nums);
-        // console.log(result); // 输出: [[-1, -1, 2], [-1, 0, 1]]
-
-
         // Todo: 数组中的第K个最大元素
         // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
         // 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
@@ -437,29 +315,6 @@
         // Todo: 最大子数组和
         // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），
         // 返回其最大和。子数组是数组中的一个连续部分。
-
-        // var maxSubArray = function (nums) {
-        //     let len = nums.length, maxSum = 0
-        //         , begin = 0, end = 0;
-        //     for (let i = 0; i < len; i++) {
-        //         if (len == 1) {
-        //             return nums[0]
-        //         }
-        //         for (let j = 1; j < len; j++) {
-        //             if (j > i) {
-        //                 // debugger
-        //                 let vaildNums = nums.slice(i, j + 1)
-        //                 let sum = vaildNums.reduce(
-        //                     function (sum, num) {
-        //                         return sum + num
-        //                     }
-        //                 )
-        //                 maxSum = Math.max(maxSum, sum)
-        //             }
-        //         }
-        //     }
-        //     return maxSum;
-        // };
 
         // function maxSubArray(nums) {
         //     let preSum = 0, maxSum = nums[0] //Tip: 假定第一个最大
@@ -602,7 +457,6 @@
         // Todo:
         // 要实现一个最大请求控制的功能，可以通过一个队列来管理请求，并使用计数器来限制同时运行的请求数量。
         // 以下是实现 add、step 和 remove 等方法的代码示例：
-
         // class RequestController {
         //     constructor(maxNums) {
         //         this.maxConcurrentCount = maxNums
