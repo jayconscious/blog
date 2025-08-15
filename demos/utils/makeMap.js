@@ -14,4 +14,6 @@ function makeMap (str, expectsLowerCase) {
     }
 }
 
+console.log('111')
+
 

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algo-practice-8-13</title>
+</head>
+
+<body>
+    <script>
+        // 1. Todo: 深拷贝
+        // function getType(source) {
+        //     return Object.prototype.toString.call(source).slice(8, -1)
+        // }
+        // function deepClone(source) {
+        //     let result = {}
+        //     if (getType(source) == 'Object') {
+        //         Object.keys(source).forEach(key => {
+        //             result[key] = deepClone(source[key])
+        //         })
+        //     } else if (getType(source) == 'Array') {
+        //         source.forEach(key => {
+        //             result[key] = deepClone(source[key])
+        //         })
+        //     } else {
+        //         return source
+        //     }
+        // }
+
+        // Todo: 冒泡排序
+
+
+        // Todo: 快速排序
+        // function quickSort(nums) {
+        //     if (nums.length <= 1) {
+        //         return nums
+        //     }
+        //     let baseLine = nums[0]
+        //     let leftNums = []
+        //     let rightNums = []
+        //     for (let i = 1; i < nums.length; i++) {
+        //         if (nums[i] < baseLine) {
+        //             leftNums.push(nums[i])
+        //         } else {
+        //             rightNums.push(nums[i])
+        //         }
+        //     }
+        //     return [...quickSort(leftNums), baseLine, ...quickSort(rightNums)]
+        // }
+        // console.log(quickSort([-1, 0, 1, 2, -1, -4]))
+
+
+        // Todo: 手写解析器
+        // const vNode = {
+        //     tag: 'div',
+        //     attrs: {
+        //         className: 'test'
+        //     },
+        //     children: [{
+        //         tag: 'div',
+        //         attrs: {
+        //             className: 'haha'
+        //         },
+        //         children: [{
+        //             tag: 'span',
+        //             attrs: {
+        //                 className: 'haha'
+        //             }
+        //         }]
+        //     }]
+        // }
+
+        // function _render(vNode) {
+        //     const dom = document.createElement(vNode?.tag)
+        //     if (vNode?.children?.length) {
+        //         vNode.children.forEach(childNode => {
+        //             dom.appendChild(_render(childNode))
+        //         });
+        //     }
+        //     return dom
+        // }
+        // const body = document.getElementsByTagName('body')[0]
+        // body.appendChild(_render(vNode))
+
+
+        // Todo: parentId 和 id 展平
+        // 第二题：
+        // 文件路径转树形结构解决方案
+        // 根据你的需求，我们需要将文件路径字符串数组转换为树形结构，用于Tree组件展示。
+        // 我将实现三个函数来完成这个转换过程。
+        // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
+
+
+        // 将路径数组转换为带有id和parentId的扁平列表
+        // const toList = (arr) => {
+        //     const list = [];
+        //     const seen = new Set(); // 用于去重
+        //     arr.forEach(path => {
+        //         const segments = path.split('.');
+        //         let parentId = null;
+        //         segments.forEach((segment, index) => {
+        //             const id = parentId ? `${parentId}.${segment}` : segment;
+        //             // 如果这个节点已经处理过则跳过
+        //             if (!seen.has(id)) {
+        //                 seen.add(id);
+        //                 list.push({
+        //                     title: segment,
+        //                     parentId: parentId,
+        //                     id: id,
+        //                     key: id,
+        //                     children: null
+        //                 });
+        //             }
+        //             parentId = id;
+        //         });
+        //     });
+        //     return list;
+        // };
+
+        // // 将扁平列表转换为树形结构
+        // // 这个递归的逻辑是什么？
+        // const toTree = (list, parentId = null) => {
+        //     const tree = [];
+        //     list.forEach(item => {
+        //         if (item.parentId === parentId) {
+        //             const children = toTree(list, item.id);
+        //             if (children.length > 0) {
+        //                 item.children = children;
+        //             }
+        //             tree.push(item);
+        //         }
+        //     });
+        //     return tree;
+        // };
+
+        // // 整合函数，直接生成Tree组件需要的数据
+        // const toTreeData = (arr) => {
+        //     const list = toList(arr);
+        //     console.log('list', list)
+        //     return toTree(list);
+        // };
+
+        // // 测试数据
+        // const arr = ['aa.dd', 'bb.cc.ff', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc'];
+        // const treeData = toTreeData(arr);
+        // console.log(JSON.stringify(treeData, null, 2));
+
+        // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
+        // // let res = [
+        //     {
+        //         "title": "aa",
+        //         "parentId": null,
+        //         "id": "aa",
+        //         "key": "aa",
+        //         "children": [
+        //             {
+        //                 "title": "dd",
+        //                 "parentId": "aa",
+        //                 "id": "aa.dd",
+        //                 "key": "aa.dd",
+        //                 "children": null
+        //             }
+        //         ]
+        //     }]
+        // let listData = [
+        //     {
+        //         "title": "aa",
+        //         "parentId": null,
+        //         "id": "aa",
+        //         "key": "aa",
+        //     }, {
+        //         "title": "dd",
+        //         "parentId": "aa",
+        //         "id": "aa.dd",
+        //         "key": "aa.dd",
+        //         "children": null
+        //     }]
+
+        // let toTreeData = function (list, parentId) {
+        //     let tree = []
+        //     list.forEach(item => {
+        //         if (item.parentId == parentId) {
+        //             const children = toTreeData(list, item.id)
+        //             if (children.length) {
+        //                 item.children = children
+        //             }
+        //             tree.push(item)
+        //         }
+        //     });
+        //     return tree
+        // }
+        // console.log(toTreeData(listData))
+
+        // "title": "dd",
+        // "parentId": "aa",
+        // "id": "aa.dd",
+        // "key": "aa.dd",
+        // "children": null
+        // 对于输入 ['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc']，输出结构如下：
+        // function toList(strs) {
+        //     let result = [], set = new Set()
+        //     for (let i = 0; i < strs.length; i++) {
+        //         const strList = strs[i].split('.')
+        //         let parentId = null
+        //         strList.forEach(item => {
+        //             const id = parentId ? `${parentId}.${item}` : `${item}`
+        //             if (!set.has(id)) {
+        //                 set.add(id)
+        //                 result.push({
+        //                     "title": id,
+        //                     "parentId": parentId,
+        //                     "id": id,
+        //                     "key": id,
+        //                     "children": null
+        //                 })
+        //             }
+        //             parentId = id
+        //         })
+        //     }
+        //     return result
+        // }
+
+        // const list = toList(['aa.bb', 'aa.cc.bb', 'cc.aa.bb.bb', 'bb.cc.bb.dd.aa.cc'])
+        // console.log('list', list)
+        // const tree = toTreeData(list)
+        // console.log('tree', tree)
+
+
+        // Todo: 找到大于给定整数 N 的最小整数，使得该整数的各位数字之和是 N 的各位数字之和的两倍。
+        // function sumOfDigits(num) {
+        //     return num.toString().split('').reduce((sum, digit) => Number(digit) + sum, 0)
+        // }
+        // function solution(N) {
+        //     let target = sumOfDigits(N) * 2
+        //     let candidate = N + 1
+        //     while (sumOfDigits(candidate) !== target) {
+        //         candidate++
+        //     }
+        //     return candidate
+        // }
+        // console.log(solution(14));  // 输出: 19
+        // console.log(solution(10));  // 输出: 11
+        // console.log(solution(99));  // 输出: 9999
+
+
+        // Todo: 
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

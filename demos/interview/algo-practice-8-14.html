@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algo-practice-8-14</title>
+</head>
+
+<body>
+    <script>
+        // Todo: promise 实现
+        // 分析一下 promise 拥有的一些特性：
+        // 构造函数里传一个函数的两个参数（resolve, reject）
+        // resolve 成功时执行的回调
+        // reject 失败时执行的回调
+        // 三种状态
+        // pending [待定] 初始状态
+        // fulfilled [实现] 操作成功
+        // rejected [被否决] 操作失败
+
+        // class MyPromise {
+        //     constructor(executor) {
+        //         this.status = 'pengding'
+        //         this.value = null
+        //         this.error = null
+        //         this.successList = []
+        //         this.faildList = []
+        //         const resolve = function (val) {
+        //             if (this.status = 'pengding') {
+        //                 this.status = 'fulfilled'
+        //                 this.value = res
+        //             }
+        //         }
+        //         const reject = function (err) {
+        //             if (this.status = 'pengding') {
+        //                 this.status = 'rejected'
+        //                 this.error = err
+        //             }
+        //         }
+        //     }
+        // }
+
+        // 基本版本
+
+        // Todo: then 异步测试
+        // class MyPromise {
+        //     constructor(executor) {
+        //         this.status = 'pending'
+        //         this.successList = []
+        //         this.failedList = []
+        //         this.res = ''
+        //         this.error = ''
+
+        //         const resolve = res => {
+        //             if (this.status == 'pending') {
+        //                 this.res = res
+        //                 this.status = 'fulfilled'
+        //                 this.successList.forEach(onFulfilled => onFulfilled())
+        //             }
+        //         }
+
+        //         const reject = error => {
+        //             if (this.status == 'pending') {
+        //                 this.error = error
+        //                 this.status = 'rejected'
+        //                 this.failedList.forEach(onRejected => onRejected())
+        //             }
+        //         }
+
+        //         executor(resolve, reject)
+        //     }
+
+        //     then(onFulfilled, onRejected) {
+        //         if (this.status == 'fulfilled') {
+        //             this.successList.push(() => onFulfilled(this.res))
+        //         }
+        //         if (this.status == 'rejected') {
+        //             this.failedList.push(() => onRejected(this.error))
+        //         }
+        //         if (this.status == 'pending') {
+        //             onFulfilled && this.successList.push(() => onFulfilled(this.res))
+        //             onRejected && this.failedList.push(() => onRejected(this.error))
+        //         }
+        //     }
+        // }
+
+        // // 测试
+        // new MyPromise(function(resolve, reject) {
+        //   setTimeout(function() {
+        //     resolve('hello world~')
+        //   }, 2000)
+        // }).then(res => {
+        //   console.log(res)
+        //   return 'asdas'
+        // })
+
+
+        // Todo: then 支持链式调用
+        // 链式调用时怎么实现
+        // new Promise(function(resolve, reject) {
+        //   setTimeout(function() {
+        //     resolve('hello')
+        //   }, 2000)
+        // }).then(res => {
+        //   console.log(res)
+        //   // return new Promise(function(resolve, reject){
+        //   //   setTimeout(function() {
+        //   //     resolve('world')
+        //   //   }, 2000)
+        //   // })
+        //   return 'world'
+        // }).then(res => console.log(res))
+        // 1. 判断 then 执行的返回值（是否promise）
+        // 2. 如果是promise 选择要判断其状态
+
+
+        // class MyPromise {
+        //     constructor(executor) {
+        //         this.status = 'pending'
+        //         this.successList = []
+        //         this.failedList = []
+        //         this.res = ''
+        //         this.error = ''
+
+        //         const resolve = res => {
+        //             if (this.status == 'pending') {
+        //                 this.res = res
+        //                 this.status = 'fulfilled'
+        //                 this.successList.forEach(onFulfilled => onFulfilled())
+        //             }
+        //         }
+
+        //         const reject = error => {
+        //             if (this.status == 'pending') {
+        //                 this.error = error
+        //                 this.status = 'rejected'
+        //                 this.failedList.forEach(onRejected => onRejected())
+        //             }
+        //         }
+
+        //         executor(resolve, reject)
+        //     }
+
+        //     then(onFulfilled, onRejected) {
+        //         const p = new MyPromise((resolve, reject) => {
+        //             if (this.status == 'fulfilled') {
+        //                 this.successList.push(() => {
+        //                     const x = onFulfilled(this.res)
+        //                     resolvePromise(p, x, resolve, reject)
+        //                 })
+        //             }
+        //         })
+        //         // if (this.status == 'rejected') {
+        //         //     this.failedList.push(() => onRejected(this.error))
+        //         // }
+        //         // if (this.status == 'pending') {
+        //         //     onFulfilled && this.successList.push(() => onFulfilled(this.res))
+        //         //     onRejected && this.failedList.push(() => onRejected(this.error))
+        //         // }
+        //         return p
+        //     }
+        // }
+
+        // function resolvePromise(p, x, resolve, reject) {
+        //     // 判断 x 这个函数返回具体是什么？
+        //     // 如果是 promise ，
+        //     if (p === x) {
+        //         reject('存在循环引用~')
+        //     }
+        //     // 判断 x
+        //     let called = false
+        //     if (x != null && typeof x == 'object') {
+        //         const then = x.then
+        //         if (typeof then == 'function') {
+        //             // then 调用
+        //             then.call(x, y => {
+        //                 if (!called) {
+        //                     called = true
+        //                     resolvePromise(p, y, resolve, reject)
+        //                 }
+        //             }, error => {
+        //                 if (!called) {
+        //                     called = true
+        //                     reject(error)
+        //                 }
+        //             })
+        //         } else {
+        //             resolve(x)
+        //         }
+        //     }
+        // }
+
+        // MyPromise.all = function (promiseArray) {
+        //   let count = 0, resList = []
+        //   return MyPromise(function (resolve, reject) {
+        //     promiseArray.forEach(promise => {
+        //         promise.then(res => {
+        //             count++
+        //             resList.push(res)
+        //             if (count == promiseArray.length) {
+        //                 resolve(resList)
+        //             }
+        //         })
+        //     }).catch(err => reject(err))
+        //   })
+        // }
+
+        // MyPromise.allSettled = function(promiseArray) {
+        //   let count = 0, result = []
+        //   return new MyPromise(function(resolve, reject) {
+        //     for (let i = 0; i < promiseArray.length; i++) {
+        //       promiseArray[i].then(res => {
+        //         count++
+        //         result[index] = {
+        //           status: 'fulfilled',
+        //           value
+        //         }
+        //         if (count === promiseArray.length) {
+        //           resolve(result)
+        //         }
+        //       }).catch(err => {
+        //         count++
+        //         result[index] = {
+        //           status: 'rejected',
+        //           err
+        //         }
+        //         if (count === promiseArray.length) {
+        //           resolve(result)
+        //         }
+        //       })
+        //     }
+        //   }).catch(err => reject(err))
+        // }
+
+        // Todo: 冒泡排序
+        // function bubbleSort(nums) {
+        //     for (let i = 0; i < nums.length; i++) {
+        //         for (let j = 0; j < nums.length - i; j++) {
+        //             if (nums[j] > nums[j + 1]) {
+        //                 [nums[j + 1], nums[j]] = [nums[j], nums[j + 1]]
+        //             }
+        //         }
+        //     }
+        //     return nums
+        // }
+        // console.log(bubbleSort([5, 2, 9, 1, 5, 6]))
+
+
+        // LRU算法 实现，Least Recently Used
+        // LRU（最近最少使用）是一种常见的缓存淘汰算法，用于在缓存空间不足时决定哪些数据应该被移除。
+        // 因此当缓存满时，会优先淘汰最久未被访问的数据。
+
+        // class LRUCache {
+        //     constructor(capacity) {
+        //         this.capacity = capacity
+        //         this.cache = new Map()
+        //     }
+
+        //     put(key, val) {
+        //         if (this.cache.has(key)) {
+        //             this.cache.delete(key);
+        //         } else if (this.cache.size >= this.capacity) {
+        //             // this.cache.keys() //
+        //             // this.cache.keys().next().value
+        //             // 可以分解为以下步骤：
+        //             // this.cache.keys():返回一个 Map 的键迭代器（Iterator）对象
+        //             // 这个迭代器包含 Map 中所有的键，按照插入顺序排列
+
+        //             // .next(): 调用迭代器的 next() 方法返回一个包含 value 和 done 属性的对象
+        //             // 对于 Map 的键迭代器，第一次调用 next() 会返回第一个键
+
+        //             // .value: 从 next() 返回的对象中提取 value 属性
+        //             // 这就是 Map 中的第一个键
+
+        //             this.cache.delete(this.cache.keys().next().value);
+        //         }
+        //         this.cache.set(key, val);
+        //     }
+
+        //     get(key) {
+        //         if (!this.cache.has(key)) return -1;
+        //         const val = this.cache.get(key)
+        //         this.cache.set(key, val) // 保持最新
+        //         return val
+        //     }
+        // }
+
+        // // 测试函数
+        // function testLRUCache() {
+        //     console.log("=== 开始测试 LRUCache ===");
+
+        //     // 测试1: 创建容量为2的缓存
+        //     const cache = new LRUCache(2);
+        //     console.log("创建容量为2的缓存");
+
+        //     // 测试2: 添加和获取元素
+        //     cache.put(1, 1);
+        //     cache.put(2, 2);
+        //     console.log("添加元素: put(1,1), put(2,2)");
+        //     console.log("get(1):", cache.get(1)); // 应返回 1
+        //     console.log("get(2):", cache.get(2)); // 应返回 2
+
+        //     // 测试3: 测试LRU淘汰机制
+        //     cache.put(3, 3); // 应该淘汰(1,1)
+        //     console.log('cache', cache)
+        //     console.log("添加第三个元素 put(3,3)，应该淘汰(1,1)");
+        //     console.log("get(1):", cache.get(1)); // 应返回 -1
+        //     console.log("get(3):", cache.get(3)); // 应返回 3
+
+        //     // // 测试4: 测试更新元素会使其变为最新
+        //     // cache.put(2, 22); // 更新2的值
+        //     // cache.put(4, 4);  // 应该淘汰(3,3)
+        //     // console.log("更新(2,2)为(2,22)，然后添加(4,4)，应该淘汰(3,3)");
+        //     // console.log("get(3):", cache.get(3)); // 应返回 -1
+        //     // console.log("get(2):", cache.get(2)); // 应返回 22
+        //     // console.log("get(4):", cache.get(4)); // 应返回 4
+
+        //     // // 测试5: 边界测试 - 容量为1的缓存
+        //     // const smallCache = new LRUCache(1);
+        //     // smallCache.put(1, 1);
+        //     // smallCache.put(2, 2); // 应该淘汰(1,1)
+        //     // console.log("\n测试容量为1的缓存");
+        //     // console.log("get(1):", smallCache.get(1)); // 应返回 -1
+        //     // console.log("get(2):", smallCache.get(2)); // 应返回 2
+
+        //     // // 测试6: 获取不存在的键
+        //     // console.log("\n测试不存在的键");
+        //     // console.log("get(99):", cache.get(99)); // 应返回 -1
+
+        //     console.log("=== 测试完成 ===");
+        // }
+
+        // // 执行测试
+        // testLRUCache();
+
+
+        // 4.字母异位词
+
+        // Todo: 49. 字母异位词分组
+        // 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+        // 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。
+        // 示例 1:
+        // 输入: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+        // 输出: [["bat"],["nat","tan"],["ate","eat","tea"]]
+        // 示例 2:
+        // 输入: strs = [""]
+        // 输出: [[""]]
+        // 示例 3:
+        // 输入: strs = ["a"]
+        // 输出: [["a"]]
+
+        // function solution(strs) {
+        //     let map = {}, result = []
+        //     for (let i = 0; i < strs.length; i++) {
+        //         const str = strs[i];
+        //         let key = str.split('').sort().join()
+        //         let list = map[key] ? map[key]:[]
+        //         list.push(str)
+        //         map[key] = list
+        //     }
+        //     return Object.values(map)
+        // }
+
+        // console.log(solution(["eat", "tea", "tan", "ate", "nat", "bat"]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
