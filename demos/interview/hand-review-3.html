@@ -361,27 +361,6 @@
         // 输入：nums = [1,0,1,2]
         // 输出：3
 
-        // 不行
-        // function solution(nums) {
-        //     let res = [], start = 0, max = 0
-        //     nums.sort((a, b) => a - b)
-        //     for (let i = 0; i < nums.length; i++) {
-        //         const element = nums[i]
-        //         if (element + 1 == nums[i + 1]) {
-        //             // 连续
-        //         } else if (element == nums[i + 1]) {
-        //             // 相同
-        //             start = i + 1
-        //         } else {
-        //             // 不连续
-        //             let arr = [...nums].slice(start, i + 1)
-        //             max = Math.max(max, arr.length)
-        //             start = i + 1
-        //         }
-        //     }
-        //     return max
-        // }
-
         // var longestConsecutive = function (nums) {
         //     let ans = 0;
         //     const st = new Set(nums); // 把 nums 转成哈希集合
