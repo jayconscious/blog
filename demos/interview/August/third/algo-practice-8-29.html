@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algo-practice-8-29</title>
+</head>
+
+<body>
+
+    <script>
+        // Todo: 矩阵置零
+        // https://leetcode.cn/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-100-liked
+        // 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+        // 输入：matrix = [[1,1,1],[1,0,1],[1,1,1]]
+        // 输出：[[1,0,1],[0,0,0],[1,0,1]]
+
+        // 核心思路：找出 0 所在的位置，记录下来(如何记录呢？如果只是一维的话，就用普通变量，多个的话，就用数组来处理。)
+        //         然后再去遍历 matrix，依据标记来设置值。
+        // 有的时候，我们可能一下找不到思路，或者是思路不明确，我们可以先写写，找找感觉。
+
+        // function solution(matrix) {
+        //     const m = matrix.length
+        //     const n = matrix[0].length
+        //     let zeroM = 0
+        //     let zeroN = 0
+        //     // 遍历 matrix 找到 0 的所在位置，记录下来。
+        //     for (let i = 0; i < m; i++) {
+        //         for (let j = 0; j < n; j++) {
+        //             if (matrix[i][j] == 0) {
+        //                 zeroM = i
+        //                 zeroN = j
+        //             }
+        //         }
+        //     }
+
+        //     console.log('zeroM', zeroM, 'zeroN', zeroN)
+
+        //     for (let i = 0; i < m; i++) {
+        //         for (let j = 0; j < n; j++) {
+        //             if (i == zeroM || j == zeroN) {
+        //                 matrix[i][j] = 0
+        //             }
+        //         }
+        //     }
+        //     return matrix
+        // }
+        // console.log(solution([[1, 1, 1], [1, 0, 1], [1, 1, 1]]))
+
+
+        // Todo: 螺旋矩阵
+        // 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+        // const matrix = [
+        //             [1,2,3,4],
+        //             [5,6,7,8],
+        //             [9,10,11,12]
+        //         ]
+
+        // 核心思路：
+
+        function solution(matrix) {
+            let row = matrix.length
+            let col = matrix[0].length
+            let result = []
+        }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

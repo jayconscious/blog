@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>algo-practice-8-21</title>
+    <title>algo-practice-9-1</title>
 </head>
 
 <body>
     <script>
-        // Todo: 438. 找到字符串中所有字母异位词
+
+
+// Todo: 438. 找到字符串中所有字母异位词
         // 滑动窗口
         // 给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
 
@@ -95,85 +97,21 @@
 
         // console.log(findAnagrams("cbaebabacd", "abc"))
         console.log(findAnagrams("eba", "abc"))
-        
 
-        // https://leetcode.cn/problems/rotate-array/description/?envType=study-plan-v2&envId=top-100-liked
-        // Todo: 轮转数组
-        // 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
-        // 要求是原地修改数组
+        // Todo: 螺旋矩阵
+        // 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+        // const matrix = [
+        //             [1,2,3,4],
+        //             [5,6,7,8],
+        //             [9,10,11,12]
+        //         ]
+        // 核心思路：
 
-        // 示例 1:
-        // 输入: nums = [1,2,3,4,5,6,7], k = 3
-        // 输出: [5,6,7,1,2,3,4]
-        // 解释:
-        // 向右轮转 1 步: [7,1,2,3,4,5,6]
-        // 向右轮转 2 步: [6,7,1,2,3,4,5]
-        // 向右轮转 3 步: [5,6,7,1,2,3,4]
-
-        // 示例 2:
-        // 输入：nums = [-1,-100,3,99], k = 2
-        // 输出：[3,99,-1,-100]
-        // 解释: 
-        // 向右轮转 1 步: [99,-1,-100,3]
-        // 向右轮转 2 步: [3,99,-1,-100]
-
-        // var rotate = function(nums, k) {
-
-        //     for (let i = 0; i < k; i++) {
-        //         const endNum = nums.pop()
-        //         nums.unshift(endNum)
-        //     }
-
-        //     return nums
-        // };
-
-        // var rotate = function (nums, k) {
-        //     const n = nums.length;
-        //     k = k % n;
-        //     if (k === 0) return;
-        //     // 使用 splice 和 unshift 原地修改
-        //     const rotatedPart = nums.splice(n - k);
-        //     nums.unshift(...rotatedPart);
-        // };
-        // console.log(rotate([1, 2, 3, 4, 5, 6, 7], 3))
-
-
-        // Todo: 238. 除自身以外数组的乘积 - 普通数组
-        // 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
-
-        // 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
-        // 请 不要使用除法，且在 O(n) 时间复杂度内完成此题。
-
-        // 示例 1:
-        // 输入: nums = [1,2,3,4]
-        // 输出: [24,12,8,6]
-
-        // 示例 2:
-        // 输入: nums = [-1,1,0,-3,3]
-        // 输出: [0,0,9,0,0]
-
-        // const caculateNum = function (nums) {
-        //     if (nums.length === 0) return 0; // 或者 return 1，根据需求决定
-        //     return nums.reduce((acc, num) => acc * num, 1);
-        // }
-
-        // var productExceptSelf = function (nums) {
-        //     let result = []
-        //     for (let i = 0; i < nums.length; i++) {
-        //         const currEle = nums[i]
-        //         const copyNums = [...nums]
-        //         copyNums.splice(i, 1)
-        //         const newNum = caculateNum(copyNums)
-        //         // console.log('newNum', newNum)
-        //         result.push(newNum)
-        //     }
-        //     return result
-        // };
-
-        // console.log(productExceptSelf([1, 2, 3, 4]))
-
-
-
+        function solution(matrix) {
+            let row = matrix.length
+            let col = matrix[0].length
+            let result = []
+        }
 
 
 
