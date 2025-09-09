@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algo-practice-9-1</title>
+</head>
+
+<body>
+    <script>
+        // Todo: 438. 找到字符串中所有字母异位词
+        // 滑动窗口
+        // 给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
+        // 示例 1:
+        // 输入: s = "cbaebabacd", p = "abc"
+        // 输出: [0,6]
+        // 解释:
+        // 起始索引等于 0 的子串是 "cba", 它是 "abc" 的异位词。
+        // 起始索引等于 6 的子串是 "bac", 它是 "abc" 的异位词。
+
+        // 示例 2:
+        // 输入: s = "abab", p = "ab"
+        // 输出: [0,1,2]
+        // 解释:
+        // 起始索引等于 0 的子串是 "ab", 它是 "ab" 的异位词。
+        // 起始索引等于 1 的子串是 "ba", 它是 "ab" 的异位词。
+        // 起始索引等于 2 的子串是 "ab", 它是 "ab" 的异位词。
+
+        // 核心思路是啥：遍历s，截取 p 长度相同的字符串，看看是否是相同的字符串。
+
+        /**
+         * @param {string} s
+         * @param {string} p
+         * @return {number[]}
+         */
+        // 第一种：
+        // const toSameStr = function (s) {
+        //     return s.split('').sort().join('')
+        // }
+
+        // var findAnagrams = function (s, p) {
+        //     let result = [];
+        //     for (let i = 0; i < s.length; i++) {
+        //         const currStr = s.slice(i, i + p.length)
+        //         if (toSameStr(currStr) == toSameStr(p)) {
+        //             result.push(i)
+        //         }
+        //     }
+        //     return result
+        // };
+
+        // console.log(findAnagrams("cbaebabacd", "abc"))
+
+        // 第二种：滑动窗口
+        // 核心思路是啊？
+        // 在 s 中统计与 p.length 相同的字符串频次是否相同，然后开始窗口滑动，统计所有的情况。
+        // const findAnagrams = function (s, p) {
+        //     const sLen = s.length, pLen = p.length
+        //     let result = []
+        //     if (sLen < pLen) {
+        //         return result
+        //     }
+        //     // 1.初始化频次数组
+        //     const sCount = new Array(26).fill(0)
+        //     const pCount = new Array(26).fill(0)
+
+        //     // 2.初始化窗口
+        //     for (let i = 0; i < pLen; i++) {
+        //         sCount[s[i].charCodeAt() - 'a'.charCodeAt()]++
+        //         pCount[p[i].charCodeAt() - 'a'.charCodeAt()]++
+        //     }
+
+        //     if (sCount.toString() == pCount.toString()) {
+        //         result.push(0)
+        //     }
+
+        //     for (let i = 0; i < sLen - pLen; i++) {
+        //         sCount[s[i].charCodeAt() - 'a'.charCodeAt()]--
+        //         sCount[s[i + pLen].charCodeAt() - 'a'.charCodeAt()]++
+        //         if (sCount.toString() == pCount.toString()) {
+        //             result.push(i + 1)
+        //         }
+        //     }
+
+        //     return result
+        // }
+
+        // // console.log(findAnagrams("cbaebabacd", "abc"))
+        // console.log(findAnagrams("eba", "abc"))
+
+
+        // Todo: 238. 除自身以外数组的乘积 - 普通数组
+        // 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
+
+        // 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
+        // 请 不要使用除法，且在 O(n) 时间复杂度内完成此题。
+
+        // 示例 1:
+        // 输入: nums = [1,2,3,4]
+        // 输出: [24,12,8,6]
+
+        // 示例 2:
+        // 输入: nums = [-1,1,0,-3,3]
+        // 输出: [0,0,9,0,0]
+
+        // 第一种方法：
+        // var productExceptSelf = function (nums) {
+        //     let result = []
+        //     for (let i = 0; i < nums.length; i++) {
+        //         const currEle = nums[i]
+        //         const copyNums = [...nums]
+        //         copyNums.splice(i, 1)
+        //         const newNum = caculateNum(copyNums)
+        //         // console.log('newNum', newNum)
+        //         result.push(newNum)
+        //     }
+        //     return result
+        // };
+
+        // const caculateNum = function (nums) {
+        //     if (nums.length === 0) return 0; // 或者 return 1，根据需求决定
+        //     return nums.reduce((acc, num) => acc * num, 1);
+        // }
+
+
+        // 第二种方法：
+
+        // console.log(productExceptSelf([1, 2, 3, 4]))
+
+        // Todo: 螺旋矩阵
+        // 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+        // const matrix = [
+        //             [1,2,3,4],
+        //             [5,6,7,8],
+        //             [9,10,11,12]
+        //         ]
+        // 核心思路：
+
+        function solution(matrix) {
+            let row = matrix.length
+            let col = matrix[0].length
+            let result = []
+        }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
