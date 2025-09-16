@@ -59,59 +59,45 @@
         // 核心思路是啊？
         // 统计与p.length 相同的字符串频次是否相同，然后开始窗口滑动，统计所有的情况。
 
-        var findAnagrams = function (s, p) {
-            const sLen = s.length, pLen = p.length;
+        // var findAnagrams = function (s, p) {
+        //     const sLen = s.length, pLen = p.length;
 
-            if (sLen < pLen) {
-                return [];
-            }
+        //     if (sLen < pLen) {
+        //         return [];
+        //     }
 
-            const ans = [];
-            const sCount = new Array(26).fill(0);
-            const pCount = new Array(26).fill(0);
+        //     const ans = [];
+        //     const sCount = new Array(26).fill(0);
+        //     const pCount = new Array(26).fill(0);
             
-            // 取 p 长度的字符串，统计这个字符串的频率和p是否相同
-            for (let i = 0; i < pLen; ++i) {
-                ++sCount[s[i].charCodeAt() - 'a'.charCodeAt()];
-                ++pCount[p[i].charCodeAt() - 'a'.charCodeAt()];
-            }
+        //     // 取 p 长度的字符串，统计这个字符串的频率和p是否相同
+        //     for (let i = 0; i < pLen; ++i) {
+        //         ++sCount[s[i].charCodeAt() - 'a'.charCodeAt()];
+        //         ++pCount[p[i].charCodeAt() - 'a'.charCodeAt()];
+        //     }
             
-            // console.log('sCount', sCount)
-            // console.log('pCount', pCount)
+        //     // console.log('sCount', sCount)
+        //     // console.log('pCount', pCount)
 
-            if (sCount.toString() === pCount.toString()) {
-                ans.push(0);
-            }
+        //     if (sCount.toString() === pCount.toString()) {
+        //         ans.push(0);
+        //     }
 
-            for (let i = 0; i < sLen - pLen; ++i) {
-                --sCount[s[i].charCodeAt() - 'a'.charCodeAt()];
-                ++sCount[s[i + pLen].charCodeAt() - 'a'.charCodeAt()];
+        //     for (let i = 0; i < sLen - pLen; ++i) {
+        //         --sCount[s[i].charCodeAt() - 'a'.charCodeAt()];
+        //         ++sCount[s[i + pLen].charCodeAt() - 'a'.charCodeAt()];
 
-                if (sCount.toString() === pCount.toString()) {
-                    ans.push(i + 1);
-                }
-            }
+        //         if (sCount.toString() === pCount.toString()) {
+        //             ans.push(i + 1);
+        //         }
+        //     }
 
-            return ans;
-        };
+        //     return ans;
+        // };
 
-        // console.log(findAnagrams("cbaebabacd", "abc"))
-        console.log(findAnagrams("eba", "abc"))
+        // // console.log(findAnagrams("cbaebabacd", "abc"))
+        // console.log(findAnagrams("eba", "abc"))
 
-        // Todo: 螺旋矩阵
-        // 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
-        // const matrix = [
-        //             [1,2,3,4],
-        //             [5,6,7,8],
-        //             [9,10,11,12]
-        //         ]
-        // 核心思路：
-
-        function solution(matrix) {
-            let row = matrix.length
-            let col = matrix[0].length
-            let result = []
-        }
 
 
 
