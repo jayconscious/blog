@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matrix</title>
+</head>
+
+<body>
+    <script>
+
+        // https://leetcode.cn/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-100-liked
+        // Todo: 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地算法。
+
+        // eg.1
+        // 输入：matrix = [[1,1,1],[1,0,1],[1,1,1]]
+        // 输出：[[1,0,1],[0,0,0],[1,0,1]]
+
+        // eg.2
+        // 输入：matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+        // 输出：[[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+
+        // Tip: 核心思路： 新建一个 matrix ，用来打标，然后遍历原 matrix 来置零。
+        // function solution(matrix) {
+        //     const row = matrix.length
+        //     const col = matrix[0].length
+
+        //     let rowArr = new Array(row).fill(false)
+        //     let colArr = new Array(col).fill(false)
+
+        //     for (let i = 0; i < row; i++) {
+        //         for (let j = 0; j < col; j++) {
+        //             if (matrix[i][j] == 0) {
+        //                 rowArr[i] = true
+        //                 colArr[j] = true
+        //             }
+        //         }
+        //     }
+        //     for (let i = 0; i < row; i++) {
+        //         for (let j = 0; j < col; j++) {
+        //             if (rowArr[i] || colArr[j]) {
+        //                 matrix[i][j] = 0
+        //             }
+        //         }
+        //     }
+
+        //     return matrix
+        // }
+        // console.log(solution([[1, 1, 1], [1, 0, 1], [1, 1, 1]]))
+
+
+        // Todo:  编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+        // 每行的元素从左到右升序排列。
+        // 每列的元素从上到下升序排列。
+
+        // eg.1
+        // matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
+        // target = 5
+
+        // eg.2
+        // matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
+        // target = 20
+
+        // Tip: 
+        // 第一步：沿着对角线遍历,判断这个值在那个 M-min,N-min 和 M-max,N-max 范围之内
+        // 第二步：
+        
+        function solution(matrix) {
+            
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
